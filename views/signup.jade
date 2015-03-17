@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    div(ng-controller="Ctrl")
+        form(id='signUpForm', class='form-horizontal', name='signUpForm', novalidate)
+            fieldset
+                legend Sign up
+
+                div(class='form-group')
+                    label(for='firstname' class='col-sm-3 control-label') First name:
+                    div(class='col-sm-9')
+                        input(type='text', class='form-control', id='firstname', placeholder='Enter first name',
+                        ng-model='newUser.firstname', required)
+
+                div(class='form-group')
+                    label(for='lastname' class='col-sm-3 control-label') Last name:
+                    div(class='col-sm-9')
+                        input(type='text', class='form-control', id='lastname', placeholder='Enter last name',
+                        ng-model='newUser.lastname', required)
+
+                div(class='form-group')
+                    label(for='email' class='col-sm-3 control-label') Email address:
+                    div(class='col-sm-9')
+                        input(type='email', class='form-control', id='email', placeholder='Enter email',
+                        ng-model='newUser.email', required)
+
+                div(class='form-group')
+                    label(for='password' class='col-sm-3 control-label') Password:
+                    div(class='col-sm-9')
+                        input(type='password', class='form-control', id='password', placeholder='Enter password',
+                        ng-model='newUser.password', ng-minlength=5, ng-maxlength=15)
+                {{4 + 4}}
+                div(class='form-group')
+                    div(class='col-sm-offset-3 col-sm-9')
+                        button(type='submit', class='btn btn-primary') Create an account
+

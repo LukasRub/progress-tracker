@@ -1,6 +1,11 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+form#loginForm, form#signUpForm {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 a {
