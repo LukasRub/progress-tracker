@@ -2,18 +2,26 @@ body {
   padding: 50px;
 }
 
-form[name='login-form'], form[name='signup-form'] {
+form[name='login'], form[name='signup'] {
     width: 500px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .ng-invalid.ng-dirty {
-    border-color: #FA787E;
+    border-color: #FF4848;
 }
 
 .ng-valid.ng-dirty {
-    border-color: #78FA89;
+    border-color: #1FCB4A;
+}
+
+.error-container .error {
+    color: #FF4848;
+}
+
+.success-container .success {
+    color: #1FCB4A;
 }
 
 a {

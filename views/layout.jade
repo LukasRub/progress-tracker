@@ -2,15 +2,16 @@ doctype html
 html(ng-app='progress')
   head
     title= title
+
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='/bower_components/angular/angular.js')
-    script(src='/bower_components/angular-route/angular-route.js')
-    script(src='/javascripts/angularControllers.js')
+    script(src='/javascripts/angular.js')
 
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/angular/angular-csp.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+
   body
     block content
 

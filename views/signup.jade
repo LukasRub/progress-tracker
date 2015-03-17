@@ -2,9 +2,9 @@ extends layout
 
 block content
     form.form-horizontal(
-        name='signup-form'
+        name='signup'
         ng-controller='SignUpFormController as signupCtrl'
-        ng-submit='signup-form.$valid && signupCtrl.createUser()'
+        ng-submit='signup.$valid && signupCtrl.createUser(newUser)'
         novalidate
     )
         fieldset
@@ -15,24 +15,26 @@ block content
                 div.col-sm-9
                     input#firstname.form-control(
                         type='text'
+                        name='firstname'
                         placeholder='Enter first name'
-                        ng-model='signupCtrl.newUser.firstname'
+                        ng-model='newUser.firstname'
                         required
                     )
-                    div.error-container(ng-show='signup-form.firstname.$dirty && signup-form.firstname.$invalid && signup-form.submitted')
-                        small.error
+                    div.error-container(ng-show='signup.firstname.$dirty || signup.$submitted')
+                        small.error(ng-show='signup.firstname.$error.required') Your first name is required
 
             div.form-group
                 label.col-sm-3.control-label(for='lastname') Last name:
                 div.col-sm-9
                     input#lastname.form-control(
                         type='text'
+                        name='lastname'
                         placeholder='Enter last name'
-                        ng-model='signupCtrl.newUser.lastname'
+                        ng-model='newUser.lastname'
                         required
                     )
-                    div.error-container(ng-show='signup-form.lastname.$dirty && signup-form.lastname.$invalid && signup-form.submitted')
-                        small.error
+                    div.error-container(ng-show='signup.lastname.$dirty || signup.$submitted')
+                        small.error(ng-show='signup.lastname.$error.required') Your last name is required
 
 
             div.form-group
@@ -40,30 +42,40 @@ block content
                 div.col-sm-9
                     input#email.form-control(
                         type='email'
+                        name='email'
                         placeholder='Enter email'
-                        ng-model='signupCtrl.newUser.email'
-                        ng-model-options='{ updateOn: "mousedown blur" }'
+                        ng-model='newUser.email'
+                        ng-model-options="{ debounce : { 'default' : 600 } }"
                         ensure-unique='email'
                         required
                     )
-                    div.error-container(ng-show='signup-form.email.$dirty && signup-form.email.$invalid && signup-form.submitted')
-                        small.error
+                    div.error-container(ng-show='(signup.email.$dirty && signup.email.$invalid) || signup.$submitted')
+                        small.error(ng-show='signup.email.$error.required') Your email is required
+                        small.error(ng-show='signup.email.$invalid && !signup.email.$error.required && !signup.email.$error.emailAvailable') Your email is invalid
+                        small.error(ng-show='signup.email.$error.emailAvailable') Email already exists
+                    div.success-container(ng-show='signup.email.$pending || signup.email.$valid')
+                        small.success(ng-show='signup.email.$pending') Checking email...
+                        small.success(ng-show='signup.email.$valid') Email is available
+
 
             div.form-group
                 label.col-sm-3.control-label(for='password') Password:
                 div.col-sm-9
                     input#password.form-control(
                         type='password'
+                        name='password'
                         placeholder='Enter password'
-                        ng-model='signupCtrl.newUser.password'
+                        ng-model='newUser.password'
                         ng-minlength=5
                         ng-maxlength=15
+                        required
                     )
-                    div.error-container(ng-show='signup-form.password.$dirty && signup-form.password.$invalid && signup-form.submitted')
-                        small.error
+                    div.error-container(ng-show='(signup.password.$dirty && signup.password.$invalid) || signup.$submitted')
+                        small.error(ng-show='signup.password.$error.required') Your password is required
+                        small.error(ng-show='signup.password.$error.minlength || signup.password.$error.maxlength') Password must be 5 to 15 characters long
 
 
             div.form-group
                 div.col-sm-offset-3.col-sm-9
-                    button.btn.btn-primary(type='submit') Create an account
+                    button.btn.btn-primary(type='submit', ng-click='signupCtrl.highlightInputs()') Create an account
 

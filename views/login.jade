@@ -1,29 +1,40 @@
 extends layout
 
 block content
-    form(id='loginForm' class='form-horizontal')
+    form.form-horizontal(
+        name='login'
+        novalidate
+    )
         fieldset
             legend Sign in
 
-            div(class='form-group')
-                label(for='username' class='col-sm-3 control-label') Email address:
-                div(class='col-sm-9')
-                    input(type='email', class='form-control', id='username', placeholder='Enter email')
+            div.form-group
+                label.col-sm-3.control-label(for='email') Email address:
+                div.col-sm-9
+                    input#email.form-control(
+                        type='email'
+                        name='email'
+                        placeholder='Enter email'
+                    )
 
-            div(class='form-group')
-                label(for='password' class='col-sm-3 control-label') Password:
-                div(class='col-sm-9')
-                    input(type='password', class='form-control', id='password', placeholder='Enter password')
+            div.form-group
+                label.col-sm-3.control-label(for='password') Password:
+                div.col-sm-9
+                    input#password.form-control(
+                        type='password'
+                        name='password'
+                        placeholder='Enter password'
+                    )
 
-            div(class='form-group')
-                div(class='col-sm-offset-3 col-sm-9')
-                    div(class='checkbox')
+            div.form-group
+                div.col-sm-offset-3.col-sm-9
+                    div.checkbox
                         label
                             input(type='checkbox')
                             | Remember me
 
-            div(class='form-group')
-                div(class='col-sm-offset-3 col-sm-9')
-                    button(type='submit', class='btn btn-primary') Sign in
-                    a(class='btn btn-link' href='/signup') Don't have an account? Sign up!
+            div.form-group
+                div.col-sm-offset-3.col-sm-9
+                    button.btn.btn-primary(type='submit') Sign in
+                    a.btn.btn-link(href='/signup') Don't have an account? Sign up!
 
