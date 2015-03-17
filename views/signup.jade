@@ -1,36 +1,69 @@
 extends layout
 
 block content
-    div(ng-controller="Ctrl")
-        form(id='signUpForm', class='form-horizontal', name='signUpForm', novalidate)
-            fieldset
-                legend Sign up
+    form.form-horizontal(
+        name='signup-form'
+        ng-controller='SignUpFormController as signupCtrl'
+        ng-submit='signup-form.$valid && signupCtrl.createUser()'
+        novalidate
+    )
+        fieldset
+            legend Sign up
 
-                div(class='form-group')
-                    label(for='firstname' class='col-sm-3 control-label') First name:
-                    div(class='col-sm-9')
-                        input(type='text', class='form-control', id='firstname', placeholder='Enter first name',
-                        ng-model='newUser.firstname', required)
+            div.form-group
+                label.col-sm-3.control-label(for='firstname') First name:
+                div.col-sm-9
+                    input#firstname.form-control(
+                        type='text'
+                        placeholder='Enter first name'
+                        ng-model='signupCtrl.newUser.firstname'
+                        required
+                    )
+                    div.error-container(ng-show='signup-form.firstname.$dirty && signup-form.firstname.$invalid && signup-form.submitted')
+                        small.error
 
-                div(class='form-group')
-                    label(for='lastname' class='col-sm-3 control-label') Last name:
-                    div(class='col-sm-9')
-                        input(type='text', class='form-control', id='lastname', placeholder='Enter last name',
-                        ng-model='newUser.lastname', required)
+            div.form-group
+                label.col-sm-3.control-label(for='lastname') Last name:
+                div.col-sm-9
+                    input#lastname.form-control(
+                        type='text'
+                        placeholder='Enter last name'
+                        ng-model='signupCtrl.newUser.lastname'
+                        required
+                    )
+                    div.error-container(ng-show='signup-form.lastname.$dirty && signup-form.lastname.$invalid && signup-form.submitted')
+                        small.error
 
-                div(class='form-group')
-                    label(for='email' class='col-sm-3 control-label') Email address:
-                    div(class='col-sm-9')
-                        input(type='email', class='form-control', id='email', placeholder='Enter email',
-                        ng-model='newUser.email', required)
 
-                div(class='form-group')
-                    label(for='password' class='col-sm-3 control-label') Password:
-                    div(class='col-sm-9')
-                        input(type='password', class='form-control', id='password', placeholder='Enter password',
-                        ng-model='newUser.password', ng-minlength=5, ng-maxlength=15)
-                {{newUser}}
-                div(class='form-group')
-                    div(class='col-sm-offset-3 col-sm-9')
-                        button(type='submit', class='btn btn-primary') Create an account
+            div.form-group
+                label.col-sm-3.control-label(for='email') Email address:
+                div.col-sm-9
+                    input#email.form-control(
+                        type='email'
+                        placeholder='Enter email'
+                        ng-model='signupCtrl.newUser.email'
+                        ng-model-options='{ updateOn: "mousedown blur" }'
+                        ensure-unique='email'
+                        required
+                    )
+                    div.error-container(ng-show='signup-form.email.$dirty && signup-form.email.$invalid && signup-form.submitted')
+                        small.error
+
+            div.form-group
+                label.col-sm-3.control-label(for='password') Password:
+                div.col-sm-9
+                    input#password.form-control(
+                        type='password'
+                        placeholder='Enter password'
+                        ng-model='signupCtrl.newUser.password'
+                        ng-minlength=5
+                        ng-maxlength=15
+                    )
+                    div.error-container(ng-show='signup-form.password.$dirty && signup-form.password.$invalid && signup-form.submitted')
+                        small.error
+
+
+            div.form-group
+                div.col-sm-offset-3.col-sm-9
+                    button.btn.btn-primary(type='submit') Create an account
 
