@@ -3,6 +3,8 @@ extends layout
 block content
     form.form-horizontal(
         name='login'
+        ng-controller='GatewayFormController as loginCtrl'
+        ng-submit='login.$valid && loginCtrl.loginUser(user)'
         novalidate
     )
         fieldset
@@ -15,7 +17,12 @@ block content
                         type='email'
                         name='email'
                         placeholder='Enter email'
+                        ng-model='user.email'
+                        required
                     )
+                    div.error-container(ng-show='login.email.$dirty || login.$submitted')
+                        small.error(ng-show='login.email.$error.required') Please enter email
+
 
             div.form-group
                 label.col-sm-3.control-label(for='password') Password:
@@ -24,7 +31,11 @@ block content
                         type='password'
                         name='password'
                         placeholder='Enter password'
+                        ng-model='user.password'
+                        required
                     )
+                    div.error-container(ng-show='login.password.$dirty || login.$submitted')
+                        small.error(ng-show='login.password.$error.required') Your first name is required
 
             div.form-group
                 div.col-sm-offset-3.col-sm-9

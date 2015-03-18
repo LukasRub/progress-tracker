@@ -4,13 +4,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* POST users listing. */
-router.post('/user/:field', function(req, res, next) {
+/* GET */
+router.get('/user/email', function(req, res, next) {
     var User = require('../models/user');
-    var field = req.params['field'];
-    var value = req.body['value'];
+    var value = req.query['val'];
 
-    User.findOne({field: value}, function(err, result) {
+    User.findOne({'email': value}, function(err, result) {
         var statusCode = 200;
         if (err) statusCode = 400;
         if (result) statusCode = 409;

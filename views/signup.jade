@@ -3,7 +3,7 @@ extends layout
 block content
     form.form-horizontal(
         name='signup'
-        ng-controller='SignUpFormController as signupCtrl'
+        ng-controller='GatewayFormController as signupCtrl'
         ng-submit='signup.$valid && signupCtrl.createUser(newUser)'
         novalidate
     )
@@ -46,7 +46,7 @@ block content
                         placeholder='Enter email'
                         ng-model='newUser.email'
                         ng-model-options="{ debounce : { 'default' : 600 } }"
-                        ensure-unique='email'
+                        ensure-unique-email
                         required
                     )
                     div.error-container(ng-show='(signup.email.$dirty && signup.email.$invalid) || signup.$submitted')
