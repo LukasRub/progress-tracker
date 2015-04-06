@@ -11,8 +11,9 @@ router.get('/', function(req, res, next) {
 
 /* POST registration data. */
 router.post('/', function(req, res, next) {
-    console.log(req.body);
-    res.json({ message: 'Bear created!' });
+    console.log(req.body.userData);
+
+    res.sendStatus(200);
 });
 
 module.exports = router;

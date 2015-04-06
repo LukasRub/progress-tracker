@@ -45,7 +45,7 @@ block content
                         name='email'
                         placeholder='Enter email'
                         ng-model='newUser.email'
-                        ng-model-options="{ debounce : { 'default' : 600 } }"
+                        ng-model-options="{ debounce : { 'default' : 600, blur: 0 } }"
                         ensure-unique-email
                         required
                     )
@@ -74,6 +74,9 @@ block content
                         small.error(ng-show='signup.password.$error.required') Your password is required
                         small.error(ng-show='signup.password.$error.minlength || signup.password.$error.maxlength') Password must be 5 to 15 characters long
 
+            div.success(ng-show='signup.signupSuccessful && signup.$submitted') Account succesfully created. You can now log in
+
+            div.error(ng-show='!signup.signupSuccessful && signup.$submitted') An error occured, please try again
 
             div.form-group
                 div.col-sm-offset-3.col-sm-9
