@@ -25,5 +25,17 @@ form[name='login'], form[name='signup'] {
 }
 
 a {
-  color: #00B7FF;
+  color: #2966B8
 }
+
+/*Ovverides*/
+.btn-submit {
+    color: #fff;
+    background-color: #FF7373;
+    border-color: #FF5353;
+}
+/*.btn-primary {*/
+    /* color: #fff; */
+    /* background-color: #337ab7; */
+    /* border-color: #2e6da4; */
+/*}*/

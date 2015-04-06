@@ -9,11 +9,4 @@ router.get('/', function(req, res, next) {
     res.render('signup', { title: 'Register an account' });
 });
 
-/* POST registration data. */
-router.post('/', function(req, res, next) {
-    console.log(req.body.userData);
-
-    res.sendStatus(200);
-});
-
 module.exports = router;

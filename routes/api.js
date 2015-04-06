@@ -4,7 +4,16 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET user email availability*/
+router.get('/signedin', function(req, res) {
+    res.send(req.isAuthenticated() ? req.user : false);
+});
+
+router.post('/logout', function(req, res) {
+    req.logOut();
+    res.send(200);
+});
+
+/* POST user email availability */
 router.post('/check/user/email', function(req, res, next) {
     var User = require('../models/user');
     var data = req.body['data'];

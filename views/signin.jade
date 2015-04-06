@@ -2,11 +2,11 @@ extends layout
 
 block content
     form.form-horizontal(
-        name='login'
-        ng-controller='GatewayFormController as loginCtrl'
-        ng-submit='login.$valid && loginCtrl.loginUser(user)'
+        name='login',
+        ng-controller='GatewayFormController as loginCtrl',
+        ng-submit='login.$valid && loginCtrl.loginUser(user)',
         novalidate
-    )
+    ) 
         fieldset
             legend Sign in
 
@@ -21,7 +21,7 @@ block content
                         required
                     )
                     div.error-container(ng-show='login.email.$dirty || login.$submitted')
-                        small.error(ng-show='login.email.$error.required') Please enter email
+                        small.error(ng-show='login.email.$error.required') Email is required
 
 
             div.form-group
@@ -35,17 +35,13 @@ block content
                         required
                     )
                     div.error-container(ng-show='login.password.$dirty || login.$submitted')
-                        small.error(ng-show='login.password.$error.required') Your first name is required
+                        small.error(ng-show='login.password.$error.required') Password is required
 
             div.form-group
                 div.col-sm-offset-3.col-sm-9
-                    div.checkbox
-                        label
-                            input(type='checkbox')
-                            | Remember me
-
-            div.form-group
-                div.col-sm-offset-3.col-sm-9
-                    button.btn.btn-primary(type='submit') Sign in
+                    button.btn.btn-primary(
+                        type='submit',
+                        ng-click='loginCtrl.highlightInputs()'
+                    ) Sign in
                     a.btn.btn-link(href='/signup') Don't have an account? Sign up!
 

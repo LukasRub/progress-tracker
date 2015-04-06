@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    
     form.form-horizontal(
         name='signup'
         ng-controller='GatewayFormController as signupCtrl'
@@ -8,7 +9,19 @@ block content
         novalidate
     )
         fieldset
+        
             legend Sign up
+            
+            div.alert.alert-success(
+                role='alert',
+                ng-if='signupSuccessful'
+            ) Account succesfully created. You can now 
+                a.alert-link(href='/signin') sign in
+
+            div.alert.alert-danger(
+                role='alert',
+                ng-if='signupFailed'
+            ) An error occured, please try again
 
             div.form-group
                 label.col-sm-3.control-label(for='firstname') First name:
@@ -57,7 +70,6 @@ block content
                         small.success(ng-show='signup.email.$pending') Checking email...
                         small.success(ng-show='signup.email.$valid') Email is available
 
-
             div.form-group
                 label.col-sm-3.control-label(for='password') Password:
                 div.col-sm-9
@@ -73,10 +85,6 @@ block content
                     div.error-container(ng-show='(signup.password.$dirty && signup.password.$invalid) || signup.$submitted')
                         small.error(ng-show='signup.password.$error.required') Your password is required
                         small.error(ng-show='signup.password.$error.minlength || signup.password.$error.maxlength') Password must be 5 to 15 characters long
-
-            div.success(ng-show='signup.signupSuccessful && signup.$submitted') Account succesfully created. You can now log in
-
-            div.error(ng-show='!signup.signupSuccessful && signup.$submitted') An error occured, please try again
 
             div.form-group
                 div.col-sm-offset-3.col-sm-9
