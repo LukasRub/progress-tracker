@@ -19,6 +19,9 @@ var app = express();
 
 app.set('views', path.join(__dirname, 'views')); // view engine setup
 app.set('view engine', 'jade');
+app.set('view options', {
+    layout: false
+});
 //app.use(favicon(__dirname + '/public/favicon.ico')); // uncomment after placing your favicon in /public
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -36,10 +39,13 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 require('./helpers/authentification/local.js')(passport);
 
-app.use('/', routes);
-app.use('/signin', signin);
-app.use('/signup', signup);
+app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
+
 app.use('/api', api);
+
+app.get('/*', routes.index);
+
 
 
 // catch 404 and forward to error handler

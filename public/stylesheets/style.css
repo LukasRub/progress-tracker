@@ -2,7 +2,7 @@ body {
   padding: 50px;
 }
 
-form[name='login'], form[name='signup'] {
+form[name='signInForm'], form[name='signUpForm'] {
     width: 500px;
     margin-left: auto;
     margin-right: auto;

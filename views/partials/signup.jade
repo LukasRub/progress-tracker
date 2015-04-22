@@ -1,0 +1,88 @@
+
+form.form-horizontal(
+    name='signUpForm'
+    ng-submit='signUpForm.$valid && signUpUser(newUser)'
+    novalidate
+)
+    fieldset
+
+        legend Sign up
+
+        div.alert.alert-success(
+            role='alert',
+            ng-if='signUpSuccessful'
+        ) Account succesfully created. You can now 
+            a.alert-link(href='/signIn') sign in
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='signUpFailed'
+        ) An error occured, please try again
+
+        div.form-group
+            label.col-sm-3.control-label(for='firstname') First name:
+            div.col-sm-9
+                input#firstname.form-control(
+                    type='text'
+                    name='firstname'
+                    placeholder='Enter first name'
+                    ng-model='newUser.firstname'
+                    required
+                )
+                div.error-container(ng-show='signUpForm.firstname.$dirty || signUpForm.$submitted')
+                    small.error(ng-show='signUpForm.firstname.$error.required') Your first name is required
+
+        div.form-group
+            label.col-sm-3.control-label(for='lastname') Last name:
+            div.col-sm-9
+                input#lastname.form-control(
+                    type='text'
+                    name='lastname'
+                    placeholder='Enter last name'
+                    ng-model='newUser.lastname'
+                    required
+                )
+                div.error-container(ng-show='signUpForm.lastname.$dirty || signUpForm.$submitted')
+                    small.error(ng-show='signUpForm.lastname.$error.required') Your last name is required
+
+
+        div.form-group
+            label.col-sm-3.control-label(for='email') Email address:
+            div.col-sm-9
+                input#email.form-control(
+                    type='email'
+                    name='email'
+                    placeholder='Enter email'
+                    ng-model='newUser.email'
+                    ng-model-options="{ debounce : { 'default' : 600, blur: 0 } }"
+                    ensure-unique-email
+                    required
+                )
+                div.error-container(ng-show='(signUpForm.email.$dirty && signUpForm.email.$invalid) || signUpForm.$submitted')
+                    small.error(ng-show='signUpForm.email.$error.required') Your email is required
+                    small.error(ng-show='signUpForm.email.$invalid && !signUpForm.email.$error.required && !signUpForm.email.$error.emailAvailable') Your email is invalid
+                    small.error(ng-show='signUpForm.email.$error.emailAvailable') Email already exists
+                div.success-container(ng-show='signUpForm.email.$pending || signUpForm.email.$valid')
+                    small.success(ng-show='signupForm.email.$pending') Checking email...
+                    small.success(ng-show='signupForm.email.$valid') Email is available
+
+        div.form-group
+            label.col-sm-3.control-label(for='password') Password:
+            div.col-sm-9
+                input#password.form-control(
+                    type='password'
+                    name='password'
+                    placeholder='Enter password'
+                    ng-model='newUser.password'
+                    ng-minlength=5
+                    ng-maxlength=15
+                    required
+                )
+                div.error-container(ng-show='(signUpForm.password.$dirty && signUpForm.password.$invalid) || signUpForm.$submitted')
+                    small.error(ng-show='signUpForm.password.$error.required') Your password is required
+                    small.error(ng-show='signUpForm.password.$error.minlength || signUpForm.password.$error.maxlength') Password must be 5 to 15 characters long
+
+        div.form-group
+            div.col-sm-offset-3.col-sm-9
+                button.btn.btn-primary(type='submit', ng-click='formUtilities.highlightInputs("signUpForm")') Create an account
+

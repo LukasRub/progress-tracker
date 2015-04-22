@@ -2,13 +2,19 @@ doctype html
 html(ng-app='progress')
   head
     title= title
+    base(href='/')
 
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+
     script(src='/bower_components/angular/angular.js')
-    script(src='/javascripts/configurations.js')
-    script(src='/javascripts/controllers.js')
-    script(src='/javascripts/directives.js')
+    script(src='/bower_components/angular-route/angular-route.js')
+    script(src='/bower_components/angular-resource/angular-resource.js')
+
+    script(src='/javascripts/all.js')    
+    script(src='/javascripts/angular/configurations.js')
+    script(src='/javascripts/angular/controllers.js')
+    script(src='/javascripts/angular/directives.js')
 
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/angular/angular-csp.css')
@@ -16,6 +22,3 @@ html(ng-app='progress')
 
   body
     block content
-
-
-

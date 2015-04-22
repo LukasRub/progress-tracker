@@ -1,0 +1,44 @@
+//
+   Created by lukas on 15.4.7.
+form.form-horizontal(
+    name='signInForm',
+    ng-submit='signInForm.$valid && signInUser(user)',
+    novalidate
+)
+    fieldset
+        legend Sign in
+
+        div.form-group
+            label.col-sm-3.control-label(for='email') Email address:
+            div.col-sm-9
+                input#email.form-control(
+                type='email'
+                name='email'
+                placeholder='Enter email'
+                ng-model='user.email'
+                required
+                )
+                div.error-container(ng-show='signInForm.email.$dirty || signInForm.$submitted')
+                    small.error(ng-show='signInForm.email.$error.required') Email is required
+
+
+        div.form-group
+            label.col-sm-3.control-label(for='password') Password:
+            div.col-sm-9
+                input#password.form-control(
+                type='password'
+                name='password'
+                placeholder='Enter password'
+                ng-model='user.password'
+                required
+                )
+                div.error-container(ng-show='signInForm.password.$dirty || signInForm.$submitted')
+                    small.error(ng-show='signInForm.password.$error.required') Password is required
+
+        div.form-group
+            div.col-sm-offset-3.col-sm-9
+                button.btn.btn-primary(
+                type='submit',
+                ng-click='formUtilities.highlightInputs("signInForm")'
+                ) Sign in
+                a.btn.btn-link(href='/signUp') Don't have an account? Sign up!
