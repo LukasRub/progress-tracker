@@ -7,13 +7,15 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
+var autoIncrement = require('mongoose-auto-increment');
 
-mongoose.connect('mongodb://localhost/progress');
+var connection = mongoose.connect('mongodb://localhost/progress');
+autoIncrement.initialize(connection);
 
 var routes = require('./routes/index');
-var signin = require('./routes/signin');
-var signup = require('./routes/signup');
-var api = require('./routes/api');
+var publicApi = require('./routes/publicApi');
+var privateApi = require('./routes/privateApi');
+
 
 var app = express();
 
@@ -39,14 +41,41 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 require('./helpers/authentification/local.js')(passport);
 
+var auth = function(req, res, next){
+    if (!req.isAuthenticated())
+        res.send(401);
+    else
+        next();
+};
+
 app.get('/', routes.index);
+app.use('/public', publicApi);
+app.use('/privateApi', auth, privateApi);
+
+//==================================================================
+// route to test if the user is logged in or not
+app.get('/signedin', function(req, res) {
+    res.send(req.isAuthenticated() ? req.user : null);
+});
+
+app.get('/data', auth, function(req, res) {
+    res.send(req.user);
+});
+
+// route to log in
+app.post('/signin', passport.authenticate('local'), function(req, res) {
+    res.send(req.user);
+});
+
+// route to log out
+app.post('/signout', function(req, res){
+    req.logOut();
+    res.sendStatus(200);
+});
+//==================================================================
+
 app.get('/partials/:name', routes.partials);
-
-app.use('/api', api);
-
 app.get('/*', routes.index);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -78,6 +107,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

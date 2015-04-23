@@ -29,6 +29,7 @@ module.exports = function(passport) {
                 }
                 user.comparePassword(password, function(err, isMatch){
                     console.log(user);
+                    console.log(parseInt(user._id.valueOf(), 16));
                     if (err) return done(err);
                     if (!isMatch) {
                         return done(null, false, { message: 'Incorrect password.' });

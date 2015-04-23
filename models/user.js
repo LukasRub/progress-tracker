@@ -27,11 +27,13 @@ var UserSchema = new Schema({
     },
     role: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
     },
     registrationDate: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
+        required: true
     }
 });
 

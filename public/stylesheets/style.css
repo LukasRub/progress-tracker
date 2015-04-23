@@ -2,8 +2,14 @@ body {
   padding: 50px;
 }
 
-form[name='signInForm'], form[name='signUpForm'] {
+form[name='signinform'], form[name='signupform'] {
     width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form[name='newtaskform'] {
+    width: 750px;
     margin-left: auto;
     margin-right: auto;
 }

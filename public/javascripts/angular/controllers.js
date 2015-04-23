@@ -8,16 +8,18 @@ function SignInCtrl($scope, $http, $location) {
             email: user.email,
             password: user.password
         }).success(function(){
-            $location.path('/');
+            $location.path('/dashboard');
         }).error(function(){
             $scope.signInFailed = true;
+            $scope.signinform.email.$setPristine();
+            $scope.signinform.password.$setPristine();
         });
     }
 }
 
 function SignUpCtrl($scope, $http, $location) {
     $scope.signUpUser = function(user) {
-        $http.post('/api/create/user', {
+        $http.post('/public/create/user', {
             'data': user
         }).success(function() {
                 $scope.signUpSuccessful = true;
@@ -25,7 +27,17 @@ function SignUpCtrl($scope, $http, $location) {
                 $scope.signUpFailed = true;
         }).finally(function(){
             $scope.newUser = {};
-            $scope.signUpForm.$setPristine();
+            $scope.signupform.$setPristine();
         });
     };
+}
+
+function DashboardCtrl($scope) {
+    //$scope.message = "Logged in";
+}
+
+function TasksCtrl($scope) {
+    $scope.createNewTask = function(task) {
+        
+    }
 }
