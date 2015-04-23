@@ -22,12 +22,16 @@ var TaskSchema = new Schema({
     },
     dateDue: {
         type: Date,
-        default: Date.now(),
-        required: true
+        default: null
     },
     dateCompleted: {
         type: Date,
-        default: Date.now()
+        default: null
+    },
+    _createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     _assignedTo: {
         type: Schema.Types.ObjectId, 
@@ -36,23 +40,23 @@ var TaskSchema = new Schema({
     },
     isQuantifiable: {
         type: Boolean,
-        default: false,
-        required: true
+        default: false
     },
     goal: {
-        type: Number
+        type: Number,
+        default: null
     },
     percentageDone: {
         type: Number,
-        default: 0,
-        required: true
+        default: 0
     },
     description: {
-        type: String
+        type: String,
+        default: null
     },
     status: {
         type: String,
-        enum: ['Pending, Started, Completed']
+        enum: ['Created', 'Started', 'Completed']
     } 
 });
 

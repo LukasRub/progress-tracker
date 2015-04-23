@@ -17,9 +17,9 @@ function SignInCtrl($scope, $http, $location) {
     }
 }
 
-function SignUpCtrl($scope, $http, $location) {
+function SignUpCtrl($scope, $http) {
     $scope.signUpUser = function(user) {
-        $http.post('/public/create/user', {
+        $http.post('api/public/user', {
             'data': user
         }).success(function() {
                 $scope.signUpSuccessful = true;
@@ -36,8 +36,31 @@ function DashboardCtrl($scope) {
     //$scope.message = "Logged in";
 }
 
-function TasksCtrl($scope) {
+function TasksCtrl($scope, $http) {
+    $scope.tasks = {};
+    
+    
+    
+    $scope.getTasks = function() {
+        $http.get('api/private/task')
+        .success(function(data, status, headers, config) {
+            $scope.tasks = data;
+            console.log("ok", data);
+        })
+        .error(function(data, status, headers, config) {
+                console.log('err')
+        });
+    };
+
+    $scope.getTasks();
+    
     $scope.createNewTask = function(task) {
-        
-    }
+        $http.post('api/private/task', {
+            'data': task
+        })
+        .success(function(data, status, headers, config) {
+        })
+        .error(function(data, status, headers, config) {
+        });
+    };
 }

@@ -12,7 +12,6 @@ module.exports = function(passport) {
 
     passport.deserializeUser(function(id, done) {
         User.findById(id, function (err, user) {
-            console.log(user);
             done(err, user);
         });
     });
@@ -28,8 +27,6 @@ module.exports = function(passport) {
                     return done(null, false, { message: 'Incorrect username.' });
                 }
                 user.comparePassword(password, function(err, isMatch){
-                    console.log(user);
-                    console.log(parseInt(user._id.valueOf(), 16));
                     if (err) return done(err);
                     if (!isMatch) {
                         return done(null, false, { message: 'Incorrect password.' });

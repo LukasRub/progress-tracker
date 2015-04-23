@@ -14,6 +14,43 @@ form[name='newtaskform'] {
     margin-right: auto;
 }
 
+form[name='newtaskform'] .create-new-task-buttons > button {
+    float: right;
+    margin-left: 10px;
+}
+
+.task {
+    height: 150px;
+    width: 100%;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    border-radius: 10px 10px;
+    padding: 10px;
+    margin: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.task h1 {
+    float: left;
+}
+
+.task div.percentage-done {
+    float: right;
+    font-size: 35px;
+}
+
+.created {
+    background-color: #FFDD75;
+    border-color: #FFDD75;
+}
+
+.created:hover {
+    background-color: #FFC848;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
 .ng-invalid.ng-dirty {
     border-color: #FF4848;
 }

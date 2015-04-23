@@ -9,7 +9,7 @@ angular.module('progress')
                 ngModel.$asyncValidators.emailAvailable = function (email) {
                     var deffered = $q.defer();
                     $timeout(function () {
-                        $http.post('/public/check/user/email', {data: email})
+                        $http.post('api/public/checkemail', {data: email})
                             .success(function() {
                                 deffered.resolve();
                             })

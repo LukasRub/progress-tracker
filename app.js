@@ -49,8 +49,8 @@ var auth = function(req, res, next){
 };
 
 app.get('/', routes.index);
-app.use('/public', publicApi);
-app.use('/privateApi', auth, privateApi);
+app.use('/api/public', publicApi);
+app.use('/api/private', auth, privateApi);
 
 //==================================================================
 // route to test if the user is logged in or not

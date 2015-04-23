@@ -1,4 +1,8 @@
-
+link(
+    href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic' 
+    rel='stylesheet' 
+    type='text/css'
+)
 
 form.form-horizontal(
     name='newtaskform',
@@ -18,7 +22,7 @@ form.form-horizontal(
             div.col-sm-9
                 input#title.form-control(
                     type='text'
-                    name='Title'
+                    name='title'
                     placeholder='Enter title'
                     ng-model='task.title'
                     required
@@ -36,9 +40,12 @@ form.form-horizontal(
                         name='dateStarted'
                         placeholder='Date started'
                         ng-model='task.dateStarted'
+                        required
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
+                div.error-container(ng-show='newtaskform.dateStarted.$dirty || newtaskform.$submitted')
+                    small.error(ng-show='newtaskform.dateStarted.$error.required') Date started is required
                     
                         
         div.form-group
@@ -93,13 +100,31 @@ form.form-horizontal(
                     ng-model='task.description'
                     placeholder='Enter description'
                 )
- 
 
+        div.form-group
+            div.col-sm-offset-8.col-sm-4.create-new-task-buttons
+                button.btn.btn-danger(
+                    type='button',
+                    onclick='formUtilities.highlightInputs("newtaskform")'
+                ) Reset form
+
+                button.btn.btn-primary(
+                    type='submit',
+                    onclick='formUtilities.highlightInputs("newtaskform")'
+                ) Create task
+
+div#assigned-to-me
+    div.task(
+        ng-repeat='task in tasks'
+        ng-class= 'task.status.toLowerCase()'
+    ) 
+        h1 {{task.title}}
+        div.percentage-done {{task.percentageDone}}%
         
-{{ task }}
                 
 script(type='text/javascript').
     $(function () {
+
         var dateStartedInputControl = $('#date-started input');
         var dateDueInputControl = $('#date-due input');
         
@@ -114,7 +139,5 @@ script(type='text/javascript').
         dateDueInputControl.on('dp.change', function (e) {
             dateStartedInputControl.data('DateTimePicker').maxDate(e.date);
         });
-
-        
    
     });
