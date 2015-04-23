@@ -4,140 +4,56 @@ link(
     type='text/css'
 )
 
-form.form-horizontal(
-    name='newtaskform',
-    ng-submit='newtaskform.$valid && createNewTask(task)',
-    novalidate
-)
-    fieldset
-        legend Create new task
-        
-        div.alert.alert-danger(
-            role='alert',
-            ng-if='createNewTaskFailed'
-        ) Failed message
-            
-        div.form-group
-            label.col-sm-3.control-label(for='title') Title:
-            div.col-sm-9
-                input#title.form-control(
-                    type='text'
-                    name='title'
-                    placeholder='Enter title'
-                    ng-model='task.title'
-                    required
-                )
-                div.error-container(ng-show='newtaskform.title.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.title.$error.required') Title is required
-                    
-        div.form-group
-            label.col-sm-3.control-label(for='dateStarted') Date started:
-            div.col-sm-9
-                div#date-started.input-group
-                    input.form-control.date(
-                        datetimepicker    
-                        type='text'
-                        name='dateStarted'
-                        placeholder='Date started'
-                        ng-model='task.dateStarted'
-                        required
-                    )
-                    span.input-group-addon
-                        span.glyphicon.glyphicon-calendar
-                div.error-container(ng-show='newtaskform.dateStarted.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.dateStarted.$error.required') Date started is required
-                    
-                        
-        div.form-group
-            label.col-sm-3.control-label(for='dateDue') Date due:
-            div.col-sm-9
-                div#date-due.input-group
-                    input.form-control.date(
-                        datetimepicker    
-                        type='text'
-                        name='dateDue'
-                        placeholder='Date due'
-                        ng-model='task.dateDue'
-                    )
-                    span.input-group-addon
-                        span.glyphicon.glyphicon-calendar
-        
-        div.row
-            label.col-xs-3.control-label(for='isQuantifiable') Is quantifiable:
-            div.col-xs-1
-                div.checkbox
-                    label
-                        input#is-quantifiable(
-                            type='checkbox'
-                            name='isQuantifiable'
-                            ng-model='task.isQuantifiable'
-                        )
-        
-            label.col-xs-1.control-label(for='goal') Goal:
-            div.col-xs-3
-                input#goal.form-control(
-                type='number'
-                name='goal'
-                placeholder='Enter goal'
-                ng-model='task.goal'
-                ng-disabled='!task.isQuantifiable'
-            )
-            label.col-xs-1.control-label(for='units') of:
-            div.col-xs-3
-                input#units.form-control(
-                type='text'
-                name='units'
-                placeholder='Enter units'
-                ng-model='task.units'
-                ng-disabled='!task.isQuantifiable'
-            )
-        
-        div.form-group
-            label.col-sm-3.control-label(for='title') Description:
-            div.col-sm-12
-                div(
-                    text-angular
-                    ng-model='task.description'
-                    placeholder='Enter description'
-                )
 
-        div.form-group
-            div.col-sm-offset-8.col-sm-4.create-new-task-buttons
-                button.btn.btn-danger(
-                    type='button',
-                    onclick='formUtilities.highlightInputs("newtaskform")'
-                ) Reset form
+button.btn.btn-default(ng-click='openNewTaskModal()') Create new task
 
-                button.btn.btn-primary(
-                    type='submit',
-                    onclick='formUtilities.highlightInputs("newtaskform")'
-                ) Create task
+div.alert.alert-success(
+    role='alert',
+    ng-if='createNewTaskSuccessful'
+) Task successfully created!
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
+    
+div.alert.alert-danger(
+    role='alert',
+    ng-if='createNewTaskFailed'
+) Creating new task failed, please try again
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
 
-div#assigned-to-me
+
+div#assigned-to-me(ng-init='getTasks()')
     div.task(
         ng-repeat='task in tasks'
-        ng-class= 'task.status.toLowerCase()'
+        ng-class='task.status.toLowerCase()'
+        class='task-{{$index}}'
+        emit-last-repeater-element
     ) 
         h1 {{task.title}}
-        div.percentage-done {{task.percentageDone}}%
+        div.progress-container
+            div.progress-value {{task.percentageDone}}%
+            div.percentage-done(
+                round-progress
+                max="100"
+                current="task.percentageDone"
+                color="#1FCB4A"
+                bgcolor="#fff"
+                radius="45"
+                stroke="20"
+                iterations="50"
+                rounded="true"
+                animation="easeInOutQuart"
+            )
         
-                
-script(type='text/javascript').
-    $(function () {
 
-        var dateStartedInputControl = $('#date-started input');
-        var dateDueInputControl = $('#date-due input');
-        
-        $('span.input-group-addon').click(function(){
-           $(this).siblings('input').data('DateTimePicker').toggle();
-        });
-        
-        dateStartedInputControl.on('dp.change', function (e) {
-            dateDueInputControl.data('DateTimePicker').minDate(e.date);
-        });
-        
-        dateDueInputControl.on('dp.change', function (e) {
-            dateStartedInputControl.data('DateTimePicker').maxDate(e.date);
-        });
-   
-    });
+script(type='text/javascript').
+
+    

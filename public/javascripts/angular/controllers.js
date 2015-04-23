@@ -36,31 +36,50 @@ function DashboardCtrl($scope) {
     //$scope.message = "Logged in";
 }
 
-function TasksCtrl($scope, $http) {
+function TasksCtrl($scope, $http, $modal) {
     $scope.tasks = {};
     
-    
+    $scope.openNewTaskModal = function(){
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/taskform.jade',
+            controller: TaskFormCtrl,
+            size: 'lg'
+        });
+
+        modalInstance.result.then(function(task) {
+            $http.post('api/private/task', {
+                'data': task
+            })
+            .success(function() {
+                $scope.getTasks();  
+                $scope.createNewTaskSuccessful = true;
+            })
+            .error(function() {
+                $scope.createNewTaskFailed = true;
+            });
+        });
+    };
     
     $scope.getTasks = function() {
         $http.get('api/private/task')
-        .success(function(data, status, headers, config) {
+        .success(function(data) {
             $scope.tasks = data;
-            console.log("ok", data);
-        })
-        .error(function(data, status, headers, config) {
-                console.log('err')
         });
     };
-
-    $scope.getTasks();
     
-    $scope.createNewTask = function(task) {
-        $http.post('api/private/task', {
-            'data': task
-        })
-        .success(function(data, status, headers, config) {
-        })
-        .error(function(data, status, headers, config) {
-        });
+    $scope.$on('LastRepeaterElement', function() {
+
+    });
+
+}
+
+function TaskFormCtrl($scope, $modalInstance) {
+    
+    $scope.ok = function(task) {
+        $modalInstance.close(task);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
     };
 }

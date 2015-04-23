@@ -1,7 +1,8 @@
 /**
  * Created by lukas on 15.4.6.
  */
-angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngular'])
+angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngular', 'ui.bootstrap', 
+    'angular-svg-round-progress'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider' , 'datetimepickerProvider', 
         function($routeProvider, $locationProvider, $httpProvider, datetimepickerProvider) {
 

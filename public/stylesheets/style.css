@@ -1,7 +1,10 @@
 body {
-  padding: 50px;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* forms */
 form[name='signinform'], form[name='signupform'] {
     width: 500px;
     margin-left: auto;
@@ -10,8 +13,11 @@ form[name='signinform'], form[name='signupform'] {
 
 form[name='newtaskform'] {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 50px;
+}
+
+form[name='newtaskform'] .description {
+    margin-top: 5px;
 }
 
 form[name='newtaskform'] .create-new-task-buttons > button {
@@ -19,6 +25,12 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     margin-left: 10px;
 }
 
+/* containers */
+#assigned-to-me {
+    margin: 10px 0 10px 0;
+}
+
+/* tasks */
 .task {
     height: 150px;
     width: 100%;
@@ -26,7 +38,7 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     color: #FFFFFF;
     border-radius: 10px 10px;
     padding: 10px;
-    margin: 10px;
+    margin-bottom: 10px;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -34,9 +46,26 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     float: left;
 }
 
-.task div.percentage-done {
+.task .progress-container {
     float: right;
-    font-size: 35px;
+    display: flex;
+    position: relative;
+}
+
+.task .percentage-done {
+    /*float: right;*/
+    /*font-size: 35px;*/
+}
+
+.task .progress-value {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    line-height: 130px;
+    font-size: 2em;
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
 }
 
 .created {
@@ -51,6 +80,7 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
+/* colors */
 .ng-invalid.ng-dirty {
     border-color: #FF4848;
 }
@@ -71,12 +101,26 @@ a {
   color: #2966B8
 }
 
-/*Ovverides*/
+/* overrides */
+
 .btn-submit {
     color: #fff;
     background-color: #FF7373;
     border-color: #FF5353;
 }
+
+.modal-dialog {
+    width: 850px;
+}
+
+.btn-toolbar > .btn-group {
+    margin-bottom: 5px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
 /*.btn-primary {*/
     /* color: #fff; */
     /* background-color: #337ab7; */
