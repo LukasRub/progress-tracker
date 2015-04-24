@@ -34,16 +34,32 @@ form[name='newtaskform'] .create-new-task-buttons > button {
 .task {
     height: 150px;
     width: 100%;
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
     border-radius: 10px 10px;
     padding: 10px;
     margin-bottom: 10px;
     font-family: 'Roboto', sans-serif;
 }
 
+.task.single {
+    height: 100%;
+    overflow: auto;
+}
+
 .task h1 {
     float: left;
+    max-width: 750px;
+    overflow: hidden;
+    display: flex;
+}
+
+.task .task-description {
+    clear: both;
+    float: left;
+    width: 100%;
+    padding: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px 10px;
+    margin-top: 10px;
 }
 
 .task .progress-container {
@@ -52,9 +68,22 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     position: relative;
 }
 
-.task .percentage-done {
-    /*float: right;*/
-    /*font-size: 35px;*/
+.task .task-info {
+    clear: left;
+    display: flex;
+    width: 750px;
+    margin-top: 20px;
+    float: left;
+}
+
+.task .task-info > div {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.task .task-info-label {
+    font-weight: bold;
+    font-style: italic;
 }
 
 .task .progress-value {
@@ -68,13 +97,7 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     font-style: italic;
 }
 
-.created {
-    background-color: #FFDD75;
-    border-color: #FFDD75;
-}
-
-.created:hover {
-    background-color: #FFC848;
+.task:hover {
     -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -101,7 +124,17 @@ a {
   color: #2966B8
 }
 
+/* margins */
+
+#task-commands button {
+    margin-right: 10px;
+}
+
 /* overrides */
+
+span.minicolors-swatch-color {
+    border: 1px solid #ccc
+}
 
 .btn-submit {
     color: #fff;

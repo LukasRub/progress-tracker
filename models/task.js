@@ -46,6 +46,14 @@ var TaskSchema = new Schema({
         type: Number,
         default: null
     },
+    current: {
+        type: Number,
+        default: null
+    },
+    units: {
+        type: String,
+        default: null
+    },
     percentageDone: {
         type: Number,
         default: 0
@@ -53,6 +61,14 @@ var TaskSchema = new Schema({
     description: {
         type: String,
         default: null
+    },
+    color: {
+        type: String,
+        default: "#FFFFFF"
+    },
+    textColor: {
+        type: String,
+        default: "#000000"
     },
     status: {
         type: String,

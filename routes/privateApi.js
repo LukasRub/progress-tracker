@@ -24,13 +24,32 @@ router.post('/task', function(req, res, next) {
 router.get('/task', function(req, res, next) {
     var Task = require('../models/task');
 
-    Task.find({'_assignedTo': req.user._id}, function(err, result) {
-        var statusCode = 200;
-        if (err) statusCode = 500;
-        console.log('LOGGING:', req.user.firstname, req.user.lastname, 'requested for tasks:', result.length, ', status:', statusCode);
-        res.status(statusCode).send(result);
+    Task.find({'_assignedTo': req.user._id})
+        .populate('_createdBy', 'firstname lastname')
+        .exec(function(err, result) {
+            var statusCode = 200;
+            if (err) statusCode = 500;
+            console.log('LOGGING:', req.user.firstname, req.user.lastname, 'requested for tasks:', result.length, ', status:', statusCode);
+            res.status(statusCode).send(result);
     });
 
+});
+
+router.get('/task/:id', function(req, res, next) {
+    var Task = require('../models/task');
+    var taskId = req.params['id'];
+
+    Task.findOne({'NumberId': taskId})
+        .populate('_createdBy', 'firstname lastname')
+        .populate('_assignedTo', 'firstname lastname')
+        .exec(function(err, result) {
+            var statusCode = 200;
+            if ((err || !result) || !(result._createdBy._id.equals(req.user._id) || result._assignedTo._id.equals(req.user._id))) {
+                statusCode = 404;
+            }
+            console.log('LOGGING:', req.user.firstname, req.user.lastname, 'requested for task id:', taskId, ', status:', statusCode);
+            res.status(statusCode).send(result);
+        });
 });
 
 module.exports = router;

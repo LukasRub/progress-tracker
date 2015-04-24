@@ -1,6 +1,9 @@
 //
    Created by lukas on 15.4.23.
 
+
+jquery-minicolors.js
+
 form.form-horizontal(
     name='newtaskform',
     ng-submit='newtaskform.$valid && ok(task)',
@@ -21,6 +24,7 @@ form.form-horizontal(
                 )
                 div.error-container(ng-show='newtaskform.title.$dirty || newtaskform.$submitted')
                     small.error(ng-show='newtaskform.title.$error.required') Title is required
+        
         div.form-group
             label.col-sm-3.control-label(for='dateStarted') Date started:
             div.col-sm-9
@@ -37,6 +41,7 @@ form.form-horizontal(
                         span.glyphicon.glyphicon-calendar
                 div.error-container(ng-show='newtaskform.dateStarted.$dirty || newtaskform.$submitted')
                     small.error(ng-show='newtaskform.dateStarted.$error.required') Date started is required
+       
         div.form-group
             label.col-sm-3.control-label(for='dateDue') Date due:
             div.col-sm-9
@@ -50,7 +55,8 @@ form.form-horizontal(
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
-        div.row
+        
+        div.row(style='margin: 0px 15px 15px 15px')
             label.col-xs-3.control-label(for='isQuantifiable') Is quantifiable:
             div.col-xs-1
                 div.checkbox
@@ -78,6 +84,31 @@ form.form-horizontal(
                     ng-model='task.units'
                     ng-disabled='!task.isQuantifiable'
                 )
+
+        div.form-group
+            label.col-sm-3.control-label(for='color') Color:
+            div.col-sm-9
+                div
+                    input#color.form-control(
+                        type='hidden'
+                        name='color'
+                        ng-model='task.color'
+                        value='#FFFFFF'
+                        minicolors
+                    )
+        
+        div.form-group
+            label.col-sm-3.control-label(for='textColor') Text color:
+            div.col-sm-9
+                div
+                    input#textColor.form-control(
+                        type='hidden'
+                        name='textColor'
+                        ng-model='task.textColor'
+                        value='#000000'
+                        minicolors
+                    )
+       
         div.form-group
             label.col-sm-3.control-label(for='title') Description:
             div.col-sm-12
@@ -86,6 +117,7 @@ form.form-horizontal(
                     ng-model='task.description'
                     placeholder='Enter description'
                 )
+       
         div.form-group
             div.col-sm-offset-8.col-sm-4.create-new-task-buttons
                 button.btn.btn-danger(

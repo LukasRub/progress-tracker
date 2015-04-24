@@ -36,7 +36,7 @@ function DashboardCtrl($scope) {
     //$scope.message = "Logged in";
 }
 
-function TasksCtrl($scope, $http, $modal) {
+function TasksCtrl($scope, $http, $modal, $location) {
     $scope.tasks = {};
     
     $scope.openNewTaskModal = function(){
@@ -67,19 +67,42 @@ function TasksCtrl($scope, $http, $modal) {
         });
     };
     
-    $scope.$on('LastRepeaterElement', function() {
-
-    });
-
+    $scope.getTaskStatusColor = function(task) {
+        var statusColor = "#000";
+        switch (task.toLowerCase()) {
+            case 'created':
+                statusColor = "#FFC848";
+                break;
+        }
+        return statusColor;
+    };
+    
+    $scope.openTask = function(id) {
+        $location.path('/tasks/' + id);
+    };
+    
 }
 
 function TaskFormCtrl($scope, $modalInstance) {
     
-    $scope.ok = function(task) {
-        $modalInstance.close(task);
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
     };
 
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
+    };
+}
+
+function TaskCtrl($scope, $http, $routeParams, $location) {
+    $scope.task = {};
+    $scope.isCollapsed = false;
+    
+    $scope.getTask = function() {
+        $http.get('api/private/task/' + $routeParams['id'])
+        .success(function(data) {
+            $scope.task = data;
+            $scope.taskFound = true;
+        });
     };
 }

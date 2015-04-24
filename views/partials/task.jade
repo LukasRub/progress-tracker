@@ -1,0 +1,97 @@
+//
+   Created by lukas on 15.4.24.
+
+div.task.single(
+    ng-init='getTask()'
+    ng-show='taskFound'
+    ng-click='isCollapsed = !isCollapsed'
+    style='background-color: {{task.color}}; color: {{task.textColor}};'
+)
+    h1 {{task.title}}
+    div.progress-container
+        div.progress-value {{task.percentageDone}}%
+        div.percentage-done(
+            round-progress
+            max="100"
+            current="task.percentageDone"
+            color="{{task.color}}"
+            bgcolor="#fff"
+            radius="45"
+            stroke="20"
+            iterations="50"
+            rounded="true"
+            animation="easeInOutQuart"
+        )
+    div.task-info
+        div.assigned-to
+            div.task-info-label Created by:
+            span {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+        div.group
+            div.task-info-label Group:
+            span {{ task.group }}
+        div.date-created
+            div.task-info-label  Date created:
+            span {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+        div.date-started
+            div.task-info-label  Date started:
+            span {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+        div.date-started
+            div.task-info-label  Date due:
+            span {{ task.dateDue | date : 'yyyy-MM-dd' }}
+        div.status
+            div.task-info-label Status:
+            span {{ task.status }}
+
+    div.task-description(
+        ng-bind-html='task.description | sanitize' 
+        collapse='isCollapsed'
+        ng-click='$event.stopPropagation()'
+    )
+
+div.alert.alert-success(
+    role='alert',
+    ng-if='createNewSubtaskSuccessful'
+) Subtask successfully created!
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
+
+div.alert.alert-danger(
+    role='alert',
+    ng-if='createNewSubtaskSuccessful'
+) Creating new subtask failed, please try again
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
+
+div.alert.alert-success(
+    role='alert',
+    ng-if='createNewSubtaskSuccessful'
+) Subtask successfully created!
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
+            
+div.alert.alert-danger(
+    role='alert',
+    ng-if='createNewSubtaskSuccessful'
+) Creating new subtask failed, please try again
+    button.close(
+        type='button'
+        data-dismiss='alert'
+        aria-label='close'
+    )
+        span(aria-hidden='true') &times;
+
+div#task-commands
+    button.btn.btn-default(ng-click='openNewSubtaskModal()') Create new subtask
+    button.btn.btn-default(ng-click='openNewProgressModal()') Submit progress

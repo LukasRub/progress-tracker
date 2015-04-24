@@ -4,56 +4,73 @@ link(
     type='text/css'
 )
 
-
 button.btn.btn-default(ng-click='openNewTaskModal()') Create new task
 
-div.alert.alert-success(
-    role='alert',
-    ng-if='createNewTaskSuccessful'
-) Task successfully created!
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
+section
     
-div.alert.alert-danger(
-    role='alert',
-    ng-if='createNewTaskFailed'
-) Creating new task failed, please try again
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
+    h2 Assigned to me
 
-
-div#assigned-to-me(ng-init='getTasks()')
-    div.task(
-        ng-repeat='task in tasks'
-        ng-class='task.status.toLowerCase()'
-        class='task-{{$index}}'
-        emit-last-repeater-element
-    ) 
-        h1 {{task.title}}
-        div.progress-container
-            div.progress-value {{task.percentageDone}}%
-            div.percentage-done(
-                round-progress
-                max="100"
-                current="task.percentageDone"
-                color="#1FCB4A"
-                bgcolor="#fff"
-                radius="45"
-                stroke="20"
-                iterations="50"
-                rounded="true"
-                animation="easeInOutQuart"
-            )
+    div.alert.alert-success(
+        role='alert',
+        ng-if='createNewTaskSuccessful'
+    ) Task successfully created!
+        button.close(
+            type='button'
+            data-dismiss='alert'
+            aria-label='close'
+        )
+            span(aria-hidden='true') &times;
         
-
-script(type='text/javascript').
-
+    div.alert.alert-danger(
+        role='alert',
+        ng-if='createNewTaskFailed'
+    ) Creating new task failed, please try again
+        button.close(
+            type='button'
+            data-dismiss='alert'
+            aria-label='close'
+        )
+            span(aria-hidden='true') &times;
     
+    div#assigned-to-me(ng-init='getTasks()')
+        div.task(
+            ng-repeat='task in tasks'
+            ng-class='task.status.toLowerCase()'
+            ng-click='openTask(task.NumberId)'
+            style='background-color: {{task.color}}; color: {{task.textColor}};'
+            emit-last-repeater-element
+        ) 
+            h1 {{task.title}}
+            div.progress-container
+                div.progress-value {{task.percentageDone}}%
+                div.percentage-done(
+                    round-progress
+                    max="100"
+                    current="task.percentageDone"
+                    color="{{task.color}}"
+                    bgcolor="#fff"
+                    radius="45"
+                    stroke="20"
+                    iterations="50"
+                    rounded="true"
+                    animation="easeInOutQuart"
+                )
+            div.task-info
+                div.assigned-to 
+                    div.task-info-label Created by:
+                    span {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                div.group
+                    div.task-info-label Group:
+                    span {{ task.group }}
+                div.date-created
+                    div.task-info-label  Date created:
+                    span {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                div.date-started
+                    div.task-info-label  Date started:
+                    span {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                div.date-started
+                    div.task-info-label  Date due:
+                    span {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                div.status
+                    div.task-info-label Status:
+                    span {{ task.status }}

@@ -2,7 +2,7 @@
  * Created by lukas on 15.4.6.
  */
 angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngular', 'ui.bootstrap', 
-    'angular-svg-round-progress'])
+    'angular-svg-round-progress', 'minicolors'])
     .config(['$routeProvider', '$locationProvider', '$httpProvider' , 'datetimepickerProvider', 
         function($routeProvider, $locationProvider, $httpProvider, datetimepickerProvider) {
 
@@ -30,12 +30,17 @@ angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngu
                     return response;
                 },
                 responseError: function(response) {
-                    if (response.status === 401)
-                        $location.url('/signin');
+                    if (response.status === 401){
+                        $location.replace().url('/signin');
+                    }
+                    if (response.status === 404) {
+                        $location.replace().url('/404');
+                    }
                     return $q.reject(response);
                 }
             };
         });
+            
 
         $routeProvider
             .when('/', {
@@ -55,6 +60,13 @@ angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngu
                     loggedin: checkLoggedin
                 }
             })
+            .when('/tasks/:id', {
+                templateUrl: 'partials/task',
+                controller: TaskCtrl,
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .when('/signin', {
                 templateUrl: 'partials/signin',
                 controller: SignInCtrl
@@ -67,7 +79,7 @@ angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngu
                 redirectTo: '/404'
             });
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(true)
 
         datetimepickerProvider.setOptions({
             format: 'YYYY-MM-DD'
