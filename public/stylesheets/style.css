@@ -11,7 +11,7 @@ form[name='signinform'], form[name='signupform'] {
     margin-right: auto;
 }
 
-form[name='newtaskform'] {
+form[name='newtaskform'], form[name='newsubtaskform'] {
     width: 750px;
     margin: 50px;
 }
@@ -20,7 +20,7 @@ form[name='newtaskform'] .description {
     margin-top: 5px;
 }
 
-form[name='newtaskform'] .create-new-task-buttons > button {
+form .create-new-task-buttons > button {
     float: right;
     margin-left: 10px;
 }
@@ -58,6 +58,7 @@ form[name='newtaskform'] .create-new-task-buttons > button {
     width: 100%;
     padding: 10px;
     background-color: #FFFFFF;
+    color: #000000;
     border-radius: 10px 10px;
     margin-top: 10px;
 }
@@ -71,7 +72,7 @@ form[name='newtaskform'] .create-new-task-buttons > button {
 .task .task-info {
     clear: left;
     display: flex;
-    width: 750px;
+    width: 745px;
     margin-top: 20px;
     float: left;
 }

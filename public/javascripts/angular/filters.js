@@ -7,4 +7,16 @@ angular.module('progress')
         return function(htmlCode){
             return $sce.trustAsHtml(htmlCode);
         }
+    }])
+
+    .filter('percentage', ['$filter', function ($filter) {
+        return function (input, decimals) {
+            return $filter('number')(input * 100, decimals) + '%';
+        };
+    }])
+
+    .filter('simplePercentage', ['$filter', function ($filter) {
+        return function (input) {
+            return $filter('number')(input) + '%';
+        };
     }]);

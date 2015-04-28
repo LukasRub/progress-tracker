@@ -83,18 +83,9 @@ function TasksCtrl($scope, $http, $modal, $location) {
     
 }
 
-function TaskFormCtrl($scope, $modalInstance) {
-    
-    $scope.ok = function(form) {
-        $modalInstance.close(form);
-    };
 
-    $scope.cancel = function() {
-        $modalInstance.dismiss('cancel');
-    };
-}
 
-function TaskCtrl($scope, $http, $routeParams, $location) {
+function TaskCtrl($scope, $http, $routeParams, $modal) {
     $scope.task = {};
     $scope.isCollapsed = false;
     
@@ -105,4 +96,68 @@ function TaskCtrl($scope, $http, $routeParams, $location) {
             $scope.taskFound = true;
         });
     };
+
+    $scope.openNewSubtaskModal = function(task){
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/subtaskform.jade',
+            controller: SubtaskFormCtrl,
+            size: 'lg',
+            resolve: {
+                parentTask: function(){
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(subtask) {
+            $http.post('api/private/subtask', {
+                'data': subtask
+            })
+            .success(function() {
+                $scope.getTask();
+                $scope.createNewSubtaskSuccessful = true;
+            })
+            .error(function() {
+                $scope.createNewSubtaskFailed = true;
+            });
+        });
+    };
+    
+}
+
+// Modal form controllers
+
+function TaskFormCtrl($scope, $modalInstance) {
+
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+}
+
+function SubtaskFormCtrl($scope, $modalInstance, parentTask) {
+    
+    $scope.parentTask = parentTask;
+    $scope.subtask = {
+        percentageWeight: 10,
+        parentTaskId: parentTask._id
+    };
+    
+    $scope.datetimepickerOptions = {
+        minDate: moment(parentTask.dateStarted).format('YYYY-MM-DD') || false,
+        maxDate: moment(parentTask.dateDue).format('YYYY-MM-DD') || false
+    };
+    
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
 }

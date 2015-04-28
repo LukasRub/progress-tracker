@@ -1,13 +1,13 @@
 //
-   Created by lukas on 15.4.23.
-
+   Created by lukas on 15.4.27.
 form.form-horizontal(
-    name='newtaskform',
-    ng-submit='newtaskform.$valid && ok(task)',
+    name='newsubtaskform',
+    ng-submit='newsubtaskform.$valid && ok(subtask)',
     novalidate
 )
     fieldset
-        legend Create new task
+    
+        legend Create new subtask
         
         div.form-group
             label.col-sm-3.control-label(for='title') Title:
@@ -16,12 +16,26 @@ form.form-horizontal(
                     type='text'
                     name='title'
                     placeholder='Enter title'
-                    ng-model='task.title'
+                    ng-model='subtask.title'
                     required
                 )
-                div.error-container(ng-show='newtaskform.title.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.title.$error.required') Title is required
+                div.error-container(ng-show='newsubtaskform.title.$dirty || newsubtaskform.$submitted')
+                    small.error(ng-show='newsubtaskform.title.$error.required') Title is required
         
+        div.form-group
+            label.col-sm-3.control-label(for='weight') Subtask weight:
+            div.col-sm-9
+                input#weight.form-control(
+                    range-slider
+                    name='weight'
+                    min='0'
+                    max='parentTask.availableWeight * 100'
+                    model-max='subtask.percentageWeight'
+                    pin-handle='min'
+                    show-values='true'
+                    filter='simplePercentage'
+                )
+                    
         div.form-group
             label.col-sm-3.control-label(for='dateStarted') Date started:
             div.col-sm-9
@@ -31,14 +45,15 @@ form.form-horizontal(
                         type='text'
                         name='dateStarted'
                         placeholder='Date started'
-                        ng-model='task.dateStarted'
+                        ng-model='subtask.dateStarted'
+                        datetimepicker-options='{{datetimepickerOptions}}'
                         required
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
-                div.error-container(ng-show='newtaskform.dateStarted.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.dateStarted.$error.required') Date started is required
-       
+                div.error-container(ng-show='newsubtaskform.dateStarted.$dirty || newsubtaskform.$submitted')
+                    small.error(ng-show='newsubtaskform.dateStarted.$error.required') Date started is required
+
         div.form-group
             label.col-sm-3.control-label(for='dateDue') Date due:
             div.col-sm-9
@@ -48,11 +63,15 @@ form.form-horizontal(
                         type='text'
                         name='dateDue'
                         placeholder='Date due'
-                        ng-model='task.dateDue'
+                        ng-model='subtask.dateDue'
+                        ng-required='parentTask.dateDue'
+                        datetimepicker-options='{{datetimepickerOptions}}'
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
-        
+                div.error-container(ng-show='newsubtaskform.dateDue.$dirty || newsubtaskform.$submitted')
+                    small.error(ng-show='newsubtaskform.dateDue.$error.required') Date due is required
+                    
         div.row
             
             label.col-xs-3.control-label(for='isQuantifiable') Is quantifiable:
@@ -62,7 +81,7 @@ form.form-horizontal(
                         input#is-quantifiable(
                             type='checkbox'
                             name='isQuantifiable'
-                            ng-model='task.isQuantifiable'
+                            ng-model='subtask.isQuantifiable'
                         )
                         
             label.col-xs-1.control-label(for='goal') Goal:
@@ -71,12 +90,13 @@ form.form-horizontal(
                     type='number'
                     name='goal'
                     placeholder='Enter goal'
-                    ng-model='task.goal'
-                    ng-disabled='!task.isQuantifiable'
-                    ng-required='task.isQuantifiable'
+                    ng-model='subtask.goal'
+                    ng-disabled='!subtask.isQuantifiable'
+                    ng-required='subtask.isQuantifiable'
                 )
-                div.error-container(ng-show='newtaskform.goal.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.goal.$error.required') Goal is required
+                div.error-container(ng-show='newsubtaskform.goal.$dirty || newsubtaskform.$submitted')
+                    small.error(ng-show='newsubtaskform.goal.$error.required') Goal is required
+                
                 
             label.col-xs-1.control-label(for='units') of:
             div.col-xs-3.form-group
@@ -84,13 +104,14 @@ form.form-horizontal(
                     type='text'
                     name='units'
                     placeholder='Enter units'
-                    ng-model='task.units'
-                    ng-disabled='!task.isQuantifiable'
-                    ng-required='task.isQuantifiable'
+                    ng-model='subtask.units'
+                    ng-disabled='!subtask.isQuantifiable'
+                    ng-required='subtask.isQuantifiable'
                 )
-                div.error-container(ng-show='newstaskform.units.$dirty || newtaskform.$submitted')
-                    small.error(ng-show='newtaskform.units.$error.required') Units are required
-
+                div.error-container(ng-show='newsubtaskform.units.$dirty || newsubtaskform.$submitted')
+                    small.error(ng-show='newsubtaskform.units.$error.required') Units are required
+            
+        
         div.form-group
             label.col-sm-3.control-label(for='color') Color:
             div.col-sm-9
@@ -98,11 +119,11 @@ form.form-horizontal(
                     input#color.form-control(
                         type='hidden'
                         name='color'
-                        ng-model='task.color'
+                        ng-model='subtask.color'
                         value='#FFFFFF'
                         minicolors
                     )
-        
+                    
         div.form-group
             label.col-sm-3.control-label(for='textColor') Text color:
             div.col-sm-9
@@ -110,30 +131,31 @@ form.form-horizontal(
                     input#textColor.form-control(
                         type='hidden'
                         name='textColor'
-                        ng-model='task.textColor'
+                        ng-model='subtask.textColor'
                         value='#000000'
                         minicolors
                     )
-       
+                    
         div.form-group
             label.col-sm-3.control-label(for='title') Description:
             div.col-sm-12
                 div.description(
                     text-angular
-                    ng-model='task.description'
+                    ng-model='subtask.description'
                     placeholder='Enter description'
                 )
-       
+                    
         div.form-group
             div.col-sm-offset-8.col-sm-4.create-new-task-buttons
                 button.btn.btn-danger(
                     type='button',
                     ng-click='cancel()'
                 ) Cancel
+                
                 button.btn.btn-primary(
                     type='submit',
-                    onclick='formUtilities.highlightInputs("newtaskform")'
-                ) Create task
+                    onclick='formUtilities.highlightInputs("newsubtaskform")'
+                ) Create subtask
                 
 script(type='text/javascript').
     $(function () {

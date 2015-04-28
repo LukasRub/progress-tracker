@@ -2,6 +2,7 @@
  * Created by lukas on 15.4.6.
  */
 angular.module('progress')
+    
     .directive('ensureUniqueEmail', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
         return {
             require: 'ngModel',
@@ -10,8 +11,12 @@ angular.module('progress')
                     var deffered = $q.defer();
                     $timeout(function () {
                         $http.post('api/public/checkemail', {data: email})
-                            .success(function() {
-                                deffered.resolve();
+                            .success(function(data) {
+                                if (data) {
+                                    deffered.reject();
+                                } else {
+                                    deffered.resolve();
+                                }
                             })
                             .error(function() {
                                 deffered.reject();
@@ -22,6 +27,7 @@ angular.module('progress')
             }
         }
     }])
+    
     .directive('emitLastRepeaterElement', function() {
         return function(scope) {
             if (scope.$last){

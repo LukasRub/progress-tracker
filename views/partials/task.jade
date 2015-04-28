@@ -1,97 +1,190 @@
 //
    Created by lukas on 15.4.24.
 
-div.task.single(
-    ng-init='getTask()'
-    ng-show='taskFound'
-    ng-click='isCollapsed = !isCollapsed'
-    style='background-color: {{task.color}}; color: {{task.textColor}};'
-)
-    h1 {{task.title}}
-    div.progress-container
-        div.progress-value {{task.percentageDone}}%
-        div.percentage-done(
-            round-progress
-            max="100"
-            current="task.percentageDone"
-            color="{{task.color}}"
-            bgcolor="#fff"
-            radius="45"
-            stroke="20"
-            iterations="50"
-            rounded="true"
-            animation="easeInOutQuart"
+div(ng-show='taskFound')
+    
+    section.main-task
+        h2 Task:
+        
+        div.task.single(
+            ng-init='getTask()'
+            ng-click='isCollapsed = !isCollapsed'
+            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}'
         )
-    div.task-info
-        div.assigned-to
-            div.task-info-label Created by:
-            span {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
-        div.group
-            div.task-info-label Group:
-            span {{ task.group }}
-        div.date-created
-            div.task-info-label  Date created:
-            span {{ task.dateCreated | date : 'yyyy-MM-dd' }}
-        div.date-started
-            div.task-info-label  Date started:
-            span {{ task.dateStarted | date : 'yyyy-MM-dd' }}
-        div.date-started
-            div.task-info-label  Date due:
-            span {{ task.dateDue | date : 'yyyy-MM-dd' }}
-        div.status
-            div.task-info-label Status:
-            span {{ task.status }}
-
-    div.task-description(
-        ng-bind-html='task.description | sanitize' 
-        collapse='isCollapsed'
-        ng-click='$event.stopPropagation()'
-    )
-
-div.alert.alert-success(
-    role='alert',
-    ng-if='createNewSubtaskSuccessful'
-) Subtask successfully created!
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
-
-div.alert.alert-danger(
-    role='alert',
-    ng-if='createNewSubtaskSuccessful'
-) Creating new subtask failed, please try again
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
-
-div.alert.alert-success(
-    role='alert',
-    ng-if='createNewSubtaskSuccessful'
-) Subtask successfully created!
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
             
-div.alert.alert-danger(
-    role='alert',
-    ng-if='createNewSubtaskSuccessful'
-) Creating new subtask failed, please try again
-    button.close(
-        type='button'
-        data-dismiss='alert'
-        aria-label='close'
-    )
-        span(aria-hidden='true') &times;
-
-div#task-commands
-    button.btn.btn-default(ng-click='openNewSubtaskModal()') Create new subtask
-    button.btn.btn-default(ng-click='openNewProgressModal()') Submit progress
+            h1 {{task.title}}
+            
+            div.progress-container
+                
+                div.progress-value {{task.percentageDone | percentage:0}}
+                div.percentage-done(
+                    round-progress
+                    max="100"
+                    current="task.percentageDone"
+                    color="{{task.color}}"
+                    bgcolor="{{task.textColor}}"
+                    radius="45"
+                    stroke="20"
+                    iterations="50"
+                    rounded="true"
+                    animation="easeInOutQuart"
+                )
+                    
+            div.task-info
+                
+                div.created-by
+                    div.task-info-label Created by:
+                    a(
+                        href='user/{{task._createdBy.numberId}}'
+                        style='color: {{task.textColor}}'
+                    ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                    
+                div.group
+                    div.task-info-label Group:
+                    a(
+                        href='user/{{task._group.numberId}}'
+                        style='color: {{task.textColor}}'
+                    ) {{ task._group.title }}
+                    
+                div.date-created
+                    div.task-info-label  Date created:
+                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                        
+                div.date-started
+                    div.task-info-label  Date started:
+                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                        
+                div.date-started
+                    div.task-info-label  Date due:
+                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                        
+                div.status
+                    div.task-info-label Status:
+                    div.text-right {{ task.status }}
+                        
+                div.progress-status(ng-if='task.isQuantifiable')
+                    div.task-info-label Progress:
+                    div.text-right {{ task.current + '/' + task.goal }}
+                        
+                div.units(ng-if='task.isQuantifiable')
+                    div.task-info-label Of:
+                    div.text-right {{ task.units }}
+        
+            div.task-description(
+                ng-bind-html='task.description | sanitize' 
+                collapse='isCollapsed'
+                ng-click='$event.stopPropagation()'
+            )
+    
+    section.alerts
+    
+        div.alert.alert-success(
+            role='alert',
+            ng-if='createNewSubtaskSuccessful'
+        ) Subtask successfully created!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+        
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='createNewSubtaskFailed'
+        ) Creating new subtask failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+        
+        div.alert.alert-success(
+            role='alert',
+            ng-if='makeNewProgressSuccessful'
+        ) Your progress was successfully submitted!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                    
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='makeNewProgressFailed'
+        ) Submitting new progress failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                
+    section.commands
+        div#task-commands
+            button.btn.btn-default(ng-click='openNewSubtaskModal(task)') Create new subtask
+            button.btn.btn-default(ng-click='openNewProgressModal(task)') Submit progress
+        
+    section.subtasks
+    
+        h2 Subtasks:
+        
+        div.task(
+            ng-repeat='subtask in task._subtasks'
+            style='background-color: {{subtask.color}}; color: {{subtask.textColor}}; border: 1px solid {{(subtask.color.toLowerCase() == "#ffffff") ? "#000000" : subtask.color}}'
+        )
+            h1 {{subtask.title}}
+            
+            div.progress-container
+                div.progress-value {{subtask.percentageDone | percentage:0}}
+                div.percentage-done(
+                    round-progress
+                    max="100"
+                    current="subtask.percentageDone"
+                    color="{{subtask.color}}"
+                    bgcolor="{{subtask.textColor}}"
+                    radius="45"
+                    stroke="20"
+                    iterations="50"
+                    rounded="true"
+                    animation="easeInOutQuart"
+                )
+                    
+            div.task-info
+                
+                div.created-by
+                    div.task-info-label Created by:
+                    a(
+                        href='user/{{subtask._createdBy.numberId}}'
+                        style='color: {{subtask.textColor}}'
+                    ) {{ subtask._createdBy.firstname + ' ' + subtask._createdBy.lastname }}
+                    
+                div.weight
+                    div.task-info-label  Weight:
+                    div.text-right {{ subtask.weight | percentage:0 }}
+                        
+                div.date-created
+                    div.task-info-label  Date created:
+                    div.text-right {{ subtask.dateCreated | date : 'yyyy-MM-dd' }}
+                        
+                div.date-started
+                    div.task-info-label  Date started:
+                    div.text-right {{ subtask.dateStarted | date : 'yyyy-MM-dd' }}
+                        
+                div.date-started
+                    div.task-info-label  Date due:
+                    div.text-right {{ subtask.dateDue | date : 'yyyy-MM-dd' }}
+                        
+                div.status
+                    div.task-info-label Status:
+                    div.text-right {{ subtask.status }}
+                        
+                div.progress-status(ng-if='subtask.isQuantifiable')
+                    div.task-info-label Progress:
+                    div.text-right {{ subtask.current + '/' + subtask.goal }}
+                        
+                div.units(ng-if='subtask.isQuantifiable')
+                    div.task-info-label Of:
+                    div.text-right {{ subtask.units }}

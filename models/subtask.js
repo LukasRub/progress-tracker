@@ -1,14 +1,21 @@
 /**
- * Created by lukas on 15.4.23.
+ * Created by lukas on 15.4.27.
  */
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
-var TaskSchema = new Schema({
+var Schema = mongoose.Schema;
+
+var SubtaskSchema = new Schema({
     title: {
         type: String,
         required: true
+    },
+    weight: {
+        type: Number,
+        required: true,
+        min: 0,
+        max: 1
     },
     dateCreated: {
         type: Date,
@@ -34,16 +41,10 @@ var TaskSchema = new Schema({
         required: true
     },
     _assignedTo: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    _subtasks: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Subtask'
-        }
-    ],
     _progress: [
         {
             type: Schema.Types.ObjectId,
@@ -72,12 +73,6 @@ var TaskSchema = new Schema({
         min: 0,
         max: 1
     },
-    availableWeight: {
-        type: Number,
-        default: 1,
-        min: 0,
-        max: 1
-    },
     description: {
         type: String,
         default: null
@@ -93,8 +88,8 @@ var TaskSchema = new Schema({
     status: {
         type: String,
         enum: ['Created', 'Started', 'Completed']
-    } 
+    }
 });
 
-TaskSchema.plugin(autoIncrement.plugin, { model: 'Task', field: 'numberId' });
-module.exports = mongoose.model('Task', TaskSchema);
+SubtaskSchema.plugin(autoIncrement.plugin, { model: 'Subtask', field: 'numberId' });
+module.exports = mongoose.model('Subtask', SubtaskSchema);

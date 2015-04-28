@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+var autoIncrement = require('mongoose-auto-increment');
 
 var Schema = mongoose.Schema;
 var SALT_WORK_FACTOR = 10;
@@ -65,4 +66,5 @@ UserSchema.methods.comparePassword = function(candidatePassword, callback) {
     });
 };
 
+UserSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'numberId' });
 module.exports = mongoose.model('User', UserSchema);

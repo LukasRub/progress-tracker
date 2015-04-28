@@ -12,10 +12,15 @@ var autoIncrement = require('mongoose-auto-increment');
 var connection = mongoose.connect('mongodb://localhost/progress');
 autoIncrement.initialize(connection);
 
+require('./models/user');
+require('./models/task');
+require('./models/subtask');
+require('./models/group');
+require('./models/progress');
+
 var routes = require('./routes/index');
 var publicApi = require('./routes/publicApi');
 var privateApi = require('./routes/privateApi');
-
 
 var app = express();
 

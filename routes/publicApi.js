@@ -12,9 +12,8 @@ router.post('/checkemail', function(req, res, next) {
     User.findOne({'email': data}, function(err, result) {
         var statusCode = 200;
         if (err) statusCode = 400;
-        if (result) statusCode = 409;
         console.log('LOGGING: Email availability of', data, 'was requested, status:', statusCode);
-        res.sendStatus(statusCode);
+        res.status(statusCode).send(result);
     });
 });
 

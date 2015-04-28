@@ -33,44 +33,68 @@ section
             span(aria-hidden='true') &times;
     
     div#assigned-to-me(ng-init='getTasks()')
+        
         div.task(
             ng-repeat='task in tasks'
             ng-class='task.status.toLowerCase()'
-            ng-click='openTask(task.NumberId)'
-            style='background-color: {{task.color}}; color: {{task.textColor}};'
+            ng-click='openTask(task.numberId)'
+            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}'
             emit-last-repeater-element
-        ) 
+        )
+            
             h1 {{task.title}}
+            
             div.progress-container
-                div.progress-value {{task.percentageDone}}%
+                div.progress-value {{task.percentageDone | percentage:0}}
                 div.percentage-done(
                     round-progress
                     max="100"
                     current="task.percentageDone"
                     color="{{task.color}}"
-                    bgcolor="#fff"
+                    bgcolor="{{task.textColor}}"
                     radius="45"
                     stroke="20"
                     iterations="50"
                     rounded="true"
                     animation="easeInOutQuart"
                 )
+                    
             div.task-info
-                div.assigned-to 
+                
+                div.created-by
                     div.task-info-label Created by:
-                    span {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                    a(
+                        href='user/{{task._createdBy.numberId}}'
+                        style='color: {{task.textColor}}'
+                    ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                    
                 div.group
                     div.task-info-label Group:
-                    span {{ task.group }}
+                    a(
+                        href='user/{{task._group.numberId}}'
+                        style='color: {{task.textColor}}'
+                    ) {{ task._group.title }}
+                    
                 div.date-created
                     div.task-info-label  Date created:
-                    span {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                        
                 div.date-started
                     div.task-info-label  Date started:
-                    span {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                        
                 div.date-started
                     div.task-info-label  Date due:
-                    span {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                        
                 div.status
                     div.task-info-label Status:
-                    span {{ task.status }}
+                    div.text-right {{ task.status }}
+                        
+                div.progress-status(ng-if='task.isQuantifiable')
+                    div.task-info-label Progress:
+                    div.text-right {{ task.current + '/' + task.goal }}
+                        
+                div.units(ng-if='task.isQuantifiable')
+                    div.task-info-label Of:
+                    div.text-right {{ task.units }}
