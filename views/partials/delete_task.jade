@@ -1,0 +1,24 @@
+//
+   Created by lukas on 15.4.29.
+    
+form.form-horizontal.modal-form.modal-confirmation-form(
+    name='aaa',
+    ng-submit='ok(task)'
+)
+    fieldset
+        
+        div.form-group
+            label.col-sm-12 Delete {{ task.type }} {{ task.title }}?
+                
+                
+        div.form-group
+            div.col-sm-offset-3.col-sm-9.modal-form-buttons
+            
+                button.btn.btn-danger(
+                    type='button',
+                    ng-click='cancel()'
+                ) Cancel
+                
+                button.btn.btn-danger(
+                    type='submit'
+                ) Delete {{ task.type }}

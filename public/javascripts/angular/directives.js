@@ -6,7 +6,7 @@ angular.module('progress')
     .directive('ensureUniqueEmail', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
         return {
             require: 'ngModel',
-            link: function ($scope, element, attrs, ngModel) {
+            link: function (scope, element, attrs, ngModel) {
                 ngModel.$asyncValidators.emailAvailable = function (email) {
                     var deffered = $q.defer();
                     $timeout(function () {

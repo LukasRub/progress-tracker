@@ -62,6 +62,7 @@ form.form-horizontal(
                     small.error(ng-show='signupform.email.$error.required') Your email is required
                     small.error(ng-show='signupform.email.$invalid && !signupform.email.$error.required && !signupform.email.$error.emailAvailable') Your email is invalid
                     small.error(ng-show='signupform.email.$error.emailAvailable') Email already exists
+                    
                 div.success-container(ng-if='signupform.email.$pending || signupform.email.$valid')
                     small.success(ng-show='signupform.email.$pending') Checking email...
                     small.success(ng-show='signupform.email.$valid') Email is available

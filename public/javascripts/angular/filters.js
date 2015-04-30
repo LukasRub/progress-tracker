@@ -17,6 +17,14 @@ angular.module('progress')
 
     .filter('simplePercentage', ['$filter', function ($filter) {
         return function (input) {
-            return $filter('number')(input) + '%';
+            return $filter('number')(Math.floor(input)) + '%';
         };
-    }]);
+    }])
+
+    .filter('capitalize', function() {
+        return function(input) {
+            if (input != null)
+                input = input.toLowerCase();
+            return input.substring(0,1).toUpperCase() + input.substring(1);
+        }
+    });

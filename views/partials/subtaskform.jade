@@ -1,6 +1,6 @@
 //
    Created by lukas on 15.4.27.
-form.form-horizontal(
+form.form-horizontal.modal-form(
     name='newsubtaskform',
     ng-submit='newsubtaskform.$valid && ok(subtask)',
     novalidate
@@ -21,16 +21,16 @@ form.form-horizontal(
                 )
                 div.error-container(ng-show='newsubtaskform.title.$dirty || newsubtaskform.$submitted')
                     small.error(ng-show='newsubtaskform.title.$error.required') Title is required
-        
+
         div.form-group
             label.col-sm-3.control-label(for='weight') Subtask weight:
             div.col-sm-9
                 input#weight.form-control(
                     range-slider
                     name='weight'
-                    min='0'
-                    max='parentTask.availableWeight * 100'
-                    model-max='subtask.percentageWeight'
+                    min='1'
+                    max='parentTask.availableWeight'
+                    model-max='subtask.weight'
                     pin-handle='min'
                     show-values='true'
                     filter='simplePercentage'
@@ -64,8 +64,8 @@ form.form-horizontal(
                         name='dateDue'
                         placeholder='Date due'
                         ng-model='subtask.dateDue'
-                        ng-required='parentTask.dateDue'
                         datetimepicker-options='{{datetimepickerOptions}}'
+                        required
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
@@ -93,6 +93,9 @@ form.form-horizontal(
                     ng-model='subtask.goal'
                     ng-disabled='!subtask.isQuantifiable'
                     ng-required='subtask.isQuantifiable'
+                    step='1'
+                    min='0'
+                    ng-pattern=/^\d+$/
                 )
                 div.error-container(ng-show='newsubtaskform.goal.$dirty || newsubtaskform.$submitted')
                     small.error(ng-show='newsubtaskform.goal.$error.required') Goal is required
@@ -120,7 +123,6 @@ form.form-horizontal(
                         type='hidden'
                         name='color'
                         ng-model='subtask.color'
-                        value='#FFFFFF'
                         minicolors
                     )
                     
@@ -132,9 +134,20 @@ form.form-horizontal(
                         type='hidden'
                         name='textColor'
                         ng-model='subtask.textColor'
-                        value='#000000'
                         minicolors
                     )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='autoComplete') Auto complete:
+            div.col-sm-1
+                div.checkbox
+                    label
+                        input#is-quantifiable(
+                            type='checkbox'
+                            name='autoComplete'
+                            ng-model='subtask.autoComplete'
+                            checked
+                        )
                     
         div.form-group
             label.col-sm-3.control-label(for='title') Description:
@@ -146,7 +159,8 @@ form.form-horizontal(
                 )
                     
         div.form-group
-            div.col-sm-offset-8.col-sm-4.create-new-task-buttons
+            div.col-sm-offset-8.col-sm-4.modal-form-buttons
+                
                 button.btn.btn-danger(
                     type='button',
                     ng-click='cancel()'

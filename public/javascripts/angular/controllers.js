@@ -36,7 +36,7 @@ function DashboardCtrl($scope) {
     //$scope.message = "Logged in";
 }
 
-function TasksCtrl($scope, $http, $modal, $location) {
+function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     $scope.tasks = {};
     
     $scope.openNewTaskModal = function(){
@@ -47,7 +47,7 @@ function TasksCtrl($scope, $http, $modal, $location) {
         });
 
         modalInstance.result.then(function(task) {
-            $http.post('api/private/task', {
+            $http.post('api/private/tasks', {
                 'data': task
             })
             .success(function() {
@@ -61,40 +61,36 @@ function TasksCtrl($scope, $http, $modal, $location) {
     };
     
     $scope.getTasks = function() {
-        $http.get('api/private/task')
+        $http.get('api/private/tasks')
         .success(function(data) {
             $scope.tasks = data;
         });
     };
     
-    $scope.getTaskStatusColor = function(task) {
-        var statusColor = "#000";
-        switch (task.toLowerCase()) {
-            case 'created':
-                statusColor = "#FFC848";
-                break;
-        }
-        return statusColor;
-    };
-    
     $scope.openTask = function(id) {
         $location.path('/tasks/' + id);
     };
+
+    $scope.$on('LastRepeaterElement', function(){
+    });
     
 }
 
 
 
-function TaskCtrl($scope, $http, $routeParams, $modal) {
+function TaskCtrl($scope, $http, $routeParams, $modal, $location) {
     $scope.task = {};
     $scope.isCollapsed = false;
     
     $scope.getTask = function() {
-        $http.get('api/private/task/' + $routeParams['id'])
+        $http.get('api/private/tasks/' + $routeParams['id'])
         .success(function(data) {
             $scope.task = data;
-            $scope.taskFound = true;
         });
+    };
+    
+    $scope.openSubtask = function(id) {
+        $location.path('/tasks/' + $scope.task.numberId + '/subtasks/' + id);
     };
 
     $scope.openNewSubtaskModal = function(task){
@@ -111,7 +107,7 @@ function TaskCtrl($scope, $http, $routeParams, $modal) {
         });
 
         modalInstance.result.then(function(subtask) {
-            $http.post('api/private/subtask', {
+            $http.post('api/private/tasks/' + task.numberId + '/subtasks', {
                 'data': subtask
             })
             .success(function() {
@@ -124,11 +120,117 @@ function TaskCtrl($scope, $http, $routeParams, $modal) {
         });
     };
     
+    $scope.openNewProgressModal = function(task) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/progressform.jade',
+            controller: ProgressFormCtrl,
+            size: 'lg',
+            resolve: {
+                parentTask: function(){
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(progress) {
+            $http.post('api/private/tasks/' + task.numberId + '/progress', {
+                'data': progress
+            })
+            .success(function() {
+                $scope.getTask();
+                $scope.makeNewProgressSuccessful = true;
+            })
+            .error(function() {
+                $scope.makeNewProgressFailed = true;
+            });
+        });
+        
+    };
+
+    $scope.openDeleteConfirmationModal = function(task) {
+
+        task.type = 'task';
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/delete_task.jade',
+            controller: DeleteTaskCtrl,
+            size: 'sm',
+            resolve: {
+                task: function(){
+                    return task;
+                }
+            }
+         });
+
+        modalInstance.result.then(function(task) {
+            $http.delete('api/private/tasks/' + task.numberId)
+            .success(function() {
+                $location.path('/tasks');
+            })
+            .error(function() {
+                console.log('sum ting wong');
+                $scope.createNewSubtaskFailed = true;
+            });
+        });
+        
+        
+        
+    }
+}
+
+function SubtaskCtrl($scope, $http, $routeParams, $modal) {
+    $scope.subtask = {};
+    $scope.isCollapsed = false;
+
+    $scope.getSubtask = function() {
+        $http.get('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + $routeParams['subtask_id'])
+        .success(function(data) {
+            $scope.subtask = data;
+        })
+        .error(function(){
+            console.log('bad');
+        });
+    };
+
+    $scope.openNewProgressModal = function(subtask) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/progressform.jade',
+            controller: ProgressFormCtrl,
+            size: 'lg',
+            resolve: {
+                parentTask: function(){
+                    return subtask;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(progress) {
+            console.log(subtask);
+            $http.post('api/private/tasks/' + subtask._parentTask.numberId + '/subtasks/' + subtask.numberId + '/progress', {
+                'data': progress
+            })
+            .success(function() {
+                $scope.getSubtask();
+                $scope.makeNewProgressSuccessful = true;
+            })
+            .error(function() {
+                $scope.makeNewProgressFailed = true;
+            });
+        });
+
+    };
 }
 
 // Modal form controllers
 
 function TaskFormCtrl($scope, $modalInstance) {
+    $scope.task = {
+        autoComplete: true,
+        color: '#337ab7',
+        textColor: "#FFFFFF"
+    };
 
     $scope.ok = function(form) {
         $modalInstance.close(form);
@@ -140,11 +242,13 @@ function TaskFormCtrl($scope, $modalInstance) {
 }
 
 function SubtaskFormCtrl($scope, $modalInstance, parentTask) {
-    
+
     $scope.parentTask = parentTask;
     $scope.subtask = {
-        percentageWeight: 10,
-        parentTaskId: parentTask._id
+        weight: 10,
+        autoComplete: true,
+        color: '#286090',
+        textColor: "#FFFFFF"
     };
     
     $scope.datetimepickerOptions = {
@@ -160,4 +264,41 @@ function SubtaskFormCtrl($scope, $modalInstance, parentTask) {
         $modalInstance.dismiss('cancel');
     };
 
+}
+
+function ProgressFormCtrl($scope, $modalInstance, parentTask) {
+    
+    $scope.parentTask = parentTask;
+    $scope.progress = {
+        color: '#269abc',
+        textColor: "#FFFFFF"
+    };
+    
+    if (!parentTask.isQuantifiable) {
+        $scope.progress.percentageDone = 10;
+    }
+    
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+}
+
+// Confirmation modal controllers
+
+function DeleteTaskCtrl($scope, $modalInstance, task) {
+    
+    $scope.task = task;
+    
+    $scope.ok = function(task) {
+        $modalInstance.close(task);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+    
 }

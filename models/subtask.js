@@ -15,17 +15,20 @@ var SubtaskSchema = new Schema({
         type: Number,
         required: true,
         min: 0,
-        max: 1
+        max: 100
+    },
+    _parentTask: {
+        type: Schema.Types.ObjectId,
+        ref: 'Task',
+        required: true
     },
     dateCreated: {
         type: Date,
-        default: Date.now(),
-        required: true
+        default: Date.now()
     },
     dateStarted: {
         type: Date,
-        default: Date.now(),
-        required: true
+        default: Date.now()
     },
     dateDue: {
         type: Date,
@@ -71,7 +74,7 @@ var SubtaskSchema = new Schema({
         type: Number,
         default: 0,
         min: 0,
-        max: 1
+        max: 100
     },
     description: {
         type: String,
@@ -85,10 +88,59 @@ var SubtaskSchema = new Schema({
         type: String,
         default: "#000000"
     },
+    autoComplete: {
+        type: Boolean,
+        default: true
+    },
     status: {
         type: String,
-        enum: ['Created', 'Started', 'Completed']
-    }
+        enum: ['Created', 'Started', 'Completed'],
+        default: 'Created'
+    },
+    logs: [{
+        date: {
+            type: Date,
+            default: Date.now()
+        },
+        info: {
+            type: String,
+            required: true
+        }
+    }]
+});
+
+SubtaskSchema.pre('save', function(next){
+    var subtask = this;
+    var Progress = require('./progress');
+
+    var select = (subtask.isQuantifiable) ? 'current' : 'percentageDone';
+
+    Progress.find({'_id': { $in: subtask._progress}}, select, function(err, progress){
+
+        if (err) next(err);
+
+        subtask[select] = 0;
+
+        for (var i in progress) {
+            subtask[select] += progress[i][select];
+        }
+
+        if (subtask.isQuantifiable) {
+            var percentageDone = Math.floor((subtask.current * 100) / subtask.goal);
+            subtask.percentageDone = (percentageDone > 100) ? 100 : percentageDone;
+        }
+
+        next();
+
+    });
+});
+
+SubtaskSchema.pre('remove', function(next){
+    var subtask = this;
+    var Progress = require('./progress');
+    Progress.find({'_id': { $in: subtask._progress}}).remove(function(){
+        next();
+    });
 });
 
 SubtaskSchema.plugin(autoIncrement.plugin, { model: 'Subtask', field: 'numberId' });

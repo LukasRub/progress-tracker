@@ -67,6 +67,13 @@ angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngu
                     loggedin: checkLoggedin
                 }
             })
+            .when('/tasks/:task_id/subtasks/:subtask_id', {
+                templateUrl: 'partials/subtask',
+                controller: SubtaskCtrl,
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .when('/signin', {
                 templateUrl: 'partials/signin',
                 controller: SignInCtrl
@@ -90,7 +97,7 @@ angular.module('progress', ['ngResource', 'ngRoute', 'datetimepicker', 'textAngu
     
     .run(function($rootScope, $http, $location){
         $rootScope.message = '';
-
+        
         // Logout function is available in any pages
         $rootScope.signOutUser = function(){
             $rootScope.message = 'Logged out.';

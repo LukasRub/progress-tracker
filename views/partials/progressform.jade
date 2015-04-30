@@ -1,0 +1,111 @@
+//
+   Created by lukas on 15.4.28.
+form.form-horizontal.modal-form(
+    name='newprogressform',
+    ng-submit='newprogressform.$valid && ok(progress)',
+    novalidate
+)
+    
+    fieldset
+    
+        legend Make progress
+
+        div.form-group
+            label.col-sm-3.control-label(for='date') Date:
+            div.col-sm-9
+                div#date.input-group
+                    input.form-control.date(
+                        datetimepicker
+                        type='text'
+                        name='date'
+                        placeholder='Enter date'
+                        ng-model='progress.date'
+                        required
+                    )
+                    span.input-group-addon
+                        span.glyphicon.glyphicon-calendar
+                div.error-container(ng-show='newprogressform.date.$dirty || newprogressform.$submitted')
+                    small.error(ng-show='newprogressform.date.$error.required') Date is required
+        
+        div.form-group(ng-if='!parentTask.isQuantifiable')
+            label.col-sm-3.control-label(for='percentageDone') Percentage done:
+            div.col-sm-9
+                input#percentage-done.form-control(
+                    range-slider
+                    name='percentageDone'
+                    min='1'
+                    max='parentTask.availableWeight || (100 - parentTask.percentageDone)'
+                    model-max='progress.percentageDone'
+                    pin-handle='min'
+                    show-values='true'
+                    filter='simplePercentage'
+                )
+                
+        div.form-group(ng-if='parentTask.isQuantifiable')
+            label.col-sm-3.control-label(for='current') {{ parentTask.units | capitalize }} done:
+            div.col-sm-9
+                input#goal.form-control(
+                    type='number'
+                    name='current'
+                    placeholder='Enter progress made'
+                    ng-model='progress.current'
+                    min='0'
+                    step='1'
+                    required
+                    ng-pattern=/^\d+$/
+                )
+                div.error-container(ng-show='newprogressform.goal.$dirty || newprogressform.$submitted')
+                    small.error(ng-show='newprogressform.goal.$error.required') Goal is required
+        
+        div.form-group
+            label.col-sm-3.control-label(for='color') Color:
+            div.col-sm-9
+                div
+                    input#color.form-control(
+                        type='hidden'
+                        name='color'
+                        ng-model='progress.color'
+                        minicolors
+                    )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='textColor') Text color:
+            div.col-sm-9
+                div
+                    input#textColor.form-control(
+                        type='hidden'
+                        name='textColor'
+                        ng-model='progress.textColor'
+                        minicolors
+                    )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='title') Description:
+            div.col-sm-12
+                div.description(
+                    text-angular
+                    ng-model='progress.description'
+                    placeholder='Enter description'
+                )
+                    
+        div.form-group
+            div.col-sm-offset-8.col-sm-4.modal-form-buttons
+                
+                button.btn.btn-danger(
+                    type='button',
+                    ng-click='cancel()'
+                ) Cancel
+                
+                button.btn.btn-primary(
+                    type='submit',
+                    onclick='formUtilities.highlightInputs("newprogressform")'
+                ) Submit progress
+                
+script(type='text/javascript').
+    $(function () {
+
+        $('span.input-group-addon').click(function(){
+            $(this).siblings('input').data('DateTimePicker').toggle();
+        });
+
+    });

@@ -1,7 +1,7 @@
 //
    Created by lukas on 15.4.23.
 
-form.form-horizontal(
+form.form-horizontal.modal-form(
     name='newtaskform',
     ng-submit='newtaskform.$valid && ok(task)',
     novalidate
@@ -49,9 +49,12 @@ form.form-horizontal(
                         name='dateDue'
                         placeholder='Date due'
                         ng-model='task.dateDue'
+                        required
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
+                div.error-container(ng-show='newtaskform.dateDue.$dirty || newtaskform.$submitted')
+                    small.error(ng-show='newtaskform.dateDue.$error.required') Date due is required
         
         div.row
             
@@ -74,6 +77,9 @@ form.form-horizontal(
                     ng-model='task.goal'
                     ng-disabled='!task.isQuantifiable'
                     ng-required='task.isQuantifiable'
+                    min='0'
+                    step='1'
+                    ng-pattern=/^\d+$/
                 )
                 div.error-container(ng-show='newtaskform.goal.$dirty || newtaskform.$submitted')
                     small.error(ng-show='newtaskform.goal.$error.required') Goal is required
@@ -99,7 +105,6 @@ form.form-horizontal(
                         type='hidden'
                         name='color'
                         ng-model='task.color'
-                        value='#FFFFFF'
                         minicolors
                     )
         
@@ -111,9 +116,20 @@ form.form-horizontal(
                         type='hidden'
                         name='textColor'
                         ng-model='task.textColor'
-                        value='#000000'
                         minicolors
                     )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='autoComplete') Auto complete:
+            div.col-sm-1
+                div.checkbox
+                    label
+                        input#is-quantifiable(
+                            type='checkbox'
+                            name='autoComplete'
+                            ng-model='task.autoComplete'
+                            checked
+                        )
        
         div.form-group
             label.col-sm-3.control-label(for='title') Description:
@@ -125,7 +141,7 @@ form.form-horizontal(
                 )
        
         div.form-group
-            div.col-sm-offset-8.col-sm-4.create-new-task-buttons
+            div.col-sm-offset-8.col-sm-4.modal-form-buttons
                 button.btn.btn-danger(
                     type='button',
                     ng-click='cancel()'

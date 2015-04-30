@@ -11,16 +11,25 @@ form[name='signinform'], form[name='signupform'] {
     margin-right: auto;
 }
 
-form[name='newtaskform'], form[name='newsubtaskform'] {
+form.modal-form {
     width: 750px;
     margin: 50px;
 }
 
-form[name='newtaskform'] .description {
+form.modal-form .form-group:last-child {
+    margin-bottom: 0;
+}
+
+form.modal-confirmation-form {
+    width: 310px;
+    margin: 20px;
+}
+
+form.modal-form .description {
     margin-top: 5px;
 }
 
-form .create-new-task-buttons > button {
+form .modal-form-buttons > button {
     float: right;
     margin-left: 10px;
 }
@@ -32,12 +41,17 @@ form .create-new-task-buttons > button {
 
 /* tasks */
 .task {
-    height: 150px;
+    min-height: 150px;
+    overflow: auto;
     width: 100%;
     border-radius: 10px 10px;
     padding: 10px;
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif;
+    font-family: FontAwesome;
+}
+
+.task:last-child:not(.single){
+    margin-bottom: 0;
 }
 
 .task.single {
@@ -45,7 +59,7 @@ form .create-new-task-buttons > button {
     overflow: auto;
 }
 
-.task h1 {
+.task > h1 {
     float: left;
     max-width: 750px;
     overflow: hidden;
@@ -72,14 +86,29 @@ form .create-new-task-buttons > button {
 .task .task-info {
     clear: left;
     display: flex;
-    width: 745px;
-    margin-top: 20px;
+    width: 715px;
     float: left;
+    font-size: 0.85em;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.task.single .task-info {
+    width: 745px;
+}
+
+.task .task-info-label {
+    white-space: nowrap;
+}
+
+.task .task-info > div:not(.quantifiable-info), .quantifiable-info .progress-status, .quantifiable-info .units {
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 10px;
 }
 
 .task .task-info > div {
-    display: inline-block;
-    margin-right: 20px;
+    align-self: flex-start;
 }
 
 .task .task-info-label {
@@ -92,7 +121,7 @@ form .create-new-task-buttons > button {
     height: 100%;
     width: 100%;
     line-height: 130px;
-    font-size: 2em;
+    font-size: 1.6em;
     text-align: center;
     font-weight: 600;
     font-style: italic;
@@ -127,8 +156,13 @@ a {
 
 /* margins */
 
-#task-commands button {
+#task-commands button.left {
     margin-right: 10px;
+}
+
+#task-commands button.right {
+    margin-left: 10px;
+    float: right;
 }
 
 /* overrides */
@@ -143,8 +177,12 @@ span.minicolors-swatch-color {
     border-color: #FF5353;
 }
 
-.modal-dialog {
+.modal-lg {
     width: 850px;
+}
+
+.modal-sm {
+    width: 350px;
 }
 
 .btn-toolbar > .btn-group {
