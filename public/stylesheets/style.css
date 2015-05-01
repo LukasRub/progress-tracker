@@ -134,6 +134,37 @@ form .modal-form-buttons > button {
 }
 
 /* colors */
+
+.panel-subtasks {
+    border-color: #204d74;
+}
+
+.panel-subtasks > .panel-heading {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.panel-progress {
+    border-color: #2e6da4;
+}
+
+.panel-progress > .panel-heading {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.panel-log {
+    border-color: #269abc;
+}
+
+.panel-log > .panel-heading {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+
 .ng-invalid.ng-dirty {
     border-color: #FF4848;
 }

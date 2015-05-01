@@ -180,7 +180,10 @@ TaskSchema.pre('remove', true, function(next, done){
     next();
     var task = this;
     var Subtask = require('./subtask');
-    Subtask.find({'_id': { $in: task._subtasks}}).remove(function(){
+    Subtask.find({'_id': { $in: task._subtasks}}, function(err, result) {
+        for (var i in result) {
+            result[i].remove();
+        }
         done();
     });
 });

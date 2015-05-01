@@ -163,7 +163,7 @@ div
             aria-multiselectable='true'
             style='margin-top: 20px'
         )
-            div.panel.panel-default
+            div.panel.panel-subtasks
                 div#headingSubtasks.panel-heading(
                     role='tab'
                     data-toggle='collapse'
@@ -179,6 +179,8 @@ div
                     aria-labelledby="headingSubtasks"
                 )
                     div.panel-body
+                        
+                        span(ng-if='task._subtasks.length == 0') You have no subtasks
                         
                         div.task(
                             ng-repeat='subtask in task._subtasks'
@@ -237,7 +239,7 @@ div
                                     div.task-info-label Of:
                                     div.text-right {{ subtask.units | capitalize }}
                                         
-            div.panel.panel-default
+            div.panel.panel-progress
                 
                 div#headingProgress.panel-heading(
                     role='tab'
@@ -253,11 +255,15 @@ div
                     role="tabpanel"
                     aria-labelledby="headingProgress"
                 )
+
                     div.panel-body
+
+                        span(ng-if='task._progress.length == 0') You made no progress
+
                         div(ng-repeat='progress in task._progress')
                             {{ progress }}
                         
-            div.panel.panel-default
+            div.panel.panel-log
                 
                 div#headingLog.panel-heading(
                     role='tab'

@@ -228,7 +228,7 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal) {
 function TaskFormCtrl($scope, $modalInstance) {
     $scope.task = {
         autoComplete: true,
-        color: '#337ab7',
+        color: '#31b0d5',
         textColor: "#FFFFFF"
     };
 
@@ -270,7 +270,7 @@ function ProgressFormCtrl($scope, $modalInstance, parentTask) {
     
     $scope.parentTask = parentTask;
     $scope.progress = {
-        color: '#269abc',
+        color: '#337ab7',
         textColor: "#FFFFFF"
     };
     

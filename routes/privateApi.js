@@ -98,7 +98,6 @@ router.get('/tasks/:id', function(req, res, next) {
 router.delete('/tasks/:id', function(req, res, next){
     var Task = require('../models/task');
     var taskId = req.params['id'];
-    console.log(taskId);
 
     Task.findOne({'numberId': taskId})
         .exec(function(err, result){
@@ -163,13 +162,16 @@ router.post('/tasks/:id/subtasks', function(req, res, next) {
             childResult.logs.push(log);
             parentResult.logs.push(log);
             
-            childResult.save();
-            parentResult.save(function(err){
+            childResult.save(function(err){
                 if (err) res.sendStatus(400);
-                console.log('LOGGING:', req.user.firstname, req.user.lastname, 'created a new subtask:', childResult.title,
-                    ', for parent task:', parentResult.title);
-                res.sendStatus(200);
+                parentResult.save(function(err){
+                    if (err) res.sendStatus(400);
+                    console.log('LOGGING:', req.user.firstname, req.user.lastname, 'created a new subtask:', childResult.title,
+                        ', for parent task:', parentResult.title);
+                    res.sendStatus(200);
+                });
             });
+            
             
         });
 
@@ -237,12 +239,18 @@ router.post('/tasks/:id/progress', function(req, res, next) {
             };
             
             if (parentResult.isQuantifiable) {
+
+                var percentageDoneFromProgress = Math.floor(parentResult.current / parentResult.goal * parentResult.availableWeight);
+                var percentageDoneFromSubtasks = parentResult.percentageDone - percentageDoneFromProgress;
                 
-                percentageDone = Math.floor(((parentResult.current + childResult.current) * parentResult.availableWeight) / parentResult.goal);
-                percentageDone = (percentageDone > parentResult.availableWeight) ? parentResult.availableWeight : percentageDone;
+                var totalProgressPercentageDone = Math.floor((childResult.current + parentResult.current) / parentResult.goal * parentResult.availableWeight);
+               
+                percentageDone = (totalProgressPercentageDone > parentResult.availableWeight) ? parentResult.availableWeight : totalProgressPercentageDone;
+                
+                var totalPercentageDone = percentageDoneFromSubtasks + percentageDone;
                 
                 log.info += childResult.current + ' ' + parentResult.units + ' progress (' + (parentResult.current + 
-                    childResult.current) + '/' + parentResult.goal + ' or ' + (parentResult.percentageDone + percentageDone) + '% done)';
+                    childResult.current) + '/' + parentResult.goal + ' or ' + totalPercentageDone + '% done)';
                 
             } else {
                 
@@ -284,7 +292,7 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
     var Subtask = require('../models/subtask');
     var Progress = require('../models/progress');
     var progress = req.body['data'];
-    var taskId = req.param('task_id');
+    var taskId = req.params['task_id'];
     var subtaskId = req.params['subtask_id'];
 
     Subtask.findOne({'numberId': subtaskId }, function(err, subtaskResult){
@@ -306,13 +314,23 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
                     res.sendStatus(400);
                 }
 
+                if (!taskResult.percentageDone) {
+                    taskResult.status = "Started";
+                    var now = moment();
+                    taskResult.logs.push({
+                        date: now,
+                        info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                        '</a> started the task'
+                    });
+                }
+
                 if (!subtaskResult.percentageDone) {
                     subtaskResult.status = "Started";
                     var now = moment();
                     subtaskResult.logs.push({
                         date: now,
                         info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
-                            '</a> started the task'
+                            '</a> started the subtask'
                     });
                     taskResult.logs.push({
                         date: now,
@@ -324,11 +342,13 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
 
                 var totalPercentageDone = 0;
                 var subtaskPercentageDone = 0;
+                
                 var subtaskLog = {
                     date: moment(),
                     info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                     '</a> made '
                 };
+                
                 var taskLog = {
                     date: subtaskLog.date,
                     info: subtaskLog.info
@@ -336,15 +356,14 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
 
                 if (subtaskResult.isQuantifiable) {
 
-                    subtaskPercentageDone = Math.floor(((subtaskResult.current + progressResult.current) * 100) / subtaskResult.goal);
-                    subtaskPercentageDone = (subtaskPercentageDone > 100) ? 100 : subtaskPercentageDone;
+                    subtaskPercentageDone = Math.floor((subtaskResult.current + progressResult.current) / subtaskResult.goal * 100);
+                    subtaskPercentageDone = (subtaskPercentageDone > 100) ? 100 : subtaskPercentageDone; 
                     
-                    var progressPercentageDone = Math.floor(progressResult.current / subtaskResult.goal * subtaskResult.weight);
+                    var weightedCurrentSubtaskPercentageDone = Math.floor(subtaskPercentageDone / 100 * subtaskResult.weight);
+                    var weightedPreviousSubtaskPercentageDone = Math.floor(subtaskResult.percentageDone / 100 * subtaskResult.weight);
                     
-                    totalPercentageDone = taskResult.percentageDone + progressPercentageDone;
-                    totalPercentageDone = (totalPercentageDone > 100) ? 100 : totalPercentageDone;
-
-
+                    totalPercentageDone = taskResult.percentageDone - weightedPreviousSubtaskPercentageDone + weightedCurrentSubtaskPercentageDone;
+                       
                     subtaskLog.info += progressResult.current + ' ' + subtaskResult.units + ' progress (' + (subtaskResult.current +
                         progressResult.current) + '/' + subtaskResult.goal + ', or ' + subtaskPercentageDone + '% done)';
                     
@@ -360,6 +379,7 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
 
                     subtaskLog.info += progressResult.percentageDone  + '% progress (' + (subtaskResult.percentageDone +
                         progressResult.percentageDone)  + '% done)';
+                    
                     taskLog.info += progressResult.percentageDone  + '% progress on subtask <a href="tasks/' + taskId +
                         '/subtasks/' + subtaskId + '">' + subtaskResult.title +'</a> (' + subtaskPercentageDone + 
                         '% done, total ' + totalPercentageDone + '% done)';
