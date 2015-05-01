@@ -9,7 +9,7 @@ div
         div.task.single(
             ng-init='getTask()'
             ng-click='isCollapsed = !isCollapsed'
-            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}'
+            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}; cursor: {{(task.description) ? "pointer" : "auto"}}'
         )
             
             h1 {{task.title}}
@@ -88,7 +88,29 @@ div
             )
     
     section.alerts
+
+        div.alert.alert-info(
+            role='alert',
+            ng-if='modifyTaskSuccessful'
+        ) Task successfully modified!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
     
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='modifyTaskFailed'
+        ) Modifying task failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                
         div.alert.alert-success(
             role='alert',
             ng-if='createNewSubtaskSuccessful'
@@ -99,7 +121,17 @@ div
                 aria-label='close'
             )
                 span(aria-hidden='true') &times;
-        
+        div.alert.alert-warning(
+            role='alert',
+            ng-if='deleteSubtaskSuccessful'
+        ) Subtask successfully deleted!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                
         div.alert.alert-danger(
             role='alert',
             ng-if='createNewSubtaskFailed'
@@ -142,7 +174,7 @@ div
             ) Create new subtask
             button.btn.btn-primary.left(
                 ng-click='openNewProgressModal(task)'
-                ng-disabled='!task.availableWeight || (task.status.toLowerCase() === "completed")'
+                ng-disabled='(!task.availableWeight && !task.isQuantifiable) || (task.status.toLowerCase() === "completed")'
             ) Submit progress
             
             button.btn.btn-danger.right(ng-click='openDeleteConfirmationModal(task)') Delete task
@@ -231,13 +263,27 @@ div
                                     div.task-info-label  Date due:
                                     div.text-right {{ subtask.dateDue | date : 'yyyy-MM-dd' }}
                                         
-                                div.progress-status(ng-if='subtask.isQuantifiable')
-                                    div.task-info-label Progress:
-                                    div.text-right {{ subtask.current + '/' + subtask.goal }}
+                                div.date-completed(ng-if='subtask.status.toLowerCase() === "completed"')
+                                    div.task-info-label  Date completed:
+                                    div.text-right {{ subtask.dateCompleted | date : 'yyyy-MM-dd' }}
                                         
-                                div.units(ng-if='subtask.isQuantifiable')
-                                    div.task-info-label Of:
-                                    div.text-right {{ subtask.units | capitalize }}
+                                div.status
+                                    div.task-info-label Status:
+                                    div.text-right {{ subtask.status }}
+                
+                                div.quantifiable-info(ng-if='subtask.isQuantifiable')
+                
+                                    div.progress-status
+                                        div.task-info-label Progress:
+                                        div.text-right {{ subtask.current + '/' + subtask.goal }}
+                
+                                    div.units
+                                        div.task-info-label Of:
+                                        div.text-right {{ subtask.units | capitalize}}
+                
+                                div.auto-complete(ng-if='!(subtask.status.toLowerCase() === "completed")')
+                                    div.task-info-label Auto complete:
+                                    div.text-right {{ (subtask.autoComplete) ? "Yes" : "No" }}
                                         
             div.panel.panel-progress
                 
@@ -275,7 +321,7 @@ div
                 )
                     h3 Log
                     
-                div#collapseLog.panel-collapse.collapse(
+                div#collapseLog.panel-collapse.collapse.in(
                     role="tabpanel"
                     aria-labelledby="headingLog"
                 )

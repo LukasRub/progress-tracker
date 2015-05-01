@@ -38,6 +38,8 @@ function DashboardCtrl($scope) {
 
 function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     $scope.tasks = {};
+    $scope.deleteTaskSuccessful = $rootScope.deleteTaskSuccessful;
+    delete $rootScope.deleteTaskSuccessful;
     
     $scope.openNewTaskModal = function(){
         var modalInstance = $modal.open({
@@ -70,22 +72,27 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     $scope.openTask = function(id) {
         $location.path('/tasks/' + id);
     };
-
-    $scope.$on('LastRepeaterElement', function(){
-    });
     
 }
 
 
 
-function TaskCtrl($scope, $http, $routeParams, $modal, $location) {
+function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $timeout) {
     $scope.task = {};
     $scope.isCollapsed = false;
+    $scope.deleteSubtaskSuccessful = $rootScope.deleteSubtaskSuccessful;
+    delete $rootScope.deleteSubtaskSuccessful;
     
     $scope.getTask = function() {
         $http.get('api/private/tasks/' + $routeParams['id'])
         .success(function(data) {
             $scope.task = data;
+            if ($scope.task._subtasks.length > 0) {
+                angular.element('#collapseSubtasks').collapse('show');
+            }
+            if ($scope.task._progress.length > 0) {
+                angular.element('#collapseProgress').collapse('show');
+            }
         });
     };
     
@@ -154,43 +161,72 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location) {
 
         var modalInstance = $modal.open({
             templateUrl: 'partials/delete_task.jade',
-            controller: DeleteTaskCtrl,
+            controller: TaskConfirmationCtrl,
             size: 'sm',
             resolve: {
                 task: function(){
                     return task;
                 }
             }
-         });
+        });
 
         modalInstance.result.then(function(task) {
             $http.delete('api/private/tasks/' + task.numberId)
+                .success(function() {
+                    $rootScope.deleteTaskSuccessful = true;
+                    $location.path('/tasks');
+                })
+                .error(function() {
+                    $scope.deleteTaskFailed = true;
+                });
+        });
+
+    };
+
+    $scope.openMarkAsCompleteConfirmationModal = function(task) {
+        task.type = 'task';
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/mark_as_completed.jade',
+            controller: TaskConfirmationCtrl,
+            size: 'sm',
+            resolve: {
+                task: function() {
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(task) {
+            $http.put('api/private/tasks/' + task.numberId, {
+                data : {
+                    status: 'Completed'
+                }
+            })
             .success(function() {
-                $location.path('/tasks');
+                $scope.getTask();
+                $scope.modifyTaskSuccessful = true;
             })
             .error(function() {
-                console.log('sum ting wong');
-                $scope.createNewSubtaskFailed = true;
+                $scope.modifyTaskFailed = true;
             });
         });
-        
-        
-        
     }
+    
 }
 
-function SubtaskCtrl($scope, $http, $routeParams, $modal) {
+function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $timeout) {
     $scope.subtask = {};
     $scope.isCollapsed = false;
-
+    
     $scope.getSubtask = function() {
         $http.get('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + $routeParams['subtask_id'])
-        .success(function(data) {
-            $scope.subtask = data;
-        })
-        .error(function(){
-            console.log('bad');
-        });
+            .success(function(data) {
+                $scope.subtask = data;
+                if ($scope.subtask._progress.length > 0) {
+                    angular.element('#collapseProgress').collapse('show');
+                }
+            });
     };
 
     $scope.openNewProgressModal = function(subtask) {
@@ -208,7 +244,7 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal) {
 
         modalInstance.result.then(function(progress) {
             console.log(subtask);
-            $http.post('api/private/tasks/' + subtask._parentTask.numberId + '/subtasks/' + subtask.numberId + '/progress', {
+            $http.post('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + subtask.numberId + '/progress', {
                 'data': progress
             })
             .success(function() {
@@ -221,6 +257,64 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal) {
         });
 
     };
+
+    $scope.openDeleteConfirmationModal = function(subtask) {
+
+        subtask.type = 'subtask';
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/delete_task.jade',
+            controller: TaskConfirmationCtrl,
+            size: 'sm',
+            resolve: {
+                task: function(){
+                    return subtask;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(subtask) {
+            $http.delete('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + subtask.numberId)
+                .success(function() {
+                    $rootScope.deleteSubtaskSuccessful = true;
+                    $location.path('/tasks/' + $routeParams['task_id']);
+                })
+                .error(function() {
+                    $scope.deleteSubtaskFailed = true;
+                });
+        });
+
+    };
+
+    $scope.openMarkAsCompleteConfirmationModal = function(task) {
+        task.type = 'subtask';
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/mark_as_completed.jade',
+            controller: TaskConfirmationCtrl,
+            size: 'sm',
+            resolve: {
+                task: function() {
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(subtask) {
+            $http.put('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + subtask.numberId, {
+                data : {
+                    status: 'Completed'
+                }
+            })
+            .success(function() {
+                $scope.getSubtask();
+                $scope.modifySubtaskSuccessful = true;
+            })
+            .error(function() {
+                $scope.modifySubtaskFailed = true;
+            });
+        });
+    }
 }
 
 // Modal form controllers
@@ -289,7 +383,7 @@ function ProgressFormCtrl($scope, $modalInstance, parentTask) {
 
 // Confirmation modal controllers
 
-function DeleteTaskCtrl($scope, $modalInstance, task) {
+function TaskConfirmationCtrl($scope, $modalInstance, task) {
     
     $scope.task = task;
     

@@ -5,7 +5,18 @@ button.btn.btn-default(ng-click='openNewTaskModal()') Create new task
 section
     
     h2 Assigned to me
-
+    
+    div.alert.alert-warning(
+        role='alert',
+        ng-if='deleteTaskSuccessful'
+    ) Task successfully deleted!
+        button.close(
+            type='button'
+            data-dismiss='alert'
+            aria-label='close'
+        )
+            span(aria-hidden='true') &times;
+    
     div.alert.alert-success(
         role='alert',
         ng-if='createNewTaskSuccessful'

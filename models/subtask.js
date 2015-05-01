@@ -17,11 +17,6 @@ var SubtaskSchema = new Schema({
         min: 0,
         max: 100
     },
-    _parentTask: {
-        type: Schema.Types.ObjectId,
-        ref: 'Task',
-        required: true
-    },
     dateCreated: {
         type: Date,
         default: Date.now()

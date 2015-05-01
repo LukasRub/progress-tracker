@@ -10,7 +10,7 @@ div
         div.task.single(
             ng-init='getSubtask()'
             ng-click='isCollapsed = !isCollapsed'
-            style='background-color: {{subtask.color}}; color: {{subtask.textColor}}; border: 1px solid {{(subtask.color.toLowerCase() == "#ffffff") ? "#000000" : subtask.color}}'
+            style='background-color: {{subtask.color}}; color: {{subtask.textColor}}; border: 1px solid {{(subtask.color.toLowerCase() == "#ffffff") ? "#000000" : subtask.color}}; cursor: {{(subtask.description) ? "pointer" : "auto"}}'
         )
 
             h1 {{subtask.title}}
@@ -82,9 +82,10 @@ div
             )
 
     section.alerts
+    
 
         div.alert.alert-success(
-            role='alert',
+            role='alert'
             ng-if='makeNewProgressSuccessful'
         ) Your progress was successfully submitted!
             button.close(
@@ -93,9 +94,20 @@ div
                 aria-label='close'
             )
                 span(aria-hidden='true') &times;
+                
+        div.alert.alert-danger(
+            role='alert'
+            ng-if='deleteSubtaskFailed'
+        ) Deleting subtask failed, please try again
+            button.close(
+            type='button'
+            data-dismiss='alert'
+            aria-label='close'
+            )
+                span(aria-hidden='true') &times;
 
         div.alert.alert-danger(
-            role='alert',
+            role='alert'
             ng-if='makeNewProgressFailed'
         ) Submitting new progress failed, please try again
             button.close(
@@ -137,7 +149,7 @@ div
             style='margin-top: 20px'
         )
 
-            div.panel.panel-default
+            div.panel.panel-progress
 
                 div#headingProgress.panel-heading(
                     role='tab'
@@ -154,10 +166,13 @@ div
                     aria-labelledby="headingProgress"
                 )
                     div.panel-body
+
+                        span(ng-if='subtask._progress.length == 0') You made no progress
+                        
                         div(ng-repeat='progress in subtask._progress')
                             {{ progress }}
 
-            div.panel.panel-default
+            div.panel.panel-log
             
                 div#headingLog.panel-heading(
                     role='tab'
@@ -169,7 +184,7 @@ div
                 )
                     h3 Log
             
-                div#collapseLog.panel-collapse.collapse(
+                div#collapseLog.panel-collapse.collapse.in(
                     role="tabpanel"
                     aria-labelledby="headingLog"
                 )

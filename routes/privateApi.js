@@ -18,10 +18,9 @@ router.post('/tasks', function(req, res, next) {
     Task.create(task, function(err, parentResult) {
 
         if (err && !parentResult) {
-            
-            console.log('LOGGING:', req.user.firstname, req.user.lastname, 'failed to create a new task:', err);
-            res.sendStatus(400);
-        }
+            res.sendStatus(500);
+            return;
+        } 
             
         var log = {
             date: moment(),
@@ -30,10 +29,14 @@ router.post('/tasks', function(req, res, next) {
         };
         
         parentResult.logs.push(log);
-        parentResult.save();
-        
-        console.log('LOGGING:', req.user.firstname, req.user.lastname, 'created a new task:', parentResult.title);
-        res.sendStatus(200);
+        parentResult.save(function(err){
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(200);
+
+        });
         
     });
     
@@ -50,8 +53,6 @@ router.get('/tasks', function(req, res, next) {
             var statusCode = 200;
             if (err) statusCode = 500;
             
-            console.log('LOGGING:', req.user.firstname, req.user.lastname, 'requested for tasks:', result.length, ', status:', statusCode);
-           
             res.status(statusCode).send(result);
             
     });
@@ -71,27 +72,26 @@ router.get('/tasks/:id', function(req, res, next) {
             
             if ((err || !result) 
                     || !(result._createdBy._id.equals(req.user._id) || result._assignedTo._id.equals(req.user._id))) {
-                res.sendStatus(404);
-            }
+                
+                res.sendStatus(404); 
+                return;
+            } 
             
             var options = {
                 path: '_subtasks._createdBy',
                 model: 'User',
                 select: 'firstname lastname numberId'
             };
-            
+
             Task.populate(result, options, function(err, populatedResult){
-                
+
                 var statusCode = 200;
                 if (err) statusCode = 500;
-                
-                console.log('LOGGING:', req.user.firstname, req.user.lastname, 'requested for task id:', taskId, ', ' +
-                'status:', statusCode);
-                
+
                 res.status(statusCode).send(populatedResult);
-                
+
             });
-        
+            
     });
 });
 
@@ -99,23 +99,119 @@ router.delete('/tasks/:id', function(req, res, next){
     var Task = require('../models/task');
     var taskId = req.params['id'];
 
-    Task.findOne({'numberId': taskId})
-        .exec(function(err, result){
+    Task.findOne({'numberId': taskId}, function(err, result){
             
-            if ((err || !result)
-                || !(result._createdBy.equals(req.user._id) || result._assignedTo.equals(req.user._id))) {
-                res.sendStatus(404);
+        if ((err || !result)
+            || !(result._createdBy.equals(req.user._id) || result._assignedTo.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        result.remove(function(err){
+            if (err) {
+                res.sendStatus(500);
+                return;
             }
+            res.sendStatus(200);
+        });
+        
+    });
+    
+});
+
+router.put('/tasks/:id', function(req, res, next){
+    var Task = require('../models/task');
+    var Subtask = require('../models/subtask');
+    var taskId = req.params['id'];
+    var task = req.body['data'];
+    
+    Task.findOne({'numberId': taskId}, function(err, result){
+
+        if ((err || !result)
+            || !(result._createdBy.equals(req.user._id) || result._assignedTo.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        var now = moment();
+        
+        if (task.status) {
             
-            result.remove(function(err){
-                if (err) {
-                    res.sendStatus(400);
-                } else {
-                    res.sendStatus(200);
-                }
+            result.logs.push({
+                date: now,
+                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                '</a> marked task as completed'
             });
             
+            var subtaskLog = {
+                date: now,
+                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                '</a> marked parent task as completed'
+            };
+            
+            for (var i = 0; i < result._subtasks.length; i++) {
+                Subtask.findById(result._subtasks[i], function(err, subtask){
+                    if (!err && subtask) {
+                        if (subtask.status.toLowerCase() !== 'completed') {
+                            subtask.status = "Completed";
+                            subtask.dateCompleted = now;
+                            subtask.logs.push(subtaskLog);
+                            subtask.save();
+                        }
+                    }
+                });
+            }
+            
+        } else {
+            for (var property in task) {
+                if (task.hasOwnProperty(property)) {
+                    switch (property) {
+                        case 'title':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed task title to ' + task[property]
+                            });
+                            break;
+                        case 'dateStarted':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed task date started to ' + moment(task[property]).format('YYYY-MM-DD')
+                            });
+                            break;
+                        case 'dateDue':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed task due date to ' + moment(task[property]).format('YYYY-MM-DD')
+                            });
+                            break;
+                        case 'dateDue':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> updated task description'
+                            });
+                            break;
+                    }
+                }
+            }
+        }
+        result.status = "Completed";
+        result.dateCompleted = now;
+        
+        result.save(function(err){
+            
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(200);
+            
         });
+
+    });
     
 });
 
@@ -132,18 +228,18 @@ router.post('/tasks/:id/subtasks', function(req, res, next) {
         
         if ((err || !parentResult) || !(parentResult._createdBy.equals(req.user._id) || parentResult._assignedTo.equals(req.user._id))) {
             res.sendStatus(404);
+            return;
         }
 
         subtask._createdBy = req.user._id;
         subtask._assignedTo = parentResult._assignedTo;
-        subtask._parentTask = parentResult._id;
         subtask.status = 'Created';
         
         Subtask.create(subtask, function(err, childResult){
             
             if (err && !childResult) {
-                console.log('LOGGING:', req.user.firstname, req.user.lastname, 'failed to create a new subtask:', err);
-                res.sendStatus(400);
+                res.sendStatus(500);
+                return;
             }
 
             var log = {
@@ -163,13 +259,19 @@ router.post('/tasks/:id/subtasks', function(req, res, next) {
             parentResult.logs.push(log);
             
             childResult.save(function(err){
-                if (err) res.sendStatus(400);
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
+                
                 parentResult.save(function(err){
-                    if (err) res.sendStatus(400);
-                    console.log('LOGGING:', req.user.firstname, req.user.lastname, 'created a new subtask:', childResult.title,
-                        ', for parent task:', parentResult.title);
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
                     res.sendStatus(200);
                 });
+                
             });
             
             
@@ -186,18 +288,198 @@ router.get('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next){
     Subtask.findOne({'numberId': subtaskId})
         .populate('_createdBy', 'firstname lastname numberId')
         .populate('_assignedTo', 'firstname lastname numberId')
-        .populate('_parentTask', 'numberId')
         .populate('_progress')
         .exec(function(err, result){
 
             if ((err || !result)
                 || !(result._createdBy._id.equals(req.user._id) || result._assignedTo._id.equals(req.user._id))) {
                 res.sendStatus(404);
+                return;
             }
             
             res.status(200).send(result);
 
         });    
+});
+
+router.delete('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next){
+    var Task = require('../models/task');
+    var Subtask = require('../models/subtask');
+    var taskId = req.params['task_id'];
+    var subtaskId = req.params['subtask_id'];
+    
+    Subtask.findOne({numberId : subtaskId}, function(err, subtaskResult){
+
+        if ((err || !subtaskResult) || !(subtaskResult._createdBy.equals(req.user._id) || subtaskResult._assignedTo.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        subtaskResult.remove(function(err){
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            
+            Task.findOne({numberId : taskId}, function(err, taskResult) {
+                if (err || !taskResult) {
+                    res.sendStatus(500);
+                    return;
+                }
+                taskResult._subtasks.pull(subtaskResult);
+                var log = {
+                    date: moment(),
+                    info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                    '</a> deleted subtask ' + subtaskResult.title
+                };
+                if (taskResult.isQuantifiable) {
+                    log.info += ' Parent task progress has been recalculated to account for ' +
+                        (taskResult.availableWeight + subtaskResult.weight)  + '% of the task'
+                }
+                taskResult.logs.push(log);
+                taskResult.save(function(err){
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                    res.sendStatus(200);
+                });
+                
+            });
+            
+        });
+        
+    });
+    
+});
+
+router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
+    var Task = require('../models/task');
+    var Subtask = require('../models/subtask');
+    var taskId = req.params['task_id'];
+    var subtaskId = req.params['subtask_id'];
+    var subtask = req.body['data'];
+
+    Subtask.findOne({'numberId': subtaskId}, function(err, result) {
+
+        if ((err || !result)
+            || !(result._createdBy.equals(req.user._id) || result._assignedTo.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        var now = moment();
+        var parentTaskLog = [];
+
+        if (subtask.status) {
+
+            result.logs.push({
+                date: now,
+                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                '</a> marked subtask as completed'
+            });
+
+            parentTaskLog.push({
+                date: now,
+                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                '</a> marked subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' + result.title +'</a> as completed'
+            });
+            
+        } else {
+            for (var property in subtask) {
+                if (subtask.hasOwnProperty(property)) {
+                    switch (property) {
+                        case 'title':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask title to ' + subtask[property]
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                    result.title +'</a> title to ' + subtask[property]
+                            });
+                            break;
+                        case 'dateStarted':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                    result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                            });
+                            break;
+                        case 'dateDue':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask due date to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                    result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                            });
+                            break;
+                        case 'dateDue':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> updated subtask description'
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                    '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                    result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                            });
+                            break;
+                    }
+                }
+            }
+        }
+        result.status = "Completed";
+        result.dateCompleted = now;
+
+        result.save(function(err){
+
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            
+            Task.findOne({'numberId': taskId}, function(err, parentTask){
+                if ((!err && parentTask) && !(parentTask._createdBy.equals(req.user._id) || parentTask._assignedTo.equals(req.user._id))) {
+                    res.sendStatus(404);
+                    return;
+                }
+                
+                for(var i = 0; i < parentTaskLog.length; i++) {
+                    parentTask.logs.push(parentTaskLog[i]);
+                }
+
+                parentTask.save(function(err){
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                    res.sendStatus(200);
+
+                });
+                
+            });
+
+        });
+        
+    });
+    
 });
 
 // PROGRESS
@@ -211,6 +493,7 @@ router.post('/tasks/:id/progress', function(req, res, next) {
     Task.findOne({'numberId': taskId}, function(err, parentResult){
         if((err || !parentResult) || !(parentResult._assignedTo.equals(req.user._id))) {
             res.sendStatus(404);
+            return;
         }
         
         progress._madeBy = req.user._id;
@@ -218,8 +501,8 @@ router.post('/tasks/:id/progress', function(req, res, next) {
         Progress.create(progress, function(err, childResult) {
 
             if (err && !childResult) {
-                console.log('LOGGING:', req.user.firstname, req.user.lastname, 'failed to make new progress:', err);
-                res.sendStatus(400);
+                res.sendStatus(500);
+                return;
             }
 
             if (!parentResult.percentageDone) {
@@ -274,11 +557,11 @@ router.post('/tasks/:id/progress', function(req, res, next) {
             parentResult._progress.push(childResult);
             
             parentResult.save(function(err){
-                if (err) res.sendStatus(400);
-                console.log('LOGGING:', req.user.firstname, req.user.lastname, 'made progress for parent task:',
-                    parentResult.title);
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
                 res.sendStatus(200);
-                
             });
             
         });
@@ -298,11 +581,13 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
     Subtask.findOne({'numberId': subtaskId }, function(err, subtaskResult){
         if((err || !subtaskResult) || !(subtaskResult._assignedTo.equals(req.user._id))) {
             res.sendStatus(404);
+            return;
         }
         
-        Task.findOne({ '_id': subtaskResult._parentTask}, function(err, taskResult){
+        Task.findOne({ 'numberId': taskId}, function(err, taskResult){
             if((err || !taskResult) || !(taskResult._assignedTo.equals(req.user._id))) {
                 res.sendStatus(404);
+                return;
             }
         
             progress._madeBy = req.user._id;
@@ -310,23 +595,24 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
             Progress.create(progress, function(err, progressResult) {
         
                 if (err && !progressResult) {
-                    console.log('LOGGING:', req.user.firstname, req.user.lastname, 'failed to make new progress:', err);
-                    res.sendStatus(400);
+                    res.sendStatus(500);
+                    return;
                 }
 
                 if (!taskResult.percentageDone) {
                     taskResult.status = "Started";
-                    var now = moment();
                     taskResult.logs.push({
-                        date: now,
+                        date: moment(),
                         info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                         '</a> started the task'
                     });
                 }
 
                 if (!subtaskResult.percentageDone) {
+                    
                     subtaskResult.status = "Started";
                     var now = moment();
+                    
                     subtaskResult.logs.push({
                         date: now,
                         info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -373,12 +659,15 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
                         totalPercentageDone + '% done)';
 
                 } else {
-                    
-                    totalPercentageDone = taskResult.percentageDone + Math.floor(progressResult.percentageDone * subtaskResult.weight / 100);
-                    subtaskPercentageDone = subtaskResult.percentageDone +  progressResult.percentageDone;
 
-                    subtaskLog.info += progressResult.percentageDone  + '% progress (' + (subtaskResult.percentageDone +
-                        progressResult.percentageDone)  + '% done)';
+                    subtaskPercentageDone = subtaskResult.percentageDone +  progressResult.percentageDone;
+                    
+                    var weightedPreviousSubtaskPercentageDone = Math.floor(subtaskResult.percentageDone * subtaskResult.weight / 100);
+                    var weightedCurrentSubtaskPercentageDone = Math.floor(subtaskPercentageDone * subtaskResult.weight / 100);
+
+                    totalPercentageDone = taskResult.percentageDone - weightedPreviousSubtaskPercentageDone + weightedCurrentSubtaskPercentageDone;
+
+                    subtaskLog.info += progressResult.percentageDone  + '% progress (' + subtaskPercentageDone + '% done)';
                     
                     taskLog.info += progressResult.percentageDone  + '% progress on subtask <a href="tasks/' + taskId +
                         '/subtasks/' + subtaskId + '">' + subtaskResult.title +'</a> (' + subtaskPercentageDone + 
@@ -405,7 +694,7 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
                     taskResult.logs.push(taskLog);
                 }
 
-                if (taskResult.autoComplete && (taskResult === 100)) {
+                if (taskResult.autoComplete && (totalPercentageDone === 100)) {
                     taskResult.status = "Completed";
                     taskResult.dateCompleted = moment();
                     taskResult.logs.push({
@@ -418,13 +707,20 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
                 subtaskResult._progress.push(progressResult);
                 subtaskResult.save(function(err){
                     
-                    if (err) res.sendStatus(400);
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
                     
                     taskResult.save(function(err) {
-                        if (err) res.sendStatus(400);
+                        
+                        if (err) {
+                            res.sendStatus(500);
+                            return;
+                        }
                         
                         res.sendStatus(200);
-                    })
+                    });
                     
                 });
                 

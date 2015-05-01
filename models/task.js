@@ -145,13 +145,16 @@ TaskSchema.pre('save', function(next){
     var task = this;
     var Subtask = require('./subtask');
 
-    Subtask.find({'_id': { $in: task._subtasks}}, 'weight percentageDone', function(err, subtasks){
+    Subtask.find({'_id': { $in: task._subtasks}}, 'weight percentageDone status').exec(function(err, subtasks){
         
         if (err) next(err);
         
         var percentageDone = 0;
+        var subtaskStatus = "Completed";
+        var savedManually = ((task.percentageDone <= task.availableWeight) && (task.status.toLowerCase() === "completed"));
         
-        for (var i in subtasks){
+        for (var i = 0; i < subtasks.length; i++){
+            subtaskStatus = subtasks[i].status;
             percentageDone += Math.floor(subtasks[i].percentageDone * subtasks[i].weight / 100);
             task.availableWeight -= subtasks[i].weight;
         }
@@ -159,9 +162,21 @@ TaskSchema.pre('save', function(next){
         if (task.isQuantifiable) {
             task.percentageDone = Math.floor(task.percentageDone * task.availableWeight / 100);
         }
-        
+
         task.percentageDone += percentageDone;
-        
+
+        if (!savedManually && task.autoComplete && (subtasks && (subtaskStatus === "Completed")) && !task.availableWeight && (task.percentageDone < 100)) {
+            
+            task.status = "Completed";
+            task.dateCompleted = moment();
+            task.logs.push({
+                date: moment(),
+                info: "Task was automatically set as completed"
+            })
+            
+        }
+
+
         next();
 
     });
