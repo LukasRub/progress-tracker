@@ -7,7 +7,7 @@ form.form-horizontal.modal-form(
     novalidate
 )
     fieldset
-        legend Create new task
+        legend {{((!editMode) ? "Create new" : "Edit") + " task"}}
         
         input#mode(
             ng-if='editMode'

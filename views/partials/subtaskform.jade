@@ -7,7 +7,7 @@ form.form-horizontal.modal-form(
 )
     fieldset
     
-        legend Create new subtask
+        legend {{((!editMode) ? "Create new" : "Edit") + " subtask"}}
         
         div.form-group
             label.col-sm-3.control-label(for='title') Title:
@@ -29,7 +29,7 @@ form.form-horizontal.modal-form(
                     range-slider
                     name='weight'
                     min='1'
-                    max='parentTask.availableWeight'
+                    max='parentTask.availableWeight || ((editMode) ? availableWeight : 1)'
                     model-max='subtask.weight'
                     pin-handle='min'
                     show-values='true'
@@ -82,6 +82,7 @@ form.form-horizontal.modal-form(
                             type='checkbox'
                             name='isQuantifiable'
                             ng-model='subtask.isQuantifiable'
+                            ng-disabled='editMode'
                         )
                         
             label.col-xs-1.control-label(for='goal') Goal:
@@ -91,7 +92,7 @@ form.form-horizontal.modal-form(
                     name='goal'
                     placeholder='Enter goal'
                     ng-model='subtask.goal'
-                    ng-disabled='!subtask.isQuantifiable'
+                    ng-disabled='!subtask.isQuantifiable || editMode'
                     ng-required='subtask.isQuantifiable'
                     step='1'
                     min='1'
@@ -108,7 +109,7 @@ form.form-horizontal.modal-form(
                     name='units'
                     placeholder='Enter units'
                     ng-model='subtask.units'
-                    ng-disabled='!subtask.isQuantifiable'
+                    ng-disabled='!subtask.isQuantifiable || editMode'
                     ng-required='subtask.isQuantifiable'
                 )
                 div.error-container(ng-show='newsubtaskform.units.$dirty || newsubtaskform.$submitted')
@@ -146,6 +147,7 @@ form.form-horizontal.modal-form(
                             type='checkbox'
                             name='autoComplete'
                             ng-model='subtask.autoComplete'
+                            ng-disabled='editMode'
                             checked
                         )
                     
@@ -169,7 +171,14 @@ form.form-horizontal.modal-form(
                 button.btn.btn-primary(
                     type='submit',
                     onclick='formUtilities.highlightInputs("newsubtaskform")'
+                    ng-if='!editMode'
                 ) Create subtask
+                
+                button.btn.btn-warning(
+                    type='submit',
+                    onclick='formUtilities.highlightInputs("newtaskform")',
+                    ng-if='editMode'
+                ) Edit subtask
                 
 script(type='text/javascript').
     $(function () {

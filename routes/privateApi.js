@@ -418,92 +418,107 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                 if (subtask.hasOwnProperty(property)) {
                     switch (property) {
                         case 'title':
-                            result[property] = subtask[property];
+                            var title = result.title;
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask title to ' + subtask[property]
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
-                                    result.title +'</a> title to ' + subtask[property]
+                                    title +'</a> title to ' + subtask[property]
                             });
+                            result[property] = subtask[property];
                             break;
                         case 'dateStarted':
-                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
                                     result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
+                            result[property] = subtask[property];
                             break;
                         case 'dateDue':
-                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask due date to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
-                                    result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
+                                    result.title +'</a> date due to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
-                            break;
-                        case 'dateDue':
                             result[property] = subtask[property];
+                            break;
+                        case 'description':
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> updated subtask description'
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                     '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
                                     result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
+                            result[property] = subtask[property];
                             break;
                         case 'color':
-                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> changed subtask background color to <div style="width: 12px; height: 12px; display: inline-flex;' +
                                 ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
                                 result.title +'</a> background color to <div style="width: 12px; height: 12px; display: inline-flex;' +
                                 ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
                             });
+                            result[property] = subtask[property];
                             break;
                         case 'textColor':
-                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> changed subtask  text color to <div style="width: 12px; height: 12px; display: inline-flex;' +
                                 ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
                             });
-                            parentTaskLog.logs.push({
+                            parentTaskLog.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
                                 result.title +'</a> text color to <div style="width: 12px; height: 12px; display: inline-flex;' +
                                 ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
                             });
+                            result[property] = subtask[property];
+                            break;
+                        case 'weight':
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask weight to ' + subtask[property] + '%'
+                            });
+                            parentTaskLog.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                result.title +'</a> weight to ' + subtask[property] + '%'
+                            });
+                            result[property] = subtask[property];
                             break;
                         default:
                             break;

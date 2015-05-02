@@ -54,6 +54,10 @@ div
                 div.date-completed(ng-if='subtask.status.toLowerCase() === "completed"')
                     div.task-info-label  Date completed:
                     div.text-right {{ subtask.dateCompleted | date : 'yyyy-MM-dd' }}
+                        
+                div.weight
+                    div.task-info-label Weight:
+                    div.text-right {{ subtask.weight }}%
 
                 div.status
                     div.task-info-label Status:
@@ -82,8 +86,30 @@ div
             )
 
     section.alerts
-    
 
+
+        div.alert.alert-info(
+            role='alert'
+            ng-if='modifySubtaskSuccessful'
+        ) Your progress was successfully submitted!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                
+        div.alert.alert-success(
+            role='alert'
+            ng-if='modifySubtaskFailed'
+        ) Your progress was successfully submitted!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+    
         div.alert.alert-success(
             role='alert'
             ng-if='makeNewProgressSuccessful'

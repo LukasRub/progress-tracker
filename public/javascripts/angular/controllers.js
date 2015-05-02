@@ -373,6 +373,73 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
             });
         });
     };
+
+    $scope.openEditSubtaskModal = function(task){
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/subtaskform.jade',
+            controller: EditSubtaskCtrl,
+            size: 'lg',
+            resolve: {
+                subtask: function() {
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(subtask) {
+            var changeDetected = false;
+            var data = {};
+
+            if (subtask.title !== $scope.subtask.title){
+                data['title'] = subtask.title;
+                changeDetected = true;
+            }
+
+            if (subtask.weight !== $scope.subtask.weight){
+                data['weight'] = subtask.weight;
+                changeDetected = true;
+            }
+
+            if (!moment(subtask.dateStarted).isSame($scope.subtask.dateStarted, 'day')){
+                data['dateStarted'] = subtask.dateStarted;
+                changeDetected = true;
+            }
+            
+            if (!moment(subtask.dateDue).isSame($scope.subtask.dateDue, 'day')){
+                data['dateDue'] = subtask.dateDue;
+                changeDetected = true;
+            }
+            
+            if (subtask.description !== $scope.subtask.description) {
+                data['description'] = subtask.description;
+                changeDetected = true;
+            }
+            
+            if (subtask.color !== $scope.subtask.color) {
+                data['color'] = subtask.color;
+                changeDetected = true;
+            }
+            
+            if (subtask.textColor !== $scope.subtask.textColor) {
+                data['textColor'] = subtask.textColor;
+                changeDetected = true;
+            }
+
+            if (changeDetected) {
+                $http.put('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + subtask.numberId, {
+                    data : data
+                })
+                .success(function() {
+                    $scope.getSubtask();
+                    $scope.modifySubtaskSuccessful = true;
+                })
+                .error(function() {
+                    $scope.modifySubtaskFailed = true;
+                });
+            }
+
+        });
+    };
     
 }
 
@@ -439,6 +506,26 @@ function SubtaskFormCtrl($scope, $modalInstance, parentTask) {
         $modalInstance.dismiss('cancel');
     };
 
+}
+
+function EditSubtaskCtrl($scope, $modalInstance, subtask) {
+    $scope.subtask = angular.copy(subtask);
+    $scope.availableWeight = $scope.subtask.weight;
+    $scope.subtask.dateStarted = moment(subtask.dateStarted).format('YYYY-MM-DD');
+    $scope.subtask.dateDue = moment(subtask.dateDue).format('YYYY-MM-DD');
+    $scope.editMode = true;
+
+    $scope.datetimepickerOptions = {
+        minDate: $scope.subtask.dateStarted,
+        maxDate: $scope.subtask.dateDue
+    };
+
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
 }
 
 function ProgressFormCtrl($scope, $modalInstance, parentTask) {
