@@ -211,11 +211,69 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $t
                 $scope.modifyTaskFailed = true;
             });
         });
-    }
+    };
+
+    $scope.openEditTaskModal = function(task){
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/taskform.jade',
+            controller: EditTaskCtrl,
+            size: 'lg',
+            resolve: {
+                task: function() {
+                    return task;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(task) {
+            var changeDetected = false;
+            var data = {};
+            
+            if (task.title !== $scope.task.title){
+                data['title'] = task.title;
+                changeDetected = true;
+            }   
+
+            if (!moment(task.dateStarted).isSame($scope.task.dateStarted, 'day')){
+                data['dateStarted'] = task.dateStarted;
+                changeDetected = true;
+            }   
+            if (!moment(task.dateDue).isSame($scope.task.dateDue, 'day')){
+                data['dateDue'] = task.dateDue;
+                changeDetected = true;
+            }   
+            if (task.description !== $scope.task.description) {
+                data['description'] = task.description;
+                changeDetected = true;
+            }
+            if (task.color !== $scope.task.color) {
+                data['color'] = task.color;
+                changeDetected = true;
+            }
+            if (task.textColor !== $scope.task.textColor) {
+                data['textColor'] = task.textColor;
+                changeDetected = true;
+            }
+
+            if (changeDetected) {
+                $http.put('api/private/tasks/' + task.numberId, {
+                    data : data
+                })
+                .success(function() {
+                    $scope.getTask();
+                    $scope.modifyTaskSuccessful = true;
+                })
+                .error(function() {
+                    $scope.modifyTaskFailed = true;
+                });
+            }
+            
+        });
+    };
     
 }
 
-function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $timeout) {
+function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
     $scope.subtask = {};
     $scope.isCollapsed = false;
     
@@ -314,7 +372,8 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope,
                 $scope.modifySubtaskFailed = true;
             });
         });
-    }
+    };
+    
 }
 
 // Modal form controllers
@@ -325,11 +384,33 @@ function TaskFormCtrl($scope, $modalInstance) {
         color: '#31b0d5',
         textColor: "#FFFFFF"
     };
-
+    
     $scope.ok = function(form) {
         $modalInstance.close(form);
     };
 
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+}
+
+function EditTaskCtrl($scope, $modalInstance, task) {
+    $scope.task = angular.copy(task);
+    $scope.task.dateStarted = moment(task.dateStarted).format('YYYY-MM-DD');
+    $scope.task.dateDue = moment(task.dateDue).format('YYYY-MM-DD');
+    $scope.editMode = true;
+
+    $scope.dateStartedPickerOptions = {
+        maxDate: $scope.task.dateStarted
+    };
+
+    $scope.dateDuePickerOptions = {
+        minDate: $scope.task.dateDue
+    };
+    
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };

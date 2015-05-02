@@ -94,7 +94,7 @@ form.form-horizontal.modal-form(
                     ng-disabled='!subtask.isQuantifiable'
                     ng-required='subtask.isQuantifiable'
                     step='1'
-                    min='0'
+                    min='1'
                     ng-pattern=/^\d+$/
                 )
                 div.error-container(ng-show='newsubtaskform.goal.$dirty || newsubtaskform.$submitted')

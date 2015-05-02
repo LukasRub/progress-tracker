@@ -9,6 +9,12 @@ form.form-horizontal.modal-form(
     fieldset
         legend Create new task
         
+        input#mode(
+            ng-if='editMode'
+            type='hidden'
+            value='edit'
+        )
+        
         div.form-group
             label.col-sm-3.control-label(for='title') Title:
             div.col-sm-9
@@ -33,6 +39,7 @@ form.form-horizontal.modal-form(
                         placeholder='Date started'
                         ng-model='task.dateStarted'
                         required
+                        datetimepicker-options='{{dateStartedPickerOptions}}'
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
@@ -50,6 +57,7 @@ form.form-horizontal.modal-form(
                         placeholder='Date due'
                         ng-model='task.dateDue'
                         required
+                        datetimepicker-options='{{dateDuePickerOptions}}'
                     )
                     span.input-group-addon
                         span.glyphicon.glyphicon-calendar
@@ -66,6 +74,7 @@ form.form-horizontal.modal-form(
                             type='checkbox'
                             name='isQuantifiable'
                             ng-model='task.isQuantifiable'
+                            ng-disabled='editMode'
                         )
                         
             label.col-xs-1.control-label(for='goal') Goal:
@@ -75,9 +84,9 @@ form.form-horizontal.modal-form(
                     name='goal'
                     placeholder='Enter goal'
                     ng-model='task.goal'
-                    ng-disabled='!task.isQuantifiable'
+                    ng-disabled='!task.isQuantifiable || editMode'
                     ng-required='task.isQuantifiable'
-                    min='0'
+                    min='1'
                     step='1'
                     ng-pattern=/^\d+$/
                 )
@@ -91,7 +100,7 @@ form.form-horizontal.modal-form(
                     name='units'
                     placeholder='Enter units'
                     ng-model='task.units'
-                    ng-disabled='!task.isQuantifiable'
+                    ng-disabled='!task.isQuantifiable || editMode'
                     ng-required='task.isQuantifiable'
                 )
                 div.error-container(ng-show='newstaskform.units.$dirty || newtaskform.$submitted')
@@ -128,6 +137,7 @@ form.form-horizontal.modal-form(
                             type='checkbox'
                             name='autoComplete'
                             ng-model='task.autoComplete'
+                            ng-disabled='editMode'
                             checked
                         )
        
@@ -148,8 +158,14 @@ form.form-horizontal.modal-form(
                 ) Cancel
                 button.btn.btn-primary(
                     type='submit',
-                    onclick='formUtilities.highlightInputs("newtaskform")'
-                ) Create task
+                    onclick='formUtilities.highlightInputs("newtaskform")',
+                    ng-if='!editMode'
+                 ) Create task
+                 button.btn.btn-warning(
+                     type='submit',
+                     onclick='formUtilities.highlightInputs("newtaskform")',
+                     ng-if='editMode'
+                 ) Edit task
                 
 script(type='text/javascript').
     $(function () {
@@ -160,13 +176,17 @@ script(type='text/javascript').
         $('span.input-group-addon').click(function(){
             $(this).siblings('input').data('DateTimePicker').toggle();
         });
-
+        
         dateStartedInputControl.on('dp.change', function (e) {
-            dateDueInputControl.data('DateTimePicker').minDate(e.date);
+            if ($('#mode').val() !== 'edit') {
+                dateDueInputControl.data('DateTimePicker').minDate(e.date);
+            }
         });
 
         dateDueInputControl.on('dp.change', function (e) {
-            dateStartedInputControl.data('DateTimePicker').maxDate(e.date);
+            if ($('#mode').val() !== 'edit') {
+                dateStartedInputControl.data('DateTimePicker').maxDate(e.date);
+            }
         });
 
     });

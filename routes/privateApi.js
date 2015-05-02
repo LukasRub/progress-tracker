@@ -136,7 +136,6 @@ router.put('/tasks/:id', function(req, res, next){
         var now = moment();
         
         if (task.status) {
-            
             result.logs.push({
                 date: now,
                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -162,11 +161,15 @@ router.put('/tasks/:id', function(req, res, next){
                 });
             }
             
+            result.status = "Completed";
+            result.dateCompleted = now;
+            
         } else {
             for (var property in task) {
                 if (task.hasOwnProperty(property)) {
                     switch (property) {
                         case 'title':
+                            result[property] = task[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -174,6 +177,7 @@ router.put('/tasks/:id', function(req, res, next){
                             });
                             break;
                         case 'dateStarted':
+                            result[property] = task[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -181,25 +185,46 @@ router.put('/tasks/:id', function(req, res, next){
                             });
                             break;
                         case 'dateDue':
+                            result[property] = task[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> changed task due date to ' + moment(task[property]).format('YYYY-MM-DD')
                             });
                             break;
-                        case 'dateDue':
+                        case 'description':
+                            result[property] = task[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                                 '</a> updated task description'
                             });
                             break;
+                        case 'color':
+                            result[property] = task[property];
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed task background color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + task[property] + '"/>'
+                            });
+                            break;
+                        case 'textColor':
+                            result[property] = task[property];
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed task text color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + task[property] + '"/>'
+                            });
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
         }
-        result.status = "Completed";
-        result.dateCompleted = now;
+        
         
         result.save(function(err){
             
@@ -384,12 +409,16 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
                 '</a> marked subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' + result.title +'</a> as completed'
             });
+
+            result.status = "Completed";
+            result.dateCompleted = now;
             
         } else {
             for (var property in subtask) {
                 if (subtask.hasOwnProperty(property)) {
                     switch (property) {
                         case 'title':
+                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -403,6 +432,7 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                             });
                             break;
                         case 'dateStarted':
+                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -416,6 +446,7 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                             });
                             break;
                         case 'dateDue':
+                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -429,6 +460,7 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                             });
                             break;
                         case 'dateDue':
+                            result[property] = subtask[property];
                             result.logs.push({
                                 date: now,
                                 info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -441,12 +473,45 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
                                     result.title +'</a> date started to ' + moment(subtask[property]).format('YYYY-MM-DD')
                             });
                             break;
+                        case 'color':
+                            result[property] = subtask[property];
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask background color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                result.title +'</a> background color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
+                            });
+                            break;
+                        case 'textColor':
+                            result[property] = subtask[property];
+                            result.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask  text color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
+                            });
+                            parentTaskLog.logs.push({
+                                date: now,
+                                info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                                '</a> changed subtask <a href="tasks/' + taskId + '/subtasks/' + subtaskId + '">' +
+                                result.title +'</a> text color to <div style="width: 12px; height: 12px; display: inline-flex;' +
+                                ' border: 1px solid #000; background-color: ' + subtask[property] + '"/>'
+                            });
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
         }
-        result.status = "Completed";
-        result.dateCompleted = now;
+        
 
         result.save(function(err){
 
