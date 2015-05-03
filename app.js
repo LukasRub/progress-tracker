@@ -15,6 +15,7 @@ autoIncrement.initialize(connection);
 require('./models/user');
 require('./models/task');
 require('./models/subtask');
+require('./models/invitation');
 require('./models/group');
 require('./models/progress');
 

@@ -2,14 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46ddab68-9fb1-46ae-a025-37b133377abd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/group_form.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/partials/my_groups.jade" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/views/partials/dashboard.jade" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/progressform.jade" afterPath="$PROJECT_DIR$/views/partials/progress_form.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/signin.jade" afterPath="$PROJECT_DIR$/views/partials/sign_in_form.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/signup.jade" afterPath="$PROJECT_DIR$/views/partials/sign_up_form.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/subtaskform.jade" afterPath="$PROJECT_DIR$/views/partials/subtask_form.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/taskform.jade" afterPath="$PROJECT_DIR$/views/partials/task_form.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/views/partials/tasks.jade" afterPath="$PROJECT_DIR$/views/partials/my_tasks.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/angular/configurations.js" afterPath="$PROJECT_DIR$/public/javascripts/angular/configurations.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" afterPath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/group.js" afterPath="$PROJECT_DIR$/models/group.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/invitation.js" afterPath="$PROJECT_DIR$/models/invitation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/privateApi.js" afterPath="$PROJECT_DIR$/routes/privateApi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/subtask.jade" afterPath="$PROJECT_DIR$/views/partials/subtask.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/subtaskform.jade" afterPath="$PROJECT_DIR$/views/partials/subtaskform.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/taskform.jade" afterPath="$PROJECT_DIR$/views/partials/taskform.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower_components/textAngular/src/textAngular.js" afterPath="$PROJECT_DIR$/bower_components/textAngular/src/textAngular.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/task.jade" afterPath="$PROJECT_DIR$/views/partials/task.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="progress-tracker.iws" />
@@ -34,31 +44,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="privateApi.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="privateApi.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/privateApi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1306" max-vertical-offset="4014">
-              <caret line="458" column="95" selection-start-line="458" selection-start-column="87" selection-end-line="458" selection-end-column="95" />
+            <state vertical-scroll-proportion="0.5943662" vertical-offset="478" max-vertical-offset="1548">
+              <caret line="827" column="15" selection-start-line="827" selection-start-column="15" selection-end-line="827" selection-end-column="15" />
               <folding>
                 <element signature="e#194#1015#0" expanded="false" />
                 <element signature="e#1065#1474#0" expanded="false" />
-                <element signature="e#1528#2627#0" expanded="false" />
-                <element signature="e#2683#3245#0" expanded="false" />
-                <element signature="e#3298#8687#0" expanded="false" />
-                <element signature="e#8763#10879#0" expanded="false" />
-                <element signature="e#10958#11592#0" expanded="false" />
-                <element signature="e#11674#13450#0" expanded="false" />
-                <element signature="e#23499#26906#0" expanded="false" />
-                <element signature="e#26996#34534#0" expanded="false" />
-                <marker date="1430607332049" expanded="true" signature="7470:7513" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="7470:7518" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="7470:7578" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="7470:7598" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="8096:8144" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="19267:19315" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="19881:19929" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="20517:20565" placeholder="..." />
-                <marker date="1430607332049" expanded="true" signature="21125:21173" placeholder="..." />
+                <element signature="e#1528#2645#0" expanded="false" />
+                <element signature="e#2701#3263#0" expanded="false" />
+                <element signature="e#3316#8705#0" expanded="false" />
+                <element signature="e#8781#10897#0" expanded="false" />
+                <element signature="e#10976#11610#0" expanded="false" />
+                <element signature="e#11692#13468#0" expanded="false" />
+                <element signature="e#13548#23440#0" expanded="false" />
+                <element signature="e#23517#26924#0" expanded="false" />
+                <element signature="e#27014#34552#0" expanded="false" />
+                <element signature="e#35359#35676#0" expanded="false" />
+                <element signature="e#35748#36631#0" expanded="false" />
+                <element signature="e#36698#37569#0" expanded="false" />
+                <element signature="e#37628#38698#0" expanded="false" />
+                <element signature="e#38760#39315#0" expanded="false" />
+                <marker date="1430667252525" expanded="true" signature="7488:7531" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="7488:7536" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="7488:7596" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="7488:7616" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="8114:8162" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="19285:19333" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="19899:19947" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="20535:20583" placeholder="..." />
+                <marker date="1430667252525" expanded="true" signature="21143:21191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -67,24 +83,33 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1664" max-vertical-offset="3744">
-              <caret line="410" column="13" selection-start-line="410" selection-start-column="13" selection-end-line="410" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="1080">
+              <caret line="454" column="52" selection-start-line="454" selection-start-column="52" selection-end-line="454" selection-end-column="52" />
               <folding>
                 <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#TasksCtrl#0" expanded="false" />
-                <element signature="e#2380#2800#0" expanded="false" />
-                <element signature="e#2845#2930#0" expanded="false" />
-                <element signature="e#2980#3723#0" expanded="false" />
-                <element signature="e#3779#4533#0" expanded="false" />
-                <element signature="e#4592#5328#0" expanded="false" />
-                <element signature="e#5395#6193#0" expanded="false" />
-                <element signature="e#6241#8133#0" expanded="false" />
-                <element signature="e#8323#8685#0" expanded="false" />
-                <element signature="e#8740#9570#0" expanded="false" />
-                <element signature="e#9632#10457#0" expanded="false" />
+                <element signature="e#1170#1738#0" expanded="false" />
+                <element signature="e#2077#2124#0" expanded="false" />
+                <element signature="n#!!block;n#TaskCtrl#0" expanded="false" />
+                <element signature="e#2919#3004#0" expanded="false" />
+                <element signature="e#3054#3798#0" expanded="false" />
+                <element signature="e#3854#4609#0" expanded="false" />
+                <element signature="e#4668#5404#0" expanded="false" />
+                <element signature="e#5471#6269#0" expanded="false" />
+                <element signature="e#6317#8210#0" expanded="false" />
+                <element signature="n#!!block;n#SubtaskCtrl#0" expanded="false" />
+                <element signature="e#8459#8821#0" expanded="false" />
+                <element signature="e#8876#9707#0" expanded="false" />
+                <element signature="e#9769#10594#0" expanded="false" />
+                <element signature="e#10661#11518#0" expanded="false" />
+                <element signature="e#11569#13762#0" expanded="false" />
+                <element signature="e#14377#14955#0" expanded="false" />
+                <element signature="n#!!block;n#GroupFormCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#TaskFormCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#EditTaskCtrl#0" expanded="false" />
+                <element signature="n#!!block;n#SubtaskFormCtrl#0" expanded="false" />
+                <element signature="n#!!block;n#EditSubtaskCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#ProgressFormCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#TaskConfirmationCtrl#0" expanded="false" />
               </folding>
@@ -92,22 +117,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="taskform.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/partials/taskform.jade">
+      <file leaf-file-name="group.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/group.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55774647" vertical-offset="0" max-vertical-offset="3546">
-              <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="208" max-vertical-offset="918">
+              <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="subtaskform.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/partials/subtaskform.jade">
+      <file leaf-file-name="my_groups.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/partials/my_groups.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3708">
-              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="838" max-vertical-offset="1782">
+              <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my_tasks.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/partials/my_tasks.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.1034484" vertical-offset="54" max-vertical-offset="1962">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="64" selection-end-column="34" />
+              <folding>
+                <element signature="n#section#1;n#div#0;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -120,11 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/routes/register.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/angularControllers.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/general.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/angular.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/directives.js" />
         <option value="$PROJECT_DIR$/views/signup.jade" />
         <option value="$PROJECT_DIR$/public/javascripts/configurations.js" />
         <option value="$PROJECT_DIR$/views/login.jade" />
@@ -140,11 +172,8 @@
         <option value="$PROJECT_DIR$/bower_components/angular-svg-round-progressbar/src/roundProgress.js" />
         <option value="$PROJECT_DIR$/bower_components/angular-svg-round-progressbar/build/roundProgress.js" />
         <option value="$PROJECT_DIR$/models/user.js" />
-        <option value="$PROJECT_DIR$/models/invitation.js" />
-        <option value="$PROJECT_DIR$/models/group.js" />
         <option value="$PROJECT_DIR$/public/javascripts/all.js" />
         <option value="$PROJECT_DIR$/routes/publicApi.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/helpers/authentification/local.js" />
         <option value="$PROJECT_DIR$/public/javascripts/angular/filters.js" />
         <option value="$PROJECT_DIR$/views/partials/dashboard.jade" />
@@ -156,21 +185,29 @@
         <option value="$PROJECT_DIR$/views/partials/delete_task.jade" />
         <option value="$PROJECT_DIR$/views/partials/mark_as_complete.jade" />
         <option value="$PROJECT_DIR$/public/javascripts/angular/services.js" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/views/partials/mark_as_completed.jade" />
-        <option value="$PROJECT_DIR$/views/partials/task.jade" />
-        <option value="$PROJECT_DIR$/views/partials/tasks.jade" />
         <option value="$PROJECT_DIR$/models/task.js" />
         <option value="$PROJECT_DIR$/bower_components/angular-rangeslider/angular.rangeSlider.js" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/bower_components/textAngular/src/textAngular.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/angular/configurations.js" />
         <option value="$PROJECT_DIR$/views/partials/progressform.jade" />
-        <option value="$PROJECT_DIR$/views/partials/subtask.jade" />
-        <option value="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
-        <option value="$PROJECT_DIR$/routes/privateApi.js" />
         <option value="$PROJECT_DIR$/views/partials/subtaskform.jade" />
         <option value="$PROJECT_DIR$/views/partials/taskform.jade" />
+        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/models/invitation.js" />
+        <option value="$PROJECT_DIR$/views/partials/tasks.jade" />
+        <option value="$PROJECT_DIR$/views/partials/task.jade" />
+        <option value="$PROJECT_DIR$/views/partials/subtask.jade" />
+        <option value="$PROJECT_DIR$/views/partials/groups.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/angular/configurations.js" />
+        <option value="$PROJECT_DIR$/views/partials/group_form.jade" />
+        <option value="$PROJECT_DIR$/views/partials/task_form.jade" />
+        <option value="$PROJECT_DIR$/models/group.js" />
+        <option value="$PROJECT_DIR$/views/partials/my_tasks.jade" />
+        <option value="$PROJECT_DIR$/views/partials/my_groups.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
+        <option value="$PROJECT_DIR$/routes/privateApi.js" />
       </list>
     </option>
   </component>
@@ -178,10 +215,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1855" />
-    <option name="height" value="1056" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1857" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -222,6 +259,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -299,10 +337,6 @@
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stylesheets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -354,77 +388,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="authentification" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower_components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="progress-tracker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bower_components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-rangeslider" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -567,11 +536,17 @@
       <option name="project" value="LOCAL" />
       <updated>1430569732220</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="implemented &quot;Edit subtask&quot;">
+      <created>1430607636406</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1430607636406</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -579,6 +554,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.50054526" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18587747" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23364486" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -591,7 +567,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498621" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -643,22 +618,16 @@
     <MESSAGE value="Fixed log issues with percentage recalculating&#10;Fixed task cascade deleting (subtask progress wasn't properly deleted before)" />
     <MESSAGE value="Finished &quot;Mark as completed&quot;" />
     <MESSAGE value="Fixed &quot;Mark as completed&quot; issue with quantifiable parent task, implemented &quot;Edit task&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed &quot;Mark as completed&quot; issue with quantifiable parent task, implemented &quot;Edit task&quot;" />
+    <MESSAGE value="implemented &quot;Edit subtask&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented &quot;Edit subtask&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bower_components/angular-svg-round-progressbar/build/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2621036" vertical-offset="2376" max-vertical-offset="4662">
-          <caret line="90" column="38" selection-start-line="90" selection-start-column="26" selection-end-line="90" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/angular-svg-round-progressbar/src/shim.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="666">
@@ -736,20 +705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <caret line="13" column="54" selection-start-line="13" selection-start-column="54" selection-end-line="13" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/invitation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/all.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
@@ -762,13 +717,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="702">
           <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/dashboard.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
-          <caret line="5" column="10" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -793,7 +741,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/signin.jade">
+    <entry file="file://$PROJECT_DIR$/views/partials/sign_in_form.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.42768273" vertical-offset="347" max-vertical-offset="990">
           <caret line="4" column="25" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="25" />
@@ -808,7 +756,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/signup.jade">
+    <entry file="file://$PROJECT_DIR$/views/partials/sign_up_form.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6" vertical-offset="774" max-vertical-offset="1728">
           <caret line="64" column="20" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
@@ -819,13 +767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="415" max-vertical-offset="1350">
           <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="59" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/progress.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
-          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -868,29 +809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="658" max-vertical-offset="2178">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.448276" vertical-offset="2095" max-vertical-offset="4266">
-          <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/tasks.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2214">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/mark_as_completed.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2535211" vertical-offset="0" max-vertical-offset="710">
@@ -920,7 +838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="58140">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -928,7 +845,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="972">
           <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -936,13 +852,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12582">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <marker date="1426462790000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1426462790000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1426462790000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1426462790000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -951,9 +860,7 @@
         <state vertical-scroll-proportion="0.49401197" vertical-offset="35940" max-vertical-offset="51012">
           <caret line="2015" column="81" selection-start-line="2015" selection-start-column="81" selection-end-line="2015" selection-end-column="81" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1430603563085" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1430603563085" expanded="true" signature="-1:-1" placeholder="..." />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -962,7 +869,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="710">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -970,32 +876,45 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="141.6" vertical-offset="3540" max-vertical-offset="4698">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/angular/configurations.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2052">
-          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/progressform.jade">
+    <entry file="file://$PROJECT_DIR$/views/partials/progress_form.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3802817" vertical-offset="306" max-vertical-offset="2088">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/subtask_form.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3708">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2240" max-vertical-offset="4950">
+          <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/progress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="846">
+          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/task.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86197186" vertical-offset="54" max-vertical-offset="1170">
-          <caret line="168" column="141" selection-start-line="168" selection-start-column="141" selection-end-line="168" selection-end-column="141" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="3006">
+          <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="32" selection-end-column="22" />
           <folding>
-            <element signature="e#223#2075#0" expanded="false" />
             <element signature="e#2116#2931#0" expanded="false" />
             <element signature="e#4450#4622#0" expanded="false" />
             <element signature="e#4677#4925#0" expanded="false" />
@@ -1003,44 +922,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="864" max-vertical-offset="4212">
-          <caret line="59" column="56" selection-start-line="59" selection-start-column="56" selection-end-line="59" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10" max-vertical-offset="2196">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/invitation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#39#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/angular/configurations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="648" max-vertical-offset="2052">
+          <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/group_form.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="478" max-vertical-offset="1404">
+          <caret line="47" column="56" selection-start-line="47" selection-start-column="56" selection-end-line="47" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/task_form.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="3546">
+          <caret line="144" column="57" selection-start-line="144" selection-start-column="57" selection-end-line="144" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="208" max-vertical-offset="918">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4045911" vertical-offset="168" max-vertical-offset="4770">
-          <caret line="105" column="49" selection-start-line="105" selection-start-column="49" selection-end-line="105" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.21556886" vertical-offset="0" max-vertical-offset="668">
+          <caret line="190" column="11" selection-start-line="190" selection-start-column="11" selection-end-line="190" selection-end-column="11" />
           <folding>
-            <element signature="n#div#0;n#section#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#section#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#section#1;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#section#2;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#section#3;n#div#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.206897" vertical-offset="0" max-vertical-offset="4194">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/my_tasks.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.1034484" vertical-offset="54" max-vertical-offset="1962">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="64" selection-end-column="34" />
+          <folding>
+            <element signature="n#section#1;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/my_groups.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="838" max-vertical-offset="1782">
+          <caret line="70" column="48" selection-start-line="70" selection-start-column="48" selection-end-line="70" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1664" max-vertical-offset="3744">
-          <caret line="410" column="13" selection-start-line="410" selection-start-column="13" selection-end-line="410" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="1080">
+          <caret line="454" column="52" selection-start-line="454" selection-start-column="52" selection-end-line="454" selection-end-column="52" />
           <folding>
             <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
             <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
             <element signature="n#!!block;n#TasksCtrl#0" expanded="false" />
-            <element signature="e#2380#2800#0" expanded="false" />
-            <element signature="e#2845#2930#0" expanded="false" />
-            <element signature="e#2980#3723#0" expanded="false" />
-            <element signature="e#3779#4533#0" expanded="false" />
-            <element signature="e#4592#5328#0" expanded="false" />
-            <element signature="e#5395#6193#0" expanded="false" />
-            <element signature="e#6241#8133#0" expanded="false" />
-            <element signature="e#8323#8685#0" expanded="false" />
-            <element signature="e#8740#9570#0" expanded="false" />
-            <element signature="e#9632#10457#0" expanded="false" />
+            <element signature="e#1170#1738#0" expanded="false" />
+            <element signature="e#2077#2124#0" expanded="false" />
+            <element signature="n#!!block;n#TaskCtrl#0" expanded="false" />
+            <element signature="e#2919#3004#0" expanded="false" />
+            <element signature="e#3054#3798#0" expanded="false" />
+            <element signature="e#3854#4609#0" expanded="false" />
+            <element signature="e#4668#5404#0" expanded="false" />
+            <element signature="e#5471#6269#0" expanded="false" />
+            <element signature="e#6317#8210#0" expanded="false" />
+            <element signature="n#!!block;n#SubtaskCtrl#0" expanded="false" />
+            <element signature="e#8459#8821#0" expanded="false" />
+            <element signature="e#8876#9707#0" expanded="false" />
+            <element signature="e#9769#10594#0" expanded="false" />
+            <element signature="e#10661#11518#0" expanded="false" />
+            <element signature="e#11569#13762#0" expanded="false" />
+            <element signature="e#14377#14955#0" expanded="false" />
+            <element signature="n#!!block;n#GroupFormCtrl#0" expanded="false" />
             <element signature="n#!!block;n#TaskFormCtrl#0" expanded="false" />
             <element signature="n#!!block;n#EditTaskCtrl#0" expanded="false" />
+            <element signature="n#!!block;n#SubtaskFormCtrl#0" expanded="false" />
+            <element signature="n#!!block;n#EditSubtaskCtrl#0" expanded="false" />
             <element signature="n#!!block;n#ProgressFormCtrl#0" expanded="false" />
             <element signature="n#!!block;n#TaskConfirmationCtrl#0" expanded="false" />
           </folding>
@@ -1049,45 +1048,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/privateApi.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1306" max-vertical-offset="4014">
-          <caret line="458" column="95" selection-start-line="458" selection-start-column="87" selection-end-line="458" selection-end-column="95" />
+        <state vertical-scroll-proportion="0.5943662" vertical-offset="478" max-vertical-offset="1548">
+          <caret line="827" column="15" selection-start-line="827" selection-start-column="15" selection-end-line="827" selection-end-column="15" />
           <folding>
             <element signature="e#194#1015#0" expanded="false" />
             <element signature="e#1065#1474#0" expanded="false" />
-            <element signature="e#1528#2627#0" expanded="false" />
-            <element signature="e#2683#3245#0" expanded="false" />
-            <element signature="e#3298#8687#0" expanded="false" />
-            <element signature="e#8763#10879#0" expanded="false" />
-            <element signature="e#10958#11592#0" expanded="false" />
-            <element signature="e#11674#13450#0" expanded="false" />
-            <element signature="e#23499#26906#0" expanded="false" />
-            <element signature="e#26996#34534#0" expanded="false" />
-            <marker date="1430607332049" expanded="true" signature="7470:7513" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="7470:7518" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="7470:7578" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="7470:7598" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="8096:8144" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="19267:19315" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="19881:19929" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="20517:20565" placeholder="..." />
-            <marker date="1430607332049" expanded="true" signature="21125:21173" placeholder="..." />
+            <element signature="e#1528#2645#0" expanded="false" />
+            <element signature="e#2701#3263#0" expanded="false" />
+            <element signature="e#3316#8705#0" expanded="false" />
+            <element signature="e#8781#10897#0" expanded="false" />
+            <element signature="e#10976#11610#0" expanded="false" />
+            <element signature="e#11692#13468#0" expanded="false" />
+            <element signature="e#13548#23440#0" expanded="false" />
+            <element signature="e#23517#26924#0" expanded="false" />
+            <element signature="e#27014#34552#0" expanded="false" />
+            <element signature="e#35359#35676#0" expanded="false" />
+            <element signature="e#35748#36631#0" expanded="false" />
+            <element signature="e#36698#37569#0" expanded="false" />
+            <element signature="e#37628#38698#0" expanded="false" />
+            <element signature="e#38760#39315#0" expanded="false" />
+            <marker date="1430667252525" expanded="true" signature="7488:7531" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="7488:7536" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="7488:7596" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="7488:7616" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="8114:8162" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="19285:19333" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="19899:19947" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="20535:20583" placeholder="..." />
+            <marker date="1430667252525" expanded="true" signature="21143:21191" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/subtaskform.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3708">
-          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/taskform.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55774647" vertical-offset="0" max-vertical-offset="3546">
-          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>

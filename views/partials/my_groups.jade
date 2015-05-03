@@ -1,0 +1,93 @@
+//
+   Created by lukas on 15.5.3.
+
+div 
+    h1 My Groups:
+    
+    section.commands
+        button.btn.btn-primary(ng-click='openNewGroupModal()') Create new group
+        
+    section.alerts
+    
+        div.alert.alert-success(
+            role='alert',
+            ng-if='createNewGroupSuccessful'
+        ) Group successfully created!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='createNewGroupFailed'
+        ) Creating new group failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+                
+    section.groups
+        div#accordion.panel-group(
+            role='tablist'
+            aria-multiselectable='true'
+            style='margin-top: 20px'
+        )
+            div.panel.panel-administrator
+                div#headingAdministrator.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseAdministrator'
+                    aria-expanded='true'
+                    aria-controls='collapseAdministrator'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Administrator of
+                    
+                div#collapseAdministrator.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingAdministrator"
+                )
+                    div.panel-body
+                        {{administratorOf}}
+                        
+            div.panel.panel-member
+                div#headingMember.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseMember'
+                    aria-expanded='true'
+                    aria-controls='collapseMember'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Member of
+
+                div#collapseMember.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingMember"
+                )
+                    div.panel-body
+                        {{memberOf}}
+                        
+            div.panel.panel-log
+                div#headingInvitations.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseInvitations'
+                    aria-expanded='true'
+                    aria-controls='collapseInvitations'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Invitations received
+
+                div#collapseInvitations.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingInvitations"
+                )
+                    div.panel-body
+                        {{invitationsReceived}}
+    

@@ -1,0 +1,73 @@
+//
+   Created by lukas on 15.5.3.
+
+form.form-horizontal.modal-form(
+    name='newgroupform',
+    ng-submit='newgroupform.$valid && ok(group)',
+    novalidate
+)
+    fieldset
+        legend {{((!editMode) ? "Create new" : "Edit") + " group"}}
+
+        div.form-group
+            label.col-sm-3.control-label(for='title') Title:
+            div.col-sm-9
+                input#title.form-control(
+                    type='text'
+                    name='title'
+                    placeholder='Enter title'
+                    ng-model='group.title'
+                    required
+                )
+                div.error-container(ng-show='newgroupform.title.$dirty || newgroupform.$submitted')
+                    small.error(ng-show='newgroupform.title.$error.required') Title is required
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='color') Color:
+            div.col-sm-9
+                div
+                    input#color.form-control(
+                        type='hidden'
+                        name='color'
+                        ng-model='group.color'
+                        minicolors
+                    )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='textColor') Text color:
+            div.col-sm-9
+                div
+                    input#textColor.form-control(
+                        type='hidden'
+                        name='textColor'
+                        ng-model='group.textColor'
+                        minicolors
+                    )
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='desciption') Description:
+            div.col-sm-12
+                div.description(
+                    text-angular
+                    ng-model='group.description'
+                    placeholder='Enter description'
+                )
+                
+        div.form-group
+            div.col-sm-offset-8.col-sm-4.modal-form-buttons
+                button.btn.btn-danger(
+                    type='button',
+                    ng-click='cancel()'
+                ) Cancel
+                
+                button.btn.btn-primary(
+                    type='submit',
+                    onclick='formUtilities.highlightInputs("newgroupform")',
+                    ng-if='!editMode'
+                ) Create group
+                
+                button.btn.btn-warning(
+                    type='submit',
+                    onclick='formUtilities.highlightInputs("newgroupform")',
+                    ng-if='editMode'
+                ) Edit group

@@ -1,0 +1,139 @@
+
+div
+    h1 My Tasks:
+    section.commands
+        button.btn.btn-primary(ng-click='openNewTaskModal()') Create new task
+        
+    section.alerts
+    
+        div.alert.alert-warning(
+            role='alert',
+            ng-if='deleteTaskSuccessful'
+        ) Task successfully deleted!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-success(
+            role='alert',
+            ng-if='createNewTaskSuccessful'
+        ) Task successfully created!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='createNewTaskFailed'
+        ) Creating new task failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+    
+
+    section.tasks
+        div#accordion.panel-group(
+            role='tablist'
+            aria-multiselectable='true'
+            style='margin-top: 20px'
+        )
+
+            div.panel.panel-log
+                div#headingAssignedToMe.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseAssignedToMe'
+                    aria-expanded='true'
+                    aria-controls='collapseAssignedToMe'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Assigned to me
+
+                div#collapseAssignedToMe.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingAssignedToMe"
+                )
+                    div.panel-body
+        
+                        div.task(
+                            ng-repeat='task in tasks'
+                            ng-click='openTask(task.numberId)'
+                            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}'
+                            emit-last-repeater-element
+                        )
+                            
+                            h1 {{task.title}}
+                            
+                            div.progress-container
+                                div.progress-value {{ task.percentageDone }}%
+                                div.percentage-done(
+                                    round-progress
+                                    max="100"
+                                    current="task.percentageDone"
+                                    color="{{task.color}}"
+                                    bgcolor="{{task.textColor}}"
+                                    radius="45"
+                                    stroke="20"
+                                    iterations="50"
+                                    rounded="true"
+                                    animation="easeInOutQuart"
+                                )
+                                    
+                            div.task-info
+                                
+                                div.created-by
+                                    div.task-info-label Created by:
+                                    a(
+                                        href='users/{{task._createdBy.numberId}}'
+                                        style='color: {{task.textColor}}'
+                                    ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                                    
+                                div.group(ng-if='task.group')
+                                    div.task-info-label Group:
+                                    a(
+                                        href='users/{{task._group.numberId}}'
+                                        style='color: {{task.textColor}}'
+                                    ) {{ task._group.title }}
+                                    
+                                div.date-created
+                                    div.task-info-label  Date created:
+                                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                                        
+                                div.date-started
+                                    div.task-info-label  Date started:
+                                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                                        
+                                div.date-due
+                                    div.task-info-label  Date due:
+                                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                                        
+                                div.date-completed(ng-if='task.status.toLowerCase() === "completed"')
+                                    div.task-info-label  Date completed:
+                                    div.text-right {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
+                                        
+                                div.status
+                                    div.task-info-label Status:
+                                    div.text-right {{ task.status }}
+                                
+                                div.quantifiable-info(ng-if='task.isQuantifiable')
+                                    
+                                    div.progress-status
+                                        div.task-info-label Progress:
+                                        div.text-right {{ task.current + '/' + task.goal }}
+                                            
+                                    div.units
+                                        div.task-info-label Of:
+                                        div.text-right {{ task.units | capitalize}}
+                                        
+                                div.auto-complete(ng-if='!(task.status.toLowerCase() === "completed")')
+                                    div.task-info-label A/c:
+                                    div.text-right {{ (task.autoComplete) ? "Yes" : "No" }}

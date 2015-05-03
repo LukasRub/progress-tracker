@@ -8,7 +8,6 @@ div
         h2 Subtask:
 
         div.task.single(
-            ng-init='getSubtask()'
             ng-click='isCollapsed = !isCollapsed'
             style='background-color: {{subtask.color}}; color: {{subtask.textColor}}; border: 1px solid {{(subtask.color.toLowerCase() == "#ffffff") ? "#000000" : subtask.color}}; cursor: {{(subtask.description) ? "pointer" : "auto"}}'
         )

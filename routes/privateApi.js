@@ -78,7 +78,7 @@ router.get('/tasks/:id', function(req, res, next) {
             } 
             
             var options = {
-                path: '_subtasks._createdBy',
+                path: '_subtasks._createdBy _progress._madeBy',
                 model: 'User',
                 select: 'firstname lastname numberId'
             };
@@ -809,5 +809,184 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
         });
     });
 });
+
+// GROUPS
+
+router.get('/groups?', function(req, res, next){
+    var Group = require('../models/group');
+    var checkAdmin = req.query['administrator'];
+    
+    if (checkAdmin == 'true') {
+        Group.find({'_administrator': req.user._id})
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+        
+    } else if (checkAdmin == 'false') {
+        Group.find({'_users._id': req.user._id})
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+        
+    }
+    
+});
+
+router.post('/groups', function(req, res, next){
+    var Group = require('../models/group');
+    var group = req.body['data'];
+
+    group._administrator = req.user._id;
+
+    Group.create(group, function(err, result){
+
+        var statusCode = 200;
+        if (err) statusCode = 500;
+        console.log(err);
+
+        res.sendStatus(statusCode);
+        
+    });
+});
+
+// INVITATIONS
+
+router.get('/invitations?', function(req, res, next){
+    var Invitation = require('../models/invitation');
+    
+    if(req.query['invitee']) {
+
+        Invitation.find({'_invitee': req.user._id})
+            .populate('_invitor', 'firstname lastname numberId')
+            .populate('group', 'title description numberId')
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+        
+    } else {
+        
+        Invitation.find({'_invitor': req.user._id})
+            .populate('_invitee', 'firstname lastname numberId')
+            .populate('group', 'title description numberId')
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+    }
+
+    
+});
+
+router.post('/groups/:id/invitations', function(req, res, next){
+    var Invitation = require('../models/invitation');
+    var Group = require('../models/group');
+    var groupId = req.params['id'];
+    var invitation = req.body['data'];
+    
+    Group.findOne({'numberId': groupId}, function(err, groupResult){
+        if((err || !groupResult) || !(groupResult._administrator.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+
+        invitation._group = groupResult._id;
+        invitation._invitor = req.user.id;
+        
+        Invitation.findOneAndUpdate({
+            '_invitee': invitation._invitee,
+            '_group': invitation._group
+        }, invitation, {'upsert': true}, function(err, invitationResult){
+           
+            var statusCode = 200;
+            if (err) statusCode = 500;
+
+            res.sendStatus(statusCode);
+            
+        });
+        
+    });
+    
+});
+
+router.put('/invitations/:id', function(req, res, next){
+    var Invitation = require('../models/invitation');
+    var Group = require('../models/group');
+    var invitation_id = req.params['id'];
+
+    Invitation.findOne({'_id': invitation_id}, function(err, invitationResult){
+        if((err || !invitationResult) || !(invitationResult._invitee.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        Group.findOne({'_users._id': invitationResult._id}, function(err, groupResult){
+            
+            groupResult._users.push(req.user._id);
+            groupResult.save(function(err){
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
+                
+                invitationResult.remove(function(err){
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+
+                    res.sendStatus(200);
+                    
+                });
+                
+            });
+            
+        });
+        
+        
+    });
+
+});
+
+router.delete('/invitations/:id', function(req, res, next){
+    var Invitation = require('../models/invitation');
+    var invitation_id = req.params['id'];
+
+    Invitation.findOne({'_id': invitation_id}, function(err, invitationResult) {
+        if((err || !invitationResult) || !(invitationResult._invitee.equals(req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        invitationResult.remove(function(err){
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+
+            res.sendStatus(200);
+        });
+        
+    });
+});
+
 
 module.exports = router;

@@ -46,16 +46,16 @@ angular.module('progress', ['ngResource', 'ngRoute', 'ui-rangeSlider', 'datetime
             .when('/', {
                 templateUrl: 'partials/home'
             })
-            .when('/dashboard', {
-                templateUrl: 'partials/dashboard',
-                controller: DashboardCtrl,
+            .when('/tasks', {
+                templateUrl: 'partials/my_tasks',
+                controller: TasksCtrl,
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
-            .when('/tasks', {
-                templateUrl: 'partials/tasks',
-                controller: TasksCtrl,
+            .when('/groups', {
+                templateUrl: 'partials/my_groups',
+                controller: GroupsCtrl,
                 resolve: {
                     loggedin: checkLoggedin
                 }
@@ -75,11 +75,11 @@ angular.module('progress', ['ngResource', 'ngRoute', 'ui-rangeSlider', 'datetime
                 }
             })
             .when('/signin', {
-                templateUrl: 'partials/signin',
+                templateUrl: 'partials/sign_in_form',
                 controller: SignInCtrl
             })
             .when('/signup', {
-                templateUrl: 'partials/signup',
+                templateUrl: 'partials/sign_up_form',
                 controller: SignUpCtrl
             })
             .otherwise({

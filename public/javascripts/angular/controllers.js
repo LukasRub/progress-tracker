@@ -8,7 +8,7 @@ function SignInCtrl($scope, $http, $location) {
             email: user.email,
             password: user.password
         }).success(function(){
-            $location.path('/dashboard');
+            $location.path('/tasks');
         }).error(function(){
             $scope.signInFailed = true;
             $scope.signinform.email.$setPristine();
@@ -32,10 +32,6 @@ function SignUpCtrl($scope, $http) {
     };
 }
 
-function DashboardCtrl($scope) {
-    //$scope.message = "Logged in";
-}
-
 function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     $scope.tasks = {};
     $scope.deleteTaskSuccessful = $rootScope.deleteTaskSuccessful;
@@ -43,7 +39,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     
     $scope.openNewTaskModal = function(){
         var modalInstance = $modal.open({
-            templateUrl: 'partials/taskform.jade',
+            templateUrl: 'partials/task_form.jade',
             controller: TaskFormCtrl,
             size: 'lg'
         });
@@ -66,16 +62,18 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
         $http.get('api/private/tasks')
         .success(function(data) {
             $scope.tasks = data;
+            if ($scope.tasks.length > 0) {
+                angular.element('#collapseAssignedToMe').collapse('show');
+            }
         });
     };
     
     $scope.openTask = function(id) {
         $location.path('/tasks/' + id);
     };
-    
+
+    $scope.getTasks();
 }
-
-
 
 function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $timeout) {
     $scope.task = {};
@@ -103,7 +101,7 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $t
     $scope.openNewSubtaskModal = function(task){
 
         var modalInstance = $modal.open({
-            templateUrl: 'partials/subtaskform.jade',
+            templateUrl: 'partials/subtask_form.jade',
             controller: SubtaskFormCtrl,
             size: 'lg',
             resolve: {
@@ -130,7 +128,7 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $t
     $scope.openNewProgressModal = function(task) {
 
         var modalInstance = $modal.open({
-            templateUrl: 'partials/progressform.jade',
+            templateUrl: 'partials/progress_form.jade',
             controller: ProgressFormCtrl,
             size: 'lg',
             resolve: {
@@ -215,7 +213,7 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $t
 
     $scope.openEditTaskModal = function(task){
         var modalInstance = $modal.open({
-            templateUrl: 'partials/taskform.jade',
+            templateUrl: 'partials/task_form.jade',
             controller: EditTaskCtrl,
             size: 'lg',
             resolve: {
@@ -270,12 +268,15 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $t
             
         });
     };
+
+    $scope.getTask();
     
 }
 
 function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
     $scope.subtask = {};
     $scope.isCollapsed = false;
+    $scope.isProgressCollaped = [];
     
     $scope.getSubtask = function() {
         $http.get('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + $routeParams['subtask_id'])
@@ -290,7 +291,7 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
     $scope.openNewProgressModal = function(subtask) {
 
         var modalInstance = $modal.open({
-            templateUrl: 'partials/progressform.jade',
+            templateUrl: 'partials/progress_form.jade',
             controller: ProgressFormCtrl,
             size: 'lg',
             resolve: {
@@ -376,7 +377,7 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
 
     $scope.openEditSubtaskModal = function(task){
         var modalInstance = $modal.open({
-            templateUrl: 'partials/subtaskform.jade',
+            templateUrl: 'partials/subtask_form.jade',
             controller: EditSubtaskCtrl,
             size: 'lg',
             resolve: {
@@ -440,10 +441,70 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
 
         });
     };
+
+    $scope.getSubtask();
+    
+}
+
+function GroupsCtrl($scope, $http, $modal) {
+    $scope.administratorOf = {};
+    $scope.memberOf = {};
+    $scope.myInvitations = {};
+    
+    $scope.getGroups = function(asAdmin){
+        $http.get('api/private/groups?administrator=' + asAdmin)
+            .success(function(data) {
+                if (asAdmin) {
+                    $scope.administratorOf = data;
+                }
+                else {
+                    $scope.memberOf = data;
+                }
+            }).error(function(){console.log('error')});
+    };
+    
+    $scope.openNewGroupModal = function(){
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/group_form.jade',
+            controller: GroupFormCtrl,
+            size: 'lg'
+        });
+
+        modalInstance.result.then(function(group) {
+            $http.post('api/private/groups', {
+                'data': group
+            })
+            .success(function() {
+                $scope.getGroups(true);
+                $scope.createNewGroupSuccessful = true;
+            })
+            .error(function() {
+                $scope.createNewGroupFailed = true;
+            });
+        });
+    };
+
+    $scope.getGroups(true);
+    $scope.getGroups(false);
     
 }
 
 // Modal form controllers
+
+function GroupFormCtrl($scope, $modalInstance) {
+    $scope.group = {
+        color: '#4cae4c',
+        textColor: '#FFFFFF'
+    };
+
+    $scope.ok = function(form) {
+        $modalInstance.close(form);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+}
 
 function TaskFormCtrl($scope, $modalInstance) {
     $scope.task = {
