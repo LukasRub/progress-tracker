@@ -1,0 +1,240 @@
+//
+   Created by lukas on 15.5.4.
+
+div
+
+    section.main-group
+
+        div.group.single(
+            ng-click='isCollapsed = !isCollapsed'
+            ng-style='{"background-color": group.color, "color": group.textColor, "border": "1px solid" + (group.color.toLowerCase() == "#ffffff") ? "#000000" : group.color}'
+        )
+
+            h1 {{group.title}}
+
+            div.group-info
+
+                div.group-administrator
+
+                    div.group-info-label Administrator:
+                    a(
+                        href='users/{{group._administrator.numberId}}'
+                        ng-style='{"color": group.textColor}'
+                    ) {{ group._administrator.firstname + ' ' + group._administrator.lastname }}
+
+                div.date-created
+                    div.group-info-label  Date created:
+                    div.text-right {{ group.dateCreated | date : 'yyyy-MM-dd' }}
+
+                div.user-count
+                    div.group-info-label  Users:
+                    div.text-right {{ group._users.length }}
+
+            div.group-description(
+                ng-if='group.description'
+                ng-bind-html='group.description | sanitize'
+                collapse='isCollapsed'
+                ng-click='$event.stopPropagation()'
+            )
+                
+        
+    section.alerts
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='cancelInvitationSuccessful'
+        ) Invitation canceled successfully!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='cancelInvitationFailed'
+        ) Canceling invitation failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-info(
+            role='alert',
+            ng-if='modifyGroupSuccessful'
+        ) Group successfully modified!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='modifyGroupFailed'
+        ) Modifying task failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+        div.alert.alert-success(
+            role='alert',
+            ng-if='inviteNewMemberSuccessful'
+        ) New member successfully invited!
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+        
+        div.alert.alert-danger(
+            role='alert',
+            ng-if='inviteNewMemberFailed'
+        ) Inviting new member failed, please try again
+            button.close(
+                type='button'
+                data-dismiss='alert'
+                aria-label='close'
+            )
+                span(aria-hidden='true') &times;
+
+    section.commands
+        
+        div#group-commands(ng-if='group.isAdministrator')
+        
+            form.form-inline(
+                name="invitegroupuserform"
+                ng-submit='invitegroupuserform.$valid && addInvitation(member)'
+                style='display: inline-block'
+                novalidate
+            )
+                
+                div.form-group
+                    
+                    label(for='email') Invite more users:
+                    input#email.form-control(
+                        name='email'
+                        type='email'
+                        placeholder='Enter user email'
+                        ng-model='member.email'
+                        style='margin-left: 10px'
+                        ensure-existing-email
+                        required
+                    )
+                    
+                    div.error-container(
+                        ng-show='(invitegroupuserform.email.$dirty && invitegroupuserform.email.$invalid) || invitegroupuserform.$submitted'
+                        style='margin-left: 135px;'
+                    )
+                        small.error(ng-show='invitegroupuserform.email.$error.required') User email is required
+                        small.error(ng-show='invitegroupuserform.email.$invalid && !invitegroupuserform.email.$error.required && !invitegroupuserform.email.$error.emailAvailable') User email is invalid
+                        small.error(ng-show='invitegroupuserform.email.$error.emailAvailable') User is not available
+        
+                    div.success-container(
+                        ng-show='invitegroupuserform.email.$pending || invitegroupuserform.email.$valid'
+                        style='margin-left: 135px;'
+                    )
+                        small.success(ng-show='invitegroupuserform.email.$pending') Checking email...
+                        small.success(ng-show='invitegroupuserform.email.$valid') User is available
+                
+                button.btn.btn-primary(
+                    type='submit' 
+                    style='margin-left: 10px; vertical-align: top'
+                    onclick='formUtilities.highlightInputs("invitegroupuserform")'
+                ) Send invitation
+    
+            button.btn.btn-danger.right(
+                ng-click='openDeleteConfirmationModal(group)'
+            ) Delete group
+    
+            button.btn.btn-warning.right(
+                ng-click='openEditGroupModal(group)'
+            ) Edit group
+                
+    section.group-components
+
+        div#accordion.panel-group(
+            role='tablist'
+            aria-multiselectable='true'
+            style='margin-top: 20px'
+        )
+            div.panel.panel-member
+                div#headingMember.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseMember'
+                    aria-expanded='true'
+                    aria-controls='collapseMember'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Members
+
+                div#collapseMember.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingMember"
+                )
+                    div.panel-body
+                        table.table.table-condensed.table-striped.table-hover
+                            thead
+                                tr
+                                    th #
+                                    th Member
+                                    th Available actions
+                                    
+                            tbody(ng-repeat='member in group._users')
+                                tr
+                                    td(style='width: 10%') {{$index}}
+                                    td(style='width: 70%') {{member.firstname + ' ' + member.lastname + ' ' + '<' + member.email + '>'}}
+                                    td
+                                        button.btn.btn-danger.right(
+                                            ng-click='removeMember($index)'
+                                            ng-if='group.isAdministrator'
+                                        ) 
+                                            span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                            | Remove member
+                                        
+
+            div.panel.panel-invitations
+                div#headingInvites.panel-heading(
+                    role='tab'
+                    data-toggle='collapse'
+                    data-target='#collapseInvites'
+                    aria-expanded='true'
+                    aria-controls='collapseInvites'
+                    style='display: block; width: 100%;'
+                )
+                    h2 Pending invitations
+
+                div#collapseInvites.panel-collapse.collapse(
+                    role="tabpanel"
+                    aria-labelledby="headingInvites"
+                )
+                    div.panel-body
+                        table.table.table-condensed.table-striped.table-hover
+                            thead
+                                tr
+                                    th(style='width: 20%') Date invited
+                                    th(style='width: 60%') Invitee
+                                    th Available actions
+
+                            tbody(ng-repeat='invitations in group._invitations')
+                                tr
+                                    td {{invitations.dateCreated | date: 'yyyy-MM-dd'}}
+                                    td {{invitations._invitee.email}}
+                                    td
+                                        button.btn.btn-danger.right(
+                                            ng-click='removeInvitation($index)'
+                                            ng-if='group.isAdministrator'
+                                        )
+                                            span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                            |  Cancel invitation
+            
+    

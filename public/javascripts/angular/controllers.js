@@ -75,7 +75,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     $scope.getTasks();
 }
 
-function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope, $timeout) {
+function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
     $scope.task = {};
     $scope.isCollapsed = false;
     $scope.deleteSubtaskSuccessful = $rootScope.deleteSubtaskSuccessful;
@@ -446,7 +446,51 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
     
 }
 
-function GroupsCtrl($scope, $http, $modal) {
+function GroupCtrl($scope, $http, $routeParams) {
+    
+    $scope.group = {};
+    $scope.isCollapsed = false;
+    
+    $scope.getGroup = function(){
+        $http.get('api/private/groups/' + $routeParams['id'])
+        .success(function(data) {
+            $scope.group = data;
+            if ($scope.group._users) {
+                angular.element('#collapseUsers').collapse('show');
+            }
+        });
+    };
+    
+    $scope.addInvitation = function(member) {
+        $http.post('api/private/groups/' + $routeParams['id'] + '/invitations', {
+            data: member
+        })
+        .success(function() {
+            $scope.inviteNewMemberSuccessful = true;
+            $scope.getGroup();
+        })
+        .error(function() {
+            $scope.inviteNewMemberFailed = true;
+        })
+    };
+    
+    $scope.removeInvitation = function(index){
+        $http.delete('api/private/invitations/' + $scope.group._invitations[index]._id)
+            .success(function() {
+                $scope.cancelInvitationSuccessful = true;
+                $scope.getGroup();
+            })
+            .error(function() {
+                $scope.cancelInvitationFailed = true;
+            });
+    };
+    
+    
+    
+    $scope.getGroup();
+}
+
+function GroupsCtrl($scope, $http, $modal, $location) {
     $scope.administratorOf = {};
     $scope.memberOf = {};
     $scope.myInvitations = {};
@@ -456,11 +500,21 @@ function GroupsCtrl($scope, $http, $modal) {
             .success(function(data) {
                 if (asAdmin) {
                     $scope.administratorOf = data;
+                    if ($scope.administratorOf.length > 0) {
+                        angular.element('#collapseAdministrator').collapse('show');
+                    }
                 }
                 else {
                     $scope.memberOf = data;
+                    if ($scope.memberOf.length > 0) {
+                        angular.element('#collapseMember').collapse('show');
+                    }
                 }
             }).error(function(){console.log('error')});
+    };
+    
+    $scope.openGroup = function(id) {
+        $location.path('/groups/' + id);
     };
     
     $scope.openNewGroupModal = function(){
@@ -493,7 +547,7 @@ function GroupsCtrl($scope, $http, $modal) {
 
 function GroupFormCtrl($scope, $modalInstance) {
     $scope.group = {
-        color: '#4cae4c',
+        color: '#449d44',
         textColor: '#FFFFFF'
     };
 

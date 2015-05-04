@@ -53,8 +53,33 @@ div
                     aria-labelledby="headingAdministrator"
                 )
                     div.panel-body
-                        {{administratorOf}}
                         
+                        div.group(
+                            ng-repeat='group in administratorOf'
+                            ng-click='openGroup(group.numberId)'
+                            ng-style='{"background-color": group.color, "color": group.textColor, "border": "1px solid" + (group.color.toLowerCase() == "#ffffff") ? "#000000" : group.color}'
+                        )
+                        
+                            h1 {{group.title}}
+                            
+                            div.group-info
+                                
+                                div.group-administrator
+                                    
+                                    div.group-info-label Administrator:
+                                    a(
+                                        href='users/{{group._administrator.numberId}}'
+                                        ng-style='{"color": group.textColor}'
+                                    ) {{ group._administrator.firstname + ' ' + group._administrator.lastname }}
+    
+                                div.date-created
+                                    div.group-info-label  Date created:
+                                    div.text-right {{ group.dateCreated | date : 'yyyy-MM-dd' }}
+
+                                div.user-count
+                                    div.group-info-label  Users:
+                                    div.text-right {{ group._users.length }}
+                                                        
             div.panel.panel-member
                 div#headingMember.panel-heading(
                     role='tab'
@@ -73,7 +98,7 @@ div
                     div.panel-body
                         {{memberOf}}
                         
-            div.panel.panel-log
+            div.panel.panel-invitations
                 div#headingInvitations.panel-heading(
                     role='tab'
                     data-toggle='collapse'

@@ -8,7 +8,7 @@ div
         
         div.task.single(
             ng-click='isCollapsed = !isCollapsed'
-            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}; cursor: {{(task.description) ? "pointer" : "auto"}}'
+            ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
         )
             
             h1 {{task.title}}
@@ -34,14 +34,14 @@ div
                     div.task-info-label Created by:
                     a(
                         href='users/{{task._createdBy.numberId}}'
-                        style='color: {{task.textColor}}'
+                        ng-style='{"color": task.textColor}'
                     ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
                     
                 div.group(ng-if='task.group')
                     div.task-info-label Group:
                     a(
                         href='users/{{task._group.numberId}}'
-                        style='color: {{task.textColor}}'
+                        ng-style='{"color": task.textColor}'
                     ) {{ task._group.title }}
                     
                 div.date-created
@@ -215,7 +215,7 @@ div
                         
                         div.task(
                             ng-repeat='subtask in task._subtasks'
-                            style='background-color: {{subtask.color}}; color: {{subtask.textColor}}; border: 1px solid {{(subtask.color.toLowerCase() == "#ffffff") ? "#000000" : subtask.color}}'
+                            ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                             ng-click='openSubtask(subtask.numberId)'
                         )
                             
@@ -243,7 +243,7 @@ div
                                     div.task-info-label Created by:
                                     a(
                                         href='users/{{subtask._createdBy.numberId}}'
-                                        style='color: {{subtask.textColor}}'
+                                        ng-style='{"color": subtask.textColor}'
                                     ) {{ subtask._createdBy.firstname + ' ' + subtask._createdBy.lastname }}
                                     
                                 div.weight
@@ -309,7 +309,7 @@ div
                             ng-init='isProgressCollapsed[$index] = true'
                             ng-repeat='progress in task._progress'
                             ng-click='isProgressCollapsed[$index] = !isProgressCollapsed[$index]'
-                            style='background-color: {{progress.color}}; color: {{progress.textColor}}; border: 1px solid {{(progress.color.toLowerCase() == "#ffffff") ? "#000000" : progress.color}}; cursor: {{(progress.description) ? "pointer" : "auto"}}'
+                            ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                         )
                             div.date-commited 
                                 h3 {{progress.date | date: 'yyyy-MM-dd'}}
@@ -322,7 +322,7 @@ div
                                     div.text-left
                                         a(
                                             href='users/{{progress._madeBy.numberId}}'
-                                            style='color: {{progress.textColor}}'
+                                            ng-style='{"color": task.textColor}'
                                         ) {{ progress._madeBy.firstname + ' ' + progress._madeBy.lastname }}
                                 
                             div.progress-description(

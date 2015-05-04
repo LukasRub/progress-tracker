@@ -27,6 +27,31 @@ angular.module('progress')
             }
         }
     }])
+
+    .directive('ensureExistingEmail', ['$http', '$q', '$timeout', function ($http, $q, $timeout) {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                ngModel.$asyncValidators.emailAvailable = function (email) {
+                    var deffered = $q.defer();
+                    $timeout(function () {
+                        $http.post('api/public/checkemail', {data: email})
+                            .success(function(data) {
+                                if (data) {
+                                    deffered.resolve(data);
+                                } else {
+                                    deffered.reject();
+                                }
+                            })
+                            .error(function() {
+                                deffered.reject();
+                            });
+                    }, 1000);
+                    return deffered.promise;
+                };
+            }
+        }
+    }])
     
     .directive('emitLastRepeaterElement', function() {
         return function(scope) {

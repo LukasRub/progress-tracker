@@ -67,6 +67,13 @@ angular.module('progress', ['ngResource', 'ngRoute', 'ui-rangeSlider', 'datetime
                     loggedin: checkLoggedin
                 }
             })
+            .when('/groups/:id', {
+                templateUrl: 'partials/group',
+                controller: GroupCtrl,
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .when('/tasks/:task_id/subtasks/:subtask_id', {
                 templateUrl: 'partials/subtask',
                 controller: SubtaskCtrl,

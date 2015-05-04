@@ -67,7 +67,7 @@ div
                         div.task(
                             ng-repeat='task in tasks'
                             ng-click='openTask(task.numberId)'
-                            style='background-color: {{task.color}}; color: {{task.textColor}}; border: 1px solid {{(task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}}'
+                            ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                             emit-last-repeater-element
                         )
                             
@@ -94,14 +94,14 @@ div
                                     div.task-info-label Created by:
                                     a(
                                         href='users/{{task._createdBy.numberId}}'
-                                        style='color: {{task.textColor}}'
+                                        ng-style='{"color": task.textColor}'
                                     ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
                                     
                                 div.group(ng-if='task.group')
                                     div.task-info-label Group:
                                     a(
                                         href='users/{{task._group.numberId}}'
-                                        style='color: {{task.textColor}}'
+                                        ng-style='{"color": task.textColor}'
                                     ) {{ task._group.title }}
                                     
                                 div.date-created

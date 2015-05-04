@@ -40,32 +40,32 @@ form .modal-form-buttons > button {
 }
 
 /* tasks */
-.task, .progress {
+.task, .progress, .group {
     min-height: 150px;
     width: 100%;
     border-radius: 10px 10px;
     padding: 10px;
     margin-bottom: 10px;
-    font-family: FontAwesome;
+    font-family: FontAwesome, sans-serif;
 }
 
-.task:last-child:not(.single), .progress:last-child{
+.task:last-child:not(.single), .progress:last-child, .group:last-child:not(.single){
     margin-bottom: 0;
 }
 
-.task.single {
+.task.single, .group.single {
     height: 100%;
     overflow: auto;
 }
 
-.task > h1 {
+.task > h1, .group > h1 {
     float: left;
     max-width: 740px;
     overflow: hidden;
     display: flex;
 }
 
-.task .task-description, .progress .progress-description {
+.task .task-description, .progress .progress-description, .group .group-description {
     clear: both;
     float: left;
     width: 100%;
@@ -82,7 +82,7 @@ form .modal-form-buttons > button {
     position: relative;
 }
 
-.task .task-info {
+.task .task-info, .group .group-info {
     clear: left;
     display: flex;
     width: 715px;
@@ -92,7 +92,7 @@ form .modal-form-buttons > button {
     align-items: flex-end;
 }
 
-.task.single .task-info {
+.task.single .task-info, .group.single .group-info {
     width: 745px;
 }
 
@@ -100,17 +100,17 @@ form .modal-form-buttons > button {
     white-space: nowrap;
 }
 
-.task .task-info > div:not(.quantifiable-info), .quantifiable-info .progress-status, .quantifiable-info .units {
+.task .task-info > div:not(.quantifiable-info), .quantifiable-info .progress-status, .quantifiable-info .units, .group .group-info > div {
     display: inline-block;
     margin-right: 20px;
     margin-top: 10px;
 }
 
-.task .task-info > div {
+.task .task-info > div, .group .group-info > div {
     align-self: flex-start;
 }
 
-.task .task-info-label, .progress .progress-info-label {
+.task .task-info-label, .progress .progress-info-label, .group .group-info-label {
     font-weight: bold;
     font-style: italic;
 }
@@ -126,7 +126,7 @@ form .modal-form-buttons > button {
     font-style: italic;
 }
 
-.task:hover, .progress:hover {
+.task:hover, .progress:hover, .group:hover {
     cursor: pointer;
     -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -173,6 +173,36 @@ form .modal-form-buttons > button {
 }
 
 /* colors */
+
+.panel-administrator {
+    border-color: #398439;
+}
+
+.panel-administrator > .panel-heading {
+    border-color: #398439;
+    color: #FFFFFF;
+    background-color: #449d44;
+}
+
+.panel-member {
+    border-color: #4cae4c;
+}
+
+.panel-member > .panel-heading {
+    border-color: #4cae4c;
+    color: #FFFFFF;
+    background-color: #5cb85c;
+}
+
+.panel-invitations {
+    border-color: #5CB85C;
+}
+
+.panel-invitations > .panel-heading {
+    border-color: #5CB85C;
+    color: #FFFFFF;
+    background-color: #76D276;
+}
 
 .panel-subtasks {
     border-color: #204d74;
@@ -231,6 +261,11 @@ a {
 }
 
 #task-commands button.right {
+    margin-left: 10px;
+    float: right;
+}
+
+#group-commands button.right {
     margin-left: 10px;
     float: right;
 }

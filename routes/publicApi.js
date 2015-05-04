@@ -9,10 +9,9 @@ router.post('/checkemail', function(req, res, next) {
     var User = require('../models/user');
     var data = req.body['data'];
 
-    User.findOne({'email': data}, function(err, result) {
+    User.findOne({'email': data}, 'email', function(err, result) {
         var statusCode = 200;
-        if (err) statusCode = 400;
-        console.log('LOGGING: Email availability of', data, 'was requested, status:', statusCode);
+        if (err || ((result && req.user )&& result._id.equals(req.user._id))) statusCode = 400;
         res.status(statusCode).send(result);
     });
 });
