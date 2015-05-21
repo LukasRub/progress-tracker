@@ -67,7 +67,7 @@ describe('Calculating Task percentage done', function(){
         
         after(function(done){
             mongoose.connection.db.dropDatabase(done);
-        })
+        });
         
     });
     
