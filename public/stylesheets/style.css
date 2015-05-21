@@ -47,6 +47,7 @@ form .modal-form-buttons > button {
     padding: 10px;
     margin-bottom: 10px;
     font-family: FontAwesome, sans-serif;
+    overflow: auto;
 }
 
 .task:last-child:not(.single), .progress:last-child, .group:last-child:not(.single){

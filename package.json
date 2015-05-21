@@ -21,5 +21,8 @@
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
     "serve-favicon": "~2.2.0"
+  },
+  "devDependencies": {
+    "should": "^6.0.3"
   }
 }

@@ -321,9 +321,22 @@ router.get('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next){
                 res.sendStatus(404);
                 return;
             }
-            
-            res.status(200).send(result);
 
+            var options = {
+                path: '_progress._madeBy',
+                model: 'User',
+                select: 'firstname lastname numberId'
+            };
+
+            Subtask.populate(result, options, function(err, populatedResult){
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(populatedResult);
+
+            });
+            
         });    
 });
 

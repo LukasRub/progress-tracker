@@ -193,9 +193,32 @@ div
                     div.panel-body
 
                         span(ng-if='subtask._progress.length == 0') You made no progress
-                        
-                        div(ng-repeat='progress in subtask._progress')
-                            {{ progress }}
+                        div.progress(
+                            ng-init='isProgressCollapsed[$index] = false'
+                            ng-repeat='progress in subtask._progress'
+                            ng-click='isProgressCollapsed[$index] = !isProgressCollapsed[$index]'
+                            ng-style='{"background-color": progress.color, "color": progress.textColor, "border": "1px solid" + (progress.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
+                        )
+                            div.date-commited
+                                h3 {{progress.date | date: 'yyyy-MM-dd'}}
+
+                            div.progress-value {{(task.isQuantifiable) ? progress.current + ' ' + task.units : progress.percentageDone + '%'}}
+
+                            div.progress-info
+                                div.made-by
+                                    div.progress-info-label Made by: 
+                                    div.text-left
+                                        a(
+                                            href='users/{{progress._madeBy.numberId}}'
+                                            ng-style='{"color": progress.textColor}'
+                                        ) {{ progress._madeBy.firstname + ' ' + progress._madeBy.lastname }}
+
+                            div.progress-description(
+                                ng-if='progress.description'
+                                ng-bind-html='progress.description | sanitize'
+                                collapse='isProgressCollapsed[$index]'
+                                ng-click='$event.stopPropagation()'
+                            )
 
             div.panel.panel-log
             

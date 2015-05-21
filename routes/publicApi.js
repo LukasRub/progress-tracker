@@ -21,13 +21,19 @@ router.post('/user', function(req, res, next) {
     var User = require('../models/user');
     var data = req.body['data'];
 
-    User.create(data, function(err, result) {
-        var statusCode = 200;
-        if (err) statusCode = 400;
-        console.log('LOGGING: A new user', result.firstname, result.lastname, 'was created.');
-        res.sendStatus(statusCode);
+    User.findOne({'email': data.email}, function(err, result){
+        if (err || result) {
+            res.sendStatus(500);
+            return;
+        }
+        User.create(data, function(err, result) {
+            var statusCode = 200;
+            if (err) statusCode = 400;
+            console.log('LOGGING: A new user', result.firstname, result.lastname, 'was created.');
+            res.sendStatus(statusCode);
+        });
     });
-
+    
 });
 
 module.exports = router;
