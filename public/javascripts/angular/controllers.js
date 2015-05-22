@@ -602,20 +602,45 @@ function GroupFormCtrl($scope, $modalInstance) {
     };
 }
 
-function TaskFormCtrl($scope, $modalInstance) {
-    $scope.task = {
-        autoComplete: true,
-        color: '#31b0d5',
-        textColor: "#FFFFFF"
+function TaskFormCtrl($scope, $modalInstance, $http, $rootScope) {
+    $scope.task = {};
+    
+    $scope.groups = [];
+    $scope.task.group = -1;
+    $scope.task.autoComplete = true;
+    $scope.task.color = '#31b0d5';
+    $scope.task.textColor = '#FFFFFF';
+    $scope.task.assignTo = $rootScope.session._id;
+        
+    $scope.handleChange = function(){
+        if ($scope.task.group < 0) {
+            $scope.task.assignTo = $rootScope.session._id;
+        }
+    };
+    
+    $scope.getGroups = function() {
+        $http.get('api/private/groups?administrator=true')
+            .success(function (data) {
+                $scope.groups = data;
+                console.log($scope.groups);
+            });
     };
     
     $scope.ok = function(form) {
+        if (form.group > -1) {
+            form._group = $scope.groups[form.group]._id;
+        }
+        form._assignedTo = form.assignTo;
+        console.log(form);
         $modalInstance.close(form);
     };
 
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
+    
+    $scope.getGroups();
+    
 }
 
 function EditTaskCtrl($scope, $modalInstance, task) {

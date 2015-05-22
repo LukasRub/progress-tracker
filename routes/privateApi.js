@@ -11,13 +11,15 @@ router.post('/tasks', function(req, res, next) {
     var Task = require('../models/task');
     var task = req.body['data'];
     
+    console.log(task);
+    
     task._createdBy = req.user._id;
-    task._assignedTo = req.user._id;
     task.status = 'Created';
     
     Task.create(task, function(err, parentResult) {
 
         if (err && !parentResult) {
+            console.log(err);
             res.sendStatus(500);
             return;
         } 
@@ -47,7 +49,7 @@ router.get('/tasks', function(req, res, next) {
 
     Task.find({'_assignedTo': req.user._id})
         .populate('_createdBy', 'firstname lastname numberId')
-        .populate('_groupId', 'title numberId')
+        .populate('_group', 'title numberId')
         .exec(function(err, result) {
             
             var statusCode = 200;
@@ -832,6 +834,7 @@ router.get('/groups?', function(req, res, next){
     if (checkAdmin == 'true') {
         Group.find({'_administrator': req.user._id})
             .populate('_administrator', 'firstname lastname numberId')
+            .populate('_users', 'firstname lastname email numberId')
             .exec(function(err, result) {
 
                 var statusCode = 200;
@@ -844,6 +847,7 @@ router.get('/groups?', function(req, res, next){
     } else if (checkAdmin == 'false') {
         Group.find({'_users': req.user._id})
             .populate('_administrator', 'firstname lastname numberId')
+            .populate('_users', 'firstname lastname email numberId')
             .exec(function(err, result) {
                 var statusCode = 200;
                 if (err) statusCode = 500;
@@ -1087,27 +1091,31 @@ router.delete('/invitations/:id', function(req, res, next){
             res.sendStatus(404);
             return;
         }
-        
-        invitationResult.remove(function(err){
-            if (err) {
+
+        Group.findOne({'_id': invitationResult._group}, function(err, groupResult){
+            if (err || !groupResult) {
                 res.sendStatus(500);
-                return;
+                return
             }
 
-            Group.findOne({'_id': invitationResult._group}, function(err, groupResult){
-                if (err || !groupResult) {
+            groupResult._invitations.pull(invitationResult);
+            groupResult.save(function(err){
+                if (err) {
                     res.sendStatus(500);
-                    return
+                    return;
                 }
 
-                groupResult._invitations.pull(invitationResult);
-                groupResult.save(function(err){
+                invitationResult.remove(function(err){
                     if (err) {
                         res.sendStatus(500);
                         return;
                     }
+
                     res.sendStatus(200);
-                })
+                    
+                });
+                
+                
             });
             
         });

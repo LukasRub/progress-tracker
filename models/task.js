@@ -37,6 +37,10 @@ var TaskSchema = new Schema({
         ref: 'User',
         required: true
     },
+    _group: {
+        type: Schema.Types.ObjectId,
+        ref: 'Group'
+    },
     _subtasks: [
         {
             type: Schema.Types.ObjectId,

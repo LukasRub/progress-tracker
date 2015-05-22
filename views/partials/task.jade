@@ -37,10 +37,10 @@ div
                         ng-style='{"color": task.textColor}'
                     ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
                     
-                div.group(ng-if='task.group')
+                div.task-group(ng-if='task._group')
                     div.task-info-label Group:
                     a(
-                        href='users/{{task._group.numberId}}'
+                        href='groups/{{task._group.numberId}}'
                         ng-style='{"color": task.textColor}'
                     ) {{ task._group.title }}
                     

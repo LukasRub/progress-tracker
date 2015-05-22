@@ -105,7 +105,40 @@ form.form-horizontal.modal-form(
                 )
                 div.error-container(ng-show='newstaskform.units.$dirty || newtaskform.$submitted')
                     small.error(ng-show='newtaskform.units.$error.required') Units are required
+                    
+        div.form-group
+            label.col-sm-3.control-label(for='group') Group:
+            div.col-sm-9
+                div
+                    select#group.form-control(
+                        name='group'
+                        ng-model='task.group'
+                        ng-change='handleChange()'
+                    )
+                        option(value='-1')
+                        option(
+                            ng-repeat='group in groups'
+                            value='{{$index}}'
+                        ) {{group.title}}
 
+        div.form-group
+            label.col-sm-3.control-label(for='assignTo') Assign to:
+            div.col-sm-9
+                div
+                    select#assignTo.form-control(
+                        name='assignTo'
+                        ng-model='task.assignTo'
+                    )
+                        option(
+                            value='{{session._id}}'
+                            ng-selected='task.group < 0'
+                        ) {{session.firstname + ' ' + session.lastname + ' <' + session.email + '>'}}
+                        option(
+                            ng-if='task.group'
+                            ng-repeat='user in groups[task.group]._users'
+                            value='{{user._id}}'
+                        ) {{user.firstname + ' ' + user.lastname + ' <' + user.email + '>'}}
+                    
         div.form-group
             label.col-sm-3.control-label(for='color') Color:
             div.col-sm-9
