@@ -27,7 +27,7 @@ div
                     div.text-right {{ group.dateCreated | date : 'yyyy-MM-dd' }}
 
                 div.user-count
-                    div.group-info-label  Users:
+                    div.group-info-label  Members:
                     div.text-right {{ group._users.length }}
 
             div.group-description(
@@ -191,16 +191,19 @@ div
                                     
                             tbody(ng-repeat='member in group._users')
                                 tr
-                                    td(style='width: 10%') {{$index}}
-                                    td(style='width: 70%') {{member.firstname + ' ' + member.lastname + ' ' + '<' + member.email + '>'}}
+                                    td(style='width: 10%') {{$index+1}}
+                                    td(style='width: 70%') 
+                                        a(href='users/{{member.numberId}}') {{member.firstname + ' ' + member.lastname + ' ' + '<' + member.email + '>'}}
                                     td
                                         button.btn.btn-danger.right(
                                             ng-click='removeMember($index)'
-                                            ng-if='group.isAdministrator'
+                                            ng-if='group.isAdministrator || (member._id === session._id)'
                                         ) 
-                                            span.glyphicon.glyphicon-remove(aria-hidden='true')
-                                            | Remove member
-                                        
+                                            span.glyphicon.glyphicon-remove(
+                                                aria-hidden='true'
+                                            ) 
+                                            |  {{ group.isAdministrator ? 'Remove member' : 'Cancel membership' }}
+                                            
 
             div.panel.panel-invitations
                 div#headingInvites.panel-heading(

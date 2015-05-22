@@ -484,8 +484,17 @@ function GroupCtrl($scope, $http, $routeParams) {
                 $scope.cancelInvitationFailed = true;
             });
     };
-    
-    
+
+    $scope.removeMember = function(index){
+        $http.delete('api/private/groups/' + $scope.group._id + '/users/' + $scope.group._users[index]._id)
+            .success(function(){
+                $scope.removeMemberSuccessful = true;
+                $scope.getGroup();
+            })
+            .error(function(){
+                $scope.removeMemberFailed = true;
+            })
+    };
     
     $scope.getGroup();
 }
@@ -493,7 +502,7 @@ function GroupCtrl($scope, $http, $routeParams) {
 function GroupsCtrl($scope, $http, $modal, $location) {
     $scope.administratorOf = {};
     $scope.memberOf = {};
-    $scope.myInvitations = {};
+    $scope.invitationsReceived = {};
     
     $scope.getGroups = function(asAdmin){
         $http.get('api/private/groups?administrator=' + asAdmin)
@@ -510,7 +519,39 @@ function GroupsCtrl($scope, $http, $modal, $location) {
                         angular.element('#collapseMember').collapse('show');
                     }
                 }
+            });
+    };
+    
+    $scope.getInvitations = function(){
+        $http.get('api/private/invitations?invitee=true')
+            .success(function(data) {
+                $scope.invitationsReceived = data;
             }).error(function(){console.log('error')});
+    };
+
+    $scope.removeInvitation = function(index){
+        $http.delete('api/private/invitations/' + $scope.invitationsReceived[index]._id)
+            .success(function() {
+                $scope.cancelInvitationSuccessful = true;
+                $scope.getInvitations();
+            })
+            .error(function() {
+                $scope.cancelInvitationFailed = true;
+            });
+    };
+
+    $scope.acceptInvitation = function(index){
+        $http.put('api/private/invitations/' + $scope.invitationsReceived[index]._id, {
+            'data': true
+        })
+        .success(function() {
+            $scope.cancelInvitationSuccessful = true;
+            $scope.getInvitations();
+            $scope.getGroups(false);
+        })
+        .error(function() {
+            $scope.cancelInvitationFailed = true;
+        });
     };
     
     $scope.openGroup = function(id) {
@@ -540,6 +581,7 @@ function GroupsCtrl($scope, $http, $modal, $location) {
 
     $scope.getGroups(true);
     $scope.getGroups(false);
+    $scope.getInvitations();
     
 }
 

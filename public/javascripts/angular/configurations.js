@@ -12,10 +12,12 @@ angular.module('progress', ['ngResource', 'ngRoute', 'ui-rangeSlider', 'datetime
             $http.get('/signedin').success(function(user){
                 if (user) {
                     $rootScope.message = 'You are logged in.';
+                    $rootScope.session = user;
                     deferred.resolve();
                 }
                 else {
                     $rootScope.message = 'You need to log in.';
+                    delete $rootScope.session;
                     deferred.reject();
                     $location.path('/signin');
                 }

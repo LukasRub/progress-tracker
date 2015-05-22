@@ -842,10 +842,9 @@ router.get('/groups?', function(req, res, next){
             });
         
     } else if (checkAdmin == 'false') {
-        Group.find({'_users._id': req.user._id})
+        Group.find({'_users': req.user._id})
             .populate('_administrator', 'firstname lastname numberId')
             .exec(function(err, result) {
-
                 var statusCode = 200;
                 if (err) statusCode = 500;
 
@@ -880,7 +879,7 @@ router.get('/groups/:id', function(req, res, next){
     
     Group.findOne({'numberId': groupId})
         .populate('_administrator', 'firstname lastname numberId')
-        .populate('_members', 'firstname lastname numberId')
+        .populate('_users', 'firstname lastname numberId email')
         .populate('_invitations', '_invitee dateCreated')
         .exec(function(err, result) {
 
@@ -916,6 +915,33 @@ router.get('/groups/:id', function(req, res, next){
         });
 });
 
+router.delete('/groups/:group_id/users/:user_id', function(req, res, next){
+    var Group = require('../models/group');
+    var groupId = req.params['group_id'];
+    var userId = req.params['user_id'];
+    
+    Group.findOne({
+        '_id': groupId,
+        '_users': userId
+    }, function(err, result) {
+        if (err || !result || !(result._administrator.equals(req.user._id) || (userId == req.user._id))) {
+            res.sendStatus(404);
+            return;
+        }
+        
+        result._users.pull(userId);
+        result.save(function(err){
+            var statusCode = 200;
+            if(err){
+                statusCode = 500;
+            } 
+            res.sendStatus(statusCode);
+        });
+        
+                
+    });
+});
+
 // INVITATIONS
 
 router.get('/invitations?', function(req, res, next){
@@ -925,7 +951,7 @@ router.get('/invitations?', function(req, res, next){
 
         Invitation.find({'_invitee': req.user._id})
             .populate('_inviter', 'firstname lastname numberId')
-            .populate('group', 'title description numberId')
+            .populate('_group', 'title numberId')
             .exec(function(err, result) {
 
                 var statusCode = 200;
@@ -959,7 +985,7 @@ router.post('/groups/:id/invitations', function(req, res, next){
     var User = require('../models/user');
     var groupId = req.params['id'];
     var invitation = req.body['data'];
-            
+                
     Group.findOne({'numberId': groupId}, function(err, groupResult){
         if((err || !groupResult) || !(groupResult._administrator.equals(req.user._id))) {
             res.sendStatus(404);
@@ -1003,11 +1029,11 @@ router.post('/groups/:id/invitations', function(req, res, next){
             });
             
         });
-        
+            
     });
-    
+        
 });
-
+    
 router.put('/invitations/:id', function(req, res, next){
     var Invitation = require('../models/invitation');
     var Group = require('../models/group');
@@ -1019,7 +1045,12 @@ router.put('/invitations/:id', function(req, res, next){
             return;
         }
         
-        Group.findOne({'_users._id': invitationResult._id}, function(err, groupResult){
+        Group.findOne({'_invitations': invitationResult._id}, function(err, groupResult){
+            
+            if (err || !groupResult){
+                res.sendStatus(404);
+                return;
+            }
             
             groupResult._users.push(req.user._id);
             groupResult.save(function(err){
@@ -1041,7 +1072,6 @@ router.put('/invitations/:id', function(req, res, next){
             });
             
         });
-        
         
     });
 
