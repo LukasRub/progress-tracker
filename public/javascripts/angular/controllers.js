@@ -33,7 +33,9 @@ function SignUpCtrl($scope, $http) {
 }
 
 function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
-    $scope.tasks = {};
+    $scope.tasks = [];
+    $scope.completedTasks = [];
+    $scope.assignedToOthers = [];
     $scope.deleteTaskSuccessful = $rootScope.deleteTaskSuccessful;
     delete $rootScope.deleteTaskSuccessful;
     
@@ -50,6 +52,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
             })
             .success(function() {
                 $scope.getTasks();  
+                $scope.getAssignedToOthers();
                 $scope.createNewTaskSuccessful = true;
             })
             .error(function() {
@@ -68,11 +71,22 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
         });
     };
     
+    $scope.getAssignedToOthers = function(){
+        $http.get('api/private/tasks?query=createdByMe')
+            .success(function(data) {
+                $scope.assignedToOthers = data;
+                if ($scope.assignedToOthers.length > 0) {
+                    angular.element('#collapseCreatedByMe').collapse('show');
+                }
+            });
+    };
+    
     $scope.openTask = function(id) {
         $location.path('/tasks/' + id);
     };
 
     $scope.getTasks();
+    $scope.getAssignedToOthers();
 }
 
 function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
@@ -252,7 +266,6 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
                 data['textColor'] = task.textColor;
                 changeDetected = true;
             }
-
             if (changeDetected) {
                 $http.put('api/private/tasks/' + task.numberId, {
                     data : data
@@ -622,7 +635,6 @@ function TaskFormCtrl($scope, $modalInstance, $http, $rootScope) {
         $http.get('api/private/groups?administrator=true')
             .success(function (data) {
                 $scope.groups = data;
-                console.log($scope.groups);
             });
     };
     
@@ -631,7 +643,6 @@ function TaskFormCtrl($scope, $modalInstance, $http, $rootScope) {
             form._group = $scope.groups[form.group]._id;
         }
         form._assignedTo = form.assignTo;
-        console.log(form);
         $modalInstance.close(form);
     };
 
@@ -643,10 +654,13 @@ function TaskFormCtrl($scope, $modalInstance, $http, $rootScope) {
     
 }
 
-function EditTaskCtrl($scope, $modalInstance, task) {
+function EditTaskCtrl($scope, $modalInstance, $rootScope, $http, task) {
     $scope.task = angular.copy(task);
+    $scope.groups = [];
+    $scope.task.group = -1;
     $scope.task.dateStarted = moment(task.dateStarted).format('YYYY-MM-DD');
     $scope.task.dateDue = moment(task.dateDue).format('YYYY-MM-DD');
+    $scope.task.assignTo = $rootScope.session._id;
     $scope.editMode = true;
 
     $scope.dateStartedPickerOptions = {
@@ -663,6 +677,13 @@ function EditTaskCtrl($scope, $modalInstance, task) {
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
+    $scope.getGroups = function() {
+        $http.get('api/private/groups?administrator=true')
+            .success(function (data) {
+                $scope.groups = data;
+            });
+    };
+    $scope.getGroups();
 }
 
 function SubtaskFormCtrl($scope, $modalInstance, parentTask) {

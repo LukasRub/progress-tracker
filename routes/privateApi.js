@@ -44,20 +44,39 @@ router.post('/tasks', function(req, res, next) {
     
 });
 
-router.get('/tasks', function(req, res, next) {
+router.get('/tasks?', function(req, res, next) {
     var Task = require('../models/task');
+    var checkTasks = req.query['query'];
 
-    Task.find({'_assignedTo': req.user._id})
-        .populate('_createdBy', 'firstname lastname numberId')
-        .populate('_group', 'title numberId')
-        .exec(function(err, result) {
-            
-            var statusCode = 200;
-            if (err) statusCode = 500;
-            
-            res.status(statusCode).send(result);
-            
-    });
+    if (checkTasks == 'createdByMe') {
+        Task.find({
+            '_createdBy': req.user._id,
+            '_assignedTo': { '$ne': req.user._id},
+            'status': { '$ne': 'Completed'}
+        })
+            .populate('_assignedTo', 'firstname lastname numberId')
+            .populate('_group', 'title numberId')
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+    } else {
+        Task.find({'_assignedTo': req.user._id})
+            .populate('_createdBy', 'firstname lastname numberId')
+            .populate('_group', 'title numberId')
+            .exec(function(err, result) {
+
+                var statusCode = 200;
+                if (err) statusCode = 500;
+
+                res.status(statusCode).send(result);
+
+            });
+    }
 });
 
 router.get('/tasks/:id', function(req, res, next) {
@@ -80,7 +99,7 @@ router.get('/tasks/:id', function(req, res, next) {
             } 
             
             var options = {
-                path: '_subtasks._createdBy _progress._madeBy',
+                path: '_subtasks._createdBy _subtasks._assignedTo _progress._madeBy',
                 model: 'User',
                 select: 'firstname lastname numberId'
             };

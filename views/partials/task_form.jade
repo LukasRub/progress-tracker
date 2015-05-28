@@ -106,7 +106,7 @@ form.form-horizontal.modal-form(
                 div.error-container(ng-show='newstaskform.units.$dirty || newtaskform.$submitted')
                     small.error(ng-show='newtaskform.units.$error.required') Units are required
                     
-        div.form-group
+        div.form-group( ng-if='!editMode' )
             label.col-sm-3.control-label(for='group') Group:
             div.col-sm-9
                 div
@@ -121,7 +121,7 @@ form.form-horizontal.modal-form(
                             value='{{$index}}'
                         ) {{group.title}}
 
-        div.form-group
+        div.form-group( ng-if='!editMode' )
             label.col-sm-3.control-label(for='assignTo') Assign to:
             div.col-sm-9
                 div

@@ -1,6 +1,23 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
-    div(ng-view)
+    div#header
+        div.content
+            nav
+                a.page-link(href='/tasks') My tasks
+                a.page-link(href='/groups') My groups
+                a.page-link(href='/user') My settings
+                a.page-link(
+                    ng-click='signOutUser()'
+                    ng-if='session'
+                    style='float: right; margin-right: 0px'
+                ) Logout
+                div.user(
+                    style='float: right'
+                    ng-if='session'
+                )
+                    | Logged in as: {{session.firstname + ' ' + session.lastname}}
+                    
+                    
+        
+    div.content(ng-view)

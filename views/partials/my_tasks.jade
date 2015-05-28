@@ -48,7 +48,7 @@ div
             style='margin-top: 20px'
         )
 
-            div.panel.panel-log
+            div.panel.panel-subtasks
                 div#headingAssignedToMe.panel-heading(
                     role='tab'
                     data-toggle='collapse'
@@ -141,7 +141,7 @@ div
                                     div.task-info-label A/c:
                                     div.text-right {{ (task.autoComplete) ? "Yes" : "No" }}
 
-            div.panel.panel-log
+            div.panel.panel-progress
                 div#headingCreatedByMe.panel-heading(
                     role='tab'
                     data-toggle='collapse'
@@ -158,10 +158,10 @@ div
                 )
                     div.panel-body
 
-                        span(ng-if='tasks.length == 0') You created no tasks
+                        span(ng-if='assignedToOthers.length == 0') You created no tasks
 
                         div.task(
-                            ng-repeat='task in tasks'
+                            ng-repeat='task in assignedToOthers'
                             ng-click='openTask(task.numberId)'
                             ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                             emit-last-repeater-element
@@ -187,11 +187,11 @@ div
                             div.task-info
 
                                 div.created-by
-                                    div.task-info-label Created by:
+                                    div.task-info-label Assigned to:
                                     a(
-                                        href='users/{{task._createdBy.numberId}}'
+                                        href='users/{{task._assignedTo.numberId}}'
                                         ng-style='{"color": task.textColor}'
-                                    ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
+                                    ) {{ task._assignedTo.firstname + ' ' + task._assignedTo.lastname }}
 
                                 div.group(ng-if='task.group')
                                     div.task-info-label Group:
@@ -251,10 +251,10 @@ div
                 )
                     div.panel-body
 
-                        span(ng-if='tasks.length == 0') You completed no tasks
+                        span(ng-if='completedTasks.length == 0') You completed no tasks
 
                         div.task(
-                            ng-repeat='task in tasks'
+                            ng-repeat='task in completedTasks'
                             ng-click='openTask(task.numberId)'
                             ng-style='{"background-color": task.color, "color": task.textColor, "border": "1px solid" + (task.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                             emit-last-repeater-element

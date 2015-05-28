@@ -37,6 +37,13 @@ div
                         ng-style='{"color": task.textColor}'
                     ) {{ task._createdBy.firstname + ' ' + task._createdBy.lastname }}
                     
+                div.assigned-To
+                    div.task-info-label Assigned to:
+                    a(
+                    href='users/{{task._assignedTo.numberId}}'
+                    ng-style='{"color": task.textColor}'
+                    ) {{ task._assignedTo.firstname + ' ' + task._assignedTo.lastname }}
+                    
                 div.task-group(ng-if='task._group')
                     div.task-info-label Group:
                     a(
@@ -309,8 +316,14 @@ div
                             ng-init='isProgressCollapsed[$index] = false'
                             ng-repeat='progress in task._progress'
                             ng-click='isProgressCollapsed[$index] = !isProgressCollapsed[$index]'
-                            ng-style='{"background-color": progress.color, "color": progress.textColor, "border": "1px solid" + (progress.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
+                            ng-style='{"background-color": progress.color, "color": progress.textColor, "border": "1px solid" + (progress.color.toLowerCase() == "#ffffff") ? "#000000" : task.color, "position": "relative" }'
                         )
+                            button.btn.btn-danger.btn-xs(
+                                ng-click='cancelProgress($index)'
+                                style='position: absolute; top: 8px; right: 8px;'
+                            )
+                                span.glyphicon.glyphicon-remove(aria-hidden='true')
+                            
                             div.date-commited 
                                 h3 {{progress.date | date: 'yyyy-MM-dd'}}
                                 

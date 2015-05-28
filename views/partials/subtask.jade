@@ -37,6 +37,13 @@ div
                         href='users/{{subtask._createdBy.numberId}}'
                         style='color: {{subtask.textColor}}'
                     ) {{ subtask._createdBy.firstname + ' ' + subtask._createdBy.lastname }}
+                    
+                div.created-by
+                    div.task-info-label Assigned to:
+                    a(
+                        href='users/{{subtask._assignedTo.numberId}}'
+                        style='color: {{subtask.textColor}}'
+                    ) {{ subtask._assignedTo.firstname + ' ' + subtask._assignedTo.lastname }}
 
                 div.date-created
                     div.task-info-label  Date created:

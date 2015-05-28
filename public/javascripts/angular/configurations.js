@@ -111,6 +111,7 @@ angular.module('progress', ['ngResource', 'ngRoute', 'ui-rangeSlider', 'datetime
         $rootScope.signOutUser = function(){
             $rootScope.message = 'Logged out.';
             $http.post('/signout').success(function(){
+                delete $rootScope.session;
                 $location.path('/signin');
             });
         };
