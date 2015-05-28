@@ -164,6 +164,7 @@ router.put('/tasks/:id', function(req, res, next){
             }
             
             result.status = "Completed";
+            result.percentageDone = 100;
             result.dateCompleted = now;
             
         } else {
@@ -426,6 +427,7 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
             });
 
             result.status = "Completed";
+            result.percentageDone = 100;
             result.dateCompleted = now;
             
         } else {

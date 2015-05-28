@@ -53,6 +53,8 @@ div
                     aria-labelledby="headingAdministrator"
                 )
                     div.panel-body
+
+                        span(ng-if='administratorOf.length == 0') You administrate no groups
                         
                         div.group(
                             ng-repeat='group in administratorOf'
@@ -96,6 +98,9 @@ div
                     aria-labelledby="headingMember"
                 )
                     div.panel-body
+
+                        span(ng-if='memberOf.length == 0') You are a member of no groups
+                        
                         div.group(
                             ng-repeat='group in memberOf'
                             ng-click='openGroup(group.numberId)'
