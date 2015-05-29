@@ -109,19 +109,19 @@ div
                                     
                                 div.date-created
                                     div.task-info-label  Date created:
-                                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCreated | date : 'yyyy-MM-dd' }}
                                         
                                 div.date-started
                                     div.task-info-label  Date started:
-                                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateStarted | date : 'yyyy-MM-dd' }}
                                         
                                 div.date-due
                                     div.task-info-label  Date due:
-                                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateDue | date : 'yyyy-MM-dd' }}
                                         
                                 div.date-completed(ng-if='task.status.toLowerCase() === "completed"')
                                     div.task-info-label  Date completed:
-                                    div.text-right {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
                                         
                                 div.status
                                     div.task-info-label Status:
@@ -202,19 +202,19 @@ div
 
                                 div.date-created
                                     div.task-info-label  Date created:
-                                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCreated | date : 'yyyy-MM-dd' }}
 
                                 div.date-started
                                     div.task-info-label  Date started:
-                                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateStarted | date : 'yyyy-MM-dd' }}
 
                                 div.date-due
                                     div.task-info-label  Date due:
-                                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateDue | date : 'yyyy-MM-dd' }}
 
                                 div.date-completed(ng-if='task.status.toLowerCase() === "completed"')
                                     div.task-info-label  Date completed:
-                                    div.text-right {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
 
                                 div.status
                                     div.task-info-label Status:
@@ -295,19 +295,19 @@ div
 
                                 div.date-created
                                     div.task-info-label  Date created:
-                                    div.text-right {{ task.dateCreated | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCreated | date : 'yyyy-MM-dd' }}
 
                                 div.date-started
                                     div.task-info-label  Date started:
-                                    div.text-right {{ task.dateStarted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateStarted | date : 'yyyy-MM-dd' }}
 
                                 div.date-due
                                     div.task-info-label  Date due:
-                                    div.text-right {{ task.dateDue | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateDue | date : 'yyyy-MM-dd' }}
 
                                 div.date-completed(ng-if='task.status.toLowerCase() === "completed"')
                                     div.task-info-label  Date completed:
-                                    div.text-right {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
+                                    div {{ task.dateCompleted | date : 'yyyy-MM-dd' }}
 
                                 div.status
                                     div.task-info-label Status:

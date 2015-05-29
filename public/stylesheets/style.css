@@ -8,14 +8,6 @@
     background-color: #0088cc;
 }
 
-div.content a.page-link, div.content div.user {
-    display: inline-block;
-    margin: 20px 40px 20px 0px; 
-    font-size: 16px;
-    /*font-weight: 600;*/
-    color: #ffffff;
-}
-
 /* forms */
 form[name='signinform'], form[name='signupform'] {
     width: 500px;
@@ -288,6 +280,20 @@ a {
 }
 
 /* overrides */
+
+
+
+@media (min-width: 992px) {
+    .container {
+        width: 830px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 930px;
+    }
+}
 
 #accordion {
     min-width: 180px;
