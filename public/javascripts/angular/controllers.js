@@ -468,8 +468,11 @@ function GroupCtrl($scope, $http, $routeParams) {
         $http.get('api/private/groups/' + $routeParams['id'])
         .success(function(data) {
             $scope.group = data;
-            if ($scope.group._users) {
-                angular.element('#collapseUsers').collapse('show');
+            if ($scope.group._users.length > 0) {
+                angular.element('#collapseMember').collapse('show');
+            }
+            if ($scope.group._invitations.length > 0) {
+                angular.element('#collapseInvites').collapse('show');
             }
         });
     };

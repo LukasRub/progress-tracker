@@ -155,10 +155,10 @@ div
 
             button.btn.btn-primary.left(
                 ng-click='openNewProgressModal(subtask)'
-                ng-disabled='subtask.status.toLowerCase() === "completed"'
+                ng-disabled='(subtask.status.toLowerCase() === "completed")'
             ) Submit progress
 
-            button.btn.btn-danger.right(ng-click='openDeleteConfirmationModal(subtask)') Delete subtask
+            button.btn.btn-danger.right(ng-click='openDeleteConfirmationModal(subtask)' ) Delete subtask
 
             button.btn.btn-warning.right(
                 ng-click='openEditSubtaskModal(subtask)'
@@ -205,7 +205,7 @@ div
                             div.date-commited
                                 h3 {{progress.date | date: 'yyyy-MM-dd'}}
 
-                            div.progress-value {{(task.isQuantifiable) ? progress.current + ' ' + task.units : progress.percentageDone + '%'}}
+                            div.progress-value {{(subtask.isQuantifiable) ? progress.current + ' ' + subtask.units : progress.percentageDone + '%'}}
 
                             div.progress-info
                                 div.made-by
