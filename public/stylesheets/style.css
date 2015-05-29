@@ -281,8 +281,6 @@ a {
 
 /* overrides */
 
-
-
 @media (min-width: 992px) {
     .container {
         width: 830px;

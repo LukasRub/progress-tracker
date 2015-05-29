@@ -2,18 +2,86 @@ extends layout
 
 block content
     div#header
-        nav.navbar.navbar-inverse.navbar-static-top
+        nav.navbar.navbar-default.navbar-static-top
             div.container
+                
+                div.navbar-header
+                    
+                    button.navbar-toggle.collapsed(
+                        type='button'
+                        data-toggle='collapse'
+                        data-target='#navbar'
+                    )
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                        
+                    a.navbar-brand Progress tracker
+                    
                 div#navbar.navbar-collapse.collapse
-                    ul.nav.navbar-nav
-                        li.active
+                    
+                    ul.nav.navbar-nav(ng-init='selectedTab = "tasks"')
+                        
+                        li(
+                            ng-if='!session'
+                            ng-class="{'active' : selectedTab === 'signIn'}"
+                            ng-click="selectedTab = 'signIn'"
+                        )
+                            a.page-link(href='/signin') Sign in
+                            
+                        li(
+                            ng-if='!session'
+                            ng-class="{'active' : selectedTab === 'signUp'}"
+                            ng-click="selectedTab = 'signUp'"
+                        )
+                            a.page-link(href='/signup') Sign up
+                            
+                        li.active(
+                            ng-if='session'
+                            ng-class="(selectedTab === 'tasks') ? {'active' : '1'} : {'active' : '0'}"
+                            ng-click="selectedTab = 'tasks'"
+                        )
                             a.page-link(href='/tasks') My tasks
-                        li
+                            
+                        li(
+                            ng-if='session'
+                            ng-class="{'active' : selectedTab === 'groups'}"
+                            ng-click="selectedTab = 'groups'"
+                        )
                             a.page-link(href='/groups') My groups
-                        li
+                            
+                        li(
+                            ng-class="{'active' : selectedTab === 'about'}"
+                            ng-click="selectedTab = 'about'"
+                        )
                             a.page-link(href='/about') About project
+                            
+                    ul.nav.navbar-nav.navbar-right(ng-if='session')
                         li.dropdown
-                            a.
+                        
+                            a.dropdown-toggle(
+                                href='#'
+                                data-toggle='dropdown'
+                                role='button'
+                                aria-expanded='false'
+                            )
+                                | {{session.firstname + ' ' + session.lastname}}  
+                                span.caret
+                                
+                            ul.dropdown-menu(role='menu')
+                                li
+                                    a.page-link(href='{"/users" + session.numberId}') My settings
+                                li.divider
+                                li
+                                    a.page-link(
+                                        href='#'
+                                        role='button'
+                                        ng-click='signOutUser()'
+                                    ) Logout
+                                    
+                                
+                                
                 
         //div.content
         //    nav
