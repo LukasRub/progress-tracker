@@ -2,21 +2,34 @@ extends layout
 
 block content
     div#header
-        div.content
-            nav
-                a.page-link(href='/tasks') My tasks
-                a.page-link(href='/groups') My groups
-                a.page-link(href='/user') My settings
-                a.page-link(
-                    ng-click='signOutUser()'
-                    ng-if='session'
-                    style='float: right; margin-right: 0px'
-                ) Logout
-                div.user(
-                    style='float: right'
-                    ng-if='session'
-                )
-                    | Logged in as: {{session.firstname + ' ' + session.lastname}}
+        nav.navbar.navbar-inverse.navbar-static-top
+            div.container
+                div#navbar.navbar-collapse.collapse
+                    ul.nav.navbar-nav
+                        li.active
+                            a.page-link(href='/tasks') My tasks
+                        li
+                            a.page-link(href='/groups') My groups
+                        li
+                            a.page-link(href='/about') About project
+                        li.dropdown
+                            a.
+                
+        //div.content
+        //    nav
+        //        a.page-link(href='/tasks') My tasks
+        //        a.page-link(href='/groups') My groups
+        //        a.page-link(href='/user') My settings
+        //        a.page-link(
+        //            ng-click='signOutUser()'
+        //            ng-if='session'
+        //            style='float: right; margin-right: 0px'
+        //        ) Logout
+        //        div.user(
+        //            style='float: right'
+        //            ng-if='session'
+        //        )
+        //            | Logged in as: {{session.firstname + ' ' + session.lastname}}
                     
                     
         

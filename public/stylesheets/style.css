@@ -1,5 +1,5 @@
 .content {
-    width: 900px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -54,6 +54,7 @@ form .modal-form-buttons > button {
 /* tasks */
 .task, .progress, .group {
     min-height: 150px;
+    min-width: 150px;
     width: 100%;
     border-radius: 10px 10px;
     padding: 10px;
@@ -71,11 +72,15 @@ form .modal-form-buttons > button {
     overflow: auto;
 }
 
-.task > h1, .group > h1 {
+.task > h1 {
     float: left;
-    max-width: 740px;
+    max-width: 715px;
     overflow: hidden;
     display: flex;
+}
+
+.group > h1 {
+    max-width: 740px;
 }
 
 .task .task-description, .progress .progress-description, .group .group-description {
@@ -98,7 +103,6 @@ form .modal-form-buttons > button {
 .task .task-info, .group .group-info {
     clear: left;
     display: flex;
-    width: 715px;
     float: left;
     font-size: 0.85em;
     flex-wrap: wrap;
@@ -106,7 +110,7 @@ form .modal-form-buttons > button {
 }
 
 .task.single .task-info, .group.single .group-info {
-    width: 745px;
+    max-width: 745px;
 }
 
 .task .task-info-label {
@@ -285,8 +289,12 @@ a {
 
 /* overrides */
 
+#accordion {
+    min-width: 180px;
+}
+
 span.minicolors-swatch-color {
-    border: 1px solid #ccc
+    border: 1px solid #ccc;
 }
 
 .btn-submit {
