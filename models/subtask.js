@@ -87,6 +87,10 @@ var SubtaskSchema = new Schema({
         type: Boolean,
         default: true
     },
+    completedManually: {
+        type: Boolean,
+        default: false
+    },
     status: {
         type: String,
         enum: ['Created', 'Started', 'Completed'],

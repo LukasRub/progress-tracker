@@ -175,6 +175,7 @@ router.put('/tasks/:id', function(req, res, next){
                         if (subtask.status.toLowerCase() !== 'completed') {
                             subtask.status = "Completed";
                             subtask.dateCompleted = now;
+                            subtask.percentageDone = 100;
                             subtask.logs.push(subtaskLog);
                             subtask.save();
                         }
@@ -183,6 +184,7 @@ router.put('/tasks/:id', function(req, res, next){
             }
             
             result.status = "Completed";
+            result.completedManually = true;
             result.percentageDone = 100;
             result.dateCompleted = now;
             
@@ -393,13 +395,13 @@ router.delete('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next){
                     '</a> deleted subtask ' + subtaskResult.title
                 };
                 if (taskResult.isQuantifiable) {
-                    log.info += ' Parent task progress has been recalculated to account for ' +
+                    log.info += '. Parent task progress has been recalculated to account for ' +
                         (taskResult.availableWeight + subtaskResult.weight)  + '% of the task'
                 }
                 taskResult.logs.push(log);
                 taskResult.save(function(err){
                     if (err) {
-                        res.sendStatus(500);
+                        res.sendStatus(500); console.log(err);
                         return;
                     }
                     res.sendStatus(200);
@@ -446,6 +448,7 @@ router.put('/tasks/:task_id/subtasks/:subtask_id', function(req, res, next) {
             });
 
             result.status = "Completed";
+            result.completedManually = true;
             result.percentageDone = 100;
             result.dateCompleted = now;
             

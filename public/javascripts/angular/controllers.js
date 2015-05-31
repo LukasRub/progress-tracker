@@ -90,6 +90,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
 }
 
 function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
+    $scope.Math = window.Math;
     $scope.task = {};
     $scope.isCollapsed = false;
     $scope.deleteSubtaskSuccessful = $rootScope.deleteSubtaskSuccessful;
@@ -168,7 +169,6 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
     };
 
     $scope.openDeleteConfirmationModal = function(task) {
-
         task.type = 'task';
 
         var modalInstance = $modal.open({
@@ -280,6 +280,10 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
             }
             
         });
+    };
+    
+    $scope.cancelProgress = function(index) {
+        console.log($scope.task._progress[index].date, index);
     };
 
     $scope.getTask();

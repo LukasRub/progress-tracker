@@ -102,6 +102,10 @@ var TaskSchema = new Schema({
         enum: ['Created', 'Started', 'Completed'],
         default: 'Created'
     },
+    completedManually: {
+        type: Boolean,
+        default: false
+    },
     logs: [{
         date: {
             type: Date,
@@ -155,7 +159,6 @@ TaskSchema.pre('save', function(next){
         
         var percentageDone = 0;
         var subtaskStatus = "Completed";
-        var savedManually = ((task.percentageDone <= task.availableWeight) && (task.status.toLowerCase() === "completed"));
         
         for (var i = 0; i < subtasks.length; i++){
             subtaskStatus = subtasks[i].status;
@@ -167,9 +170,12 @@ TaskSchema.pre('save', function(next){
             task.percentageDone = Math.floor(task.percentageDone * task.availableWeight / 100);
         }
         
-        task.percentageDone += (savedManually) ? 100 : percentageDone;
+        task.percentageDone += percentageDone;
+        if ((task.percentageDone > 100) || task.completedManually) {
+            task.percentageDone = 100;
+        }
 
-        if (!savedManually && task.autoComplete && (subtasks && (subtaskStatus === "Completed")) && 
+        if (!task.completedManually && task.autoComplete && (subtasks && (subtaskStatus === "Completed")) && 
             ((!task.availableWeight && (task.percentageDone <= 100)) || (task.isQuantifiable && (task.percentageDone === task.availableWeight)))) {
             
             task.status = "Completed";
@@ -177,11 +183,19 @@ TaskSchema.pre('save', function(next){
             task.logs.push({
                 date: moment(),
                 info: "Task was automatically set as completed"
-            })
+            });
             
         }
-
-
+        
+        if ((task.percentageDone < 100) && (task.status === "Completed") && !task.completedManually) {
+            task.status = "Started";
+            task.dateCompleted = null;
+            task.logs.push({
+                date: moment(),
+                info: "Task was automatically set as started"
+            });
+        }
+        
         next();
 
     });

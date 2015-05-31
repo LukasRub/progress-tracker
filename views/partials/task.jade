@@ -312,24 +312,36 @@ div
 
                         span(ng-if='task._progress.length == 0') You made no progress
 
-                        div.progress(
+                        div.task-progress(
                             ng-init='isProgressCollapsed[$index] = false'
                             ng-repeat='progress in task._progress'
                             ng-click='isProgressCollapsed[$index] = !isProgressCollapsed[$index]'
                             ng-style='{"background-color": progress.color, "color": progress.textColor, "border": "1px solid" + (progress.color.toLowerCase() == "#ffffff") ? "#000000" : task.color, "position": "relative" }'
                         )
-                            button.btn.btn-danger.btn-xs(
-                                ng-click='cancelProgress($index)'
-                                style='position: absolute; top: 8px; right: 8px;'
+                            
+                            div.progress(
+                                ng-init='progressPercentage = (task.isQuantifiable) ?  Math.floor(progress.current / task.goal * 100) : progress.percentageDone'
+                            )
+                                div.progress-bar(
+                                    role='progressbar'
+                                    aria-valuemin='0'
+                                    aria-valuemax='100'
+                                    style='{{"width:" + ((progressPercentage > 100) ? 100 : progressPercentage) + "%; min-width: 3%; background-color:" + progress.color + "; color:" + progress.textColor }}'
+                                ) {{ ((progressPercentage > 100) ? 100 : progressPercentage) + "%" }}
+                                
+                            
+                            a.progress-remove-button(
+                                role='button'
+                                ng-click='cancelProgress($index); $event.stopPropagation()'
                             )
                                 span.glyphicon.glyphicon-remove(aria-hidden='true')
                             
-                            div.date-commited 
-                                h3 {{progress.date | date: 'yyyy-MM-dd'}}
-                                
-                            div.progress-value {{(task.isQuantifiable) ? progress.current + ' ' + task.units : progress.percentageDone + '%'}}
-                            
                             div.progress-info
+                                
+                                div.date-commited
+                                    div.progress-info-label Date commited: 
+                                    div.text-left {{progress.date | date: 'yyyy-MM-dd'}}
+                                        
                                 div.made-by
                                     div.progress-info-label Made by: 
                                     div.text-left
@@ -337,6 +349,10 @@ div
                                             href='users/{{progress._madeBy.numberId}}'
                                             ng-style='{"color": task.textColor}'
                                         ) {{ progress._madeBy.firstname + ' ' + progress._madeBy.lastname }}
+                                        
+                                div.progress-value
+                                    div.progress-info-label Progress made: 
+                                    div.text-left {{(task.isQuantifiable) ? (progress.current + ' ' + task.units) : (progress.percentageDone + '%') }}
                                 
                             div.progress-description(
                                 ng-if='progress.description'

@@ -44,18 +44,18 @@ form .modal-form-buttons > button {
 }
 
 /* tasks */
-.task, .progress, .group {
+.task, .task-progress, .group {
     min-height: 150px;
     min-width: 150px;
     width: 100%;
-    border-radius: 10px 10px;
+    border-radius: 5px 5px;
     padding: 10px;
     margin-bottom: 10px;
     font-family: FontAwesome, sans-serif;
     overflow: auto;
 }
 
-.task:last-child:not(.single), .progress:last-child, .group:last-child:not(.single){
+.task:last-child:not(.single), .task-progress:last-child, .group:last-child:not(.single){
     margin-bottom: 0;
 }
 
@@ -75,14 +75,14 @@ form .modal-form-buttons > button {
     max-width: 740px;
 }
 
-.task .task-description, .progress .progress-description, .group .group-description {
+.task .task-description, .task-progress .progress-description, .group .group-description {
     clear: both;
     float: left;
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     background-color: #FFFFFF;
     color: #000000;
-    border-radius: 10px 10px;
+    border-radius: 5px 5px;
     margin-top: 10px;
 }
 
@@ -92,7 +92,7 @@ form .modal-form-buttons > button {
     position: relative;
 }
 
-.task .task-info, .group .group-info {
+.task .task-info, .group .group-info, .task-progress .progress-info {
     clear: left;
     display: flex;
     float: left;
@@ -109,17 +109,17 @@ form .modal-form-buttons > button {
     white-space: nowrap;
 }
 
-.task .task-info > div:not(.quantifiable-info), .quantifiable-info .progress-status, .quantifiable-info .units, .group .group-info > div {
+.task .task-info > div:not(.quantifiable-info), .quantifiable-info .progress-status, .quantifiable-info .units, .group .group-info > div, .progress-info > div {
     display: inline-block;
     margin-right: 20px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .task .task-info > div, .group .group-info > div {
     align-self: flex-start;
 }
 
-.task .task-info-label, .progress .progress-info-label, .group .group-info-label {
+.task .task-info-label, .task-progress .progress-info-label, .group .group-info-label {
     font-weight: bold;
     font-style: italic;
 }
@@ -135,7 +135,7 @@ form .modal-form-buttons > button {
     font-style: italic;
 }
 
-.task:hover, .progress:hover, .group:hover {
+.task:hover, .task-progress:hover, .group:hover {
     cursor: pointer;
     -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -144,12 +144,12 @@ form .modal-form-buttons > button {
 
 /* progress */
 
-.progress {
+.task-progress {
     height: 100%;
     min-height: 0px;
 }
 
-.progress > .progress-value {
+.task-progress > .progress-value {
     float: right;
     display: flex;
     max-width: 500px;
@@ -157,31 +157,44 @@ form .modal-form-buttons > button {
     margin: 10px;
 }
 
-.progress > .date-commited {
+.task-progress > .date-commited {
     float: left;
     display: flex;
     max-width: 250px;
 }
 
-.progress > .progress-description {
+.task-progress > .progress-description {
     margin-top: 0;
 }
 
-.progress .progress-info {
+.task-progress .progress-info {
     display: flex;
     clear: left;
     float: left;
 }
 
-.progress .progress-info > div {
+.task-progress .progress-info > div {
     display: inline-flex;
+    margin-top: 0px;
 }
 
-.progress .progress-info-label {
+.task-progress .progress-info-label {
     margin-right: 10px;
 }
 
 /* colors */
+
+.progress-remove-button{
+    color: #e5e5e5;
+    display: inline-block;
+    line-height: 24px;
+    margin-left: 2px;
+    vertical-align: top;
+}
+
+.progress-remove-button:hover {
+    color: #ffffff;
+}
 
 .panel-administrator {
     border-color: #398439;
@@ -280,6 +293,15 @@ a {
 }
 
 /* overrides */
+
+.progress {
+    width: 98%;
+    display: inline-block;
+    padding: 2px;
+    height: 24px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
 
 @media (min-width: 992px) {
     .container {
