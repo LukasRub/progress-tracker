@@ -282,8 +282,15 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
         });
     };
     
-    $scope.cancelProgress = function(index) {
-        console.log($scope.task._progress[index].date, index);
+    $scope.cancelProgress = function(id) {
+        $http.delete('api/private/tasks/' + $scope.task.numberId + '/progress/' + id)
+            .success(function() {
+                $scope.deleteProgressSuccessful = true;
+                $scope.getTask();
+            })
+            .error(function() {
+                $scope.deleteProgressFailed = true;
+            });
     };
 
     $scope.getTask();

@@ -624,7 +624,7 @@ router.post('/tasks/:id/progress', function(req, res, next) {
                 return;
             }
 
-            if (!parentResult.percentageDone) {
+            if (!parentResult.percentageDone && (parentResult.status == "Created")) {
                 parentResult.status = "Started";
                 parentResult.logs.push({
                     date: moment(),
@@ -689,6 +689,59 @@ router.post('/tasks/:id/progress', function(req, res, next) {
     
 });
 
+router.delete('/tasks/:task_id/progress/:progress_id', function(req, res, next){
+    var Task = require('../models/task');
+    var Progress = require('../models/progress');
+    var progressId = req.params['progress_id'];
+
+    Progress.findOne({'_id': progressId}, function(err, progressResult){
+        if ((err || !progressResult) || !progressResult._madeBy.equals(req.user._id)) {
+            res.sendStatus(404);
+            return;
+        }
+
+        progressResult.remove(function(err){
+            if (err) {
+                res.sendStatus(500); 
+                return;
+            }
+            Task.findOne({'_progress': progressId}, function(err, taskResult){
+                if (err || !taskResult) {
+                    res.sendStatus(404);
+                    return;
+                }
+       
+                taskResult._progress.pull(progressId);
+                
+                if (taskResult.isQuantifiable) {
+                    taskResult.current -= progressResult.current;
+                } else {
+                    taskResult.percentageDone -= progressResult.percentageDone;
+                }
+                
+                var log = {
+                    date: moment(),
+                    info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                        '</a> canceled progress of ' + ((taskResult.isQuantifiable) ? progressResult.current + ' ' + 
+                        taskResult.units : progressResult.percentageDone + '%')
+                };
+                
+                taskResult.logs.push(log);
+
+                taskResult.save(function(err){
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                    res.sendStatus(200);
+                });
+            });
+        });
+    });
+    
+    
+});
+
 router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, next) {
     var Task = require('../models/task');
     var Subtask = require('../models/subtask');
@@ -718,8 +771,8 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
                     return;
                 }
 
-                if (!taskResult.percentageDone) {
-                    taskResult.status = "Started";
+                if (!taskResult.percentageDone && (taskResult.status == "Created")) {
+                    taskResult.status = "Started"; console.log('yo')
                     taskResult.logs.push({
                         date: moment(),
                         info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
@@ -848,6 +901,8 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
         });
     });
 });
+
+
 
 // GROUPS
 

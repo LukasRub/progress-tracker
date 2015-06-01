@@ -175,7 +175,7 @@ TaskSchema.pre('save', function(next){
             task.percentageDone = 100;
         }
 
-        if (!task.completedManually && task.autoComplete && (subtasks && (subtaskStatus === "Completed")) && 
+        if (!task.completedManually && task.autoComplete && ((subtasks.length > 0) && (subtaskStatus === "Completed")) && 
             ((!task.availableWeight && (task.percentageDone <= 100)) || (task.isQuantifiable && (task.percentageDone === task.availableWeight)))) {
             
             task.status = "Completed";
