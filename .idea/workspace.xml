@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea82c58-dcc4-4186-9091-a842791909de" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" afterPath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/subtask.js" afterPath="$PROJECT_DIR$/models/subtask.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="progress-tracker.iws" />
@@ -32,7 +31,7 @@
       <file leaf-file-name="privateApi.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/privateApi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1464" max-vertical-offset="7488">
+            <state vertical-scroll-proportion="0.0" vertical-offset="870" max-vertical-offset="7488">
               <caret line="973" column="7" selection-start-line="973" selection-start-column="7" selection-end-line="973" selection-end-column="7" />
               <folding>
                 <element signature="e#194#1036#0" expanded="false" />
@@ -61,7 +60,7 @@
       <file leaf-file-name="subtask.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.724138" vertical-offset="1313" max-vertical-offset="2664">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1313" max-vertical-offset="2664">
               <caret line="226" column="83" selection-start-line="226" selection-start-column="83" selection-end-line="226" selection-end-column="83" />
               <folding>
                 <element signature="n#div#0;n#section#0;n#div#0;n#!!top" expanded="false" />
@@ -74,12 +73,11 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62158275" vertical-offset="0" max-vertical-offset="3456">
-              <caret line="641" column="6" selection-start-line="641" selection-start-column="6" selection-end-line="641" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.54232424" vertical-offset="144" max-vertical-offset="4122">
+              <caret line="79" column="44" selection-start-line="79" selection-start-column="44" selection-end-line="79" selection-end-column="44" />
               <folding>
                 <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
-                <element signature="n#!!block;n#TasksCtrl#0" expanded="false" />
                 <element signature="e#1561#2175#0" expanded="false" />
                 <element signature="n#!!block;n#TaskCtrl#0" expanded="false" />
                 <element signature="e#3316#3736#0" expanded="false" />
@@ -133,8 +131,8 @@
       <file leaf-file-name="subtask.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/subtask.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2052" max-vertical-offset="2952">
-              <caret line="140" column="27" selection-start-line="140" selection-start-column="27" selection-end-line="140" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1853" max-vertical-offset="2988">
+              <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -184,9 +182,9 @@
         <option value="$PROJECT_DIR$/models/task.js" />
         <option value="$PROJECT_DIR$/views/partials/subtask.jade" />
         <option value="$PROJECT_DIR$/routes/privateApi.js" />
-        <option value="$PROJECT_DIR$/models/subtask.js" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
+        <option value="$PROJECT_DIR$/models/subtask.js" />
       </list>
     </option>
   </component>
@@ -201,10 +199,10 @@
     <data>/usr/lib/node_modules/mocha</data>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1855" />
-    <option name="height" value="1056" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1857" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -232,6 +230,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -398,7 +397,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -638,26 +636,32 @@
       <option name="project" value="LOCAL" />
       <updated>1433152635497</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="navigation panel fix">
+      <created>1433153302405</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1433153302405</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18429662" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.50039464" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25379938" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24922119" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24870466" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3084112" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -699,7 +703,8 @@
     <MESSAGE value="Implemented task progress deleting" />
     <MESSAGE value="range slider" />
     <MESSAGE value="Implemented subtask progress remove" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented subtask progress remove" />
+    <MESSAGE value="navigation panel fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="navigation panel fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -991,7 +996,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="421" max-vertical-offset="1152">
           <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -999,7 +1003,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="511" max-vertical-offset="1206">
           <caret line="55" column="39" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1022,25 +1025,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5809" max-vertical-offset="7146">
-          <caret line="336" column="68" selection-start-line="336" selection-start-column="68" selection-end-line="336" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower_components/angular-rangeslider/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.785" vertical-offset="4071" max-vertical-offset="4698">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.724138" vertical-offset="1313" max-vertical-offset="2664">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1313" max-vertical-offset="2664">
           <caret line="226" column="83" selection-start-line="226" selection-start-column="83" selection-end-line="226" selection-end-column="83" />
           <folding>
             <element signature="n#div#0;n#section#0;n#div#0;n#!!top" expanded="false" />
@@ -1053,6 +1047,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="4158">
           <caret line="189" column="8" selection-start-line="189" selection-start-column="8" selection-end-line="196" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="1764">
+          <caret line="45" column="32" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5809" max-vertical-offset="7146">
+          <caret line="336" column="68" selection-start-line="336" selection-start-column="68" selection-end-line="336" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -1086,28 +1096,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/subtask.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2052" max-vertical-offset="2952">
-          <caret line="140" column="27" selection-start-line="140" selection-start-column="27" selection-end-line="140" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="1764">
-          <caret line="45" column="32" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1853" max-vertical-offset="2988">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62158275" vertical-offset="0" max-vertical-offset="3456">
-          <caret line="641" column="6" selection-start-line="641" selection-start-column="6" selection-end-line="641" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.54232424" vertical-offset="144" max-vertical-offset="4122">
+          <caret line="79" column="44" selection-start-line="79" selection-start-column="44" selection-end-line="79" selection-end-column="44" />
           <folding>
             <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
             <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
-            <element signature="n#!!block;n#TasksCtrl#0" expanded="false" />
             <element signature="e#1561#2175#0" expanded="false" />
             <element signature="n#!!block;n#TaskCtrl#0" expanded="false" />
             <element signature="e#3316#3736#0" expanded="false" />

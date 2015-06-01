@@ -118,19 +118,21 @@ SubtaskSchema.pre('save', function(next){
     Progress.find({'_id': { $in: subtask._progress}}, select, function(err, progress){
 
         if (err) next(err);
-        if (subtask.percentageDone < 100){
+       
             
-            subtask[select] = 0;
+        subtask[select] = 0;
 
-            for (var i in progress) {
-                subtask[select] += progress[i][select];
-            }
+        for (var i in progress) {
+            subtask[select] += progress[i][select];
+        }
 
-            if (subtask.isQuantifiable) {
-                var percentageDone = Math.floor((subtask.current * 100) / subtask.goal);
-                subtask.percentageDone = (percentageDone > 100) ? 100 : percentageDone;
-            }
-            
+        if (subtask.isQuantifiable) {
+            var percentageDone = Math.floor((subtask.current * 100) / subtask.goal);
+            subtask.percentageDone = (percentageDone > 100) ? 100 : percentageDone;
+        }
+        
+        if (subtask.percentageDone > 100) {
+            subtask.percentageDone = 100;
         }
 
         if ((subtask.percentageDone < 100) && (subtask.status === "Completed") && !subtask.completedManually) {
