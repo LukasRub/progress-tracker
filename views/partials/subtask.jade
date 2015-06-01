@@ -222,7 +222,7 @@ div
 
                             a.progress-remove-button(
                                 role='button'
-                                ng-click='cancelProgress($index); $event.stopPropagation()'
+                                ng-click='cancelProgress(progress._id); $event.stopPropagation()'
                             )
                                 span.glyphicon.glyphicon-remove(aria-hidden='true')
 

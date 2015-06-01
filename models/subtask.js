@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
+var moment = require('moment');
 
 var Schema = mongoose.Schema;
 
@@ -130,6 +131,15 @@ SubtaskSchema.pre('save', function(next){
                 subtask.percentageDone = (percentageDone > 100) ? 100 : percentageDone;
             }
             
+        }
+
+        if ((subtask.percentageDone < 100) && (subtask.status === "Completed") && !subtask.completedManually) {
+            subtask.status = "Started";
+            subtask.dateCompleted = null;
+            subtask.logs.push({
+                date: moment(),
+                info: "Subtask was automatically set as started"
+            });
         }
         
         next();

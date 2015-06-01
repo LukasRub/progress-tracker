@@ -468,6 +468,17 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
         });
     };
 
+    $scope.cancelProgress = function(id) {
+        $http.delete('api/private/tasks/' + $scope.parentTaskId + '/subtasks/' + $scope.subtask.numberId + '/progress/' + id)
+            .success(function() {
+                $scope.deleteProgressSuccessful = true;
+                $scope.getSubtask();
+            })
+            .error(function() {
+                $scope.deleteProgressFailed = true;
+            });
+    };
+
     $scope.getSubtask();
     
 }

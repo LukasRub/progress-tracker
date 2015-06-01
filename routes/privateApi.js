@@ -738,8 +738,6 @@ router.delete('/tasks/:task_id/progress/:progress_id', function(req, res, next){
             });
         });
     });
-    
-    
 });
 
 router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, next) {
@@ -902,7 +900,79 @@ router.post('/tasks/:task_id/subtasks/:subtask_id/progress', function(req, res, 
     });
 });
 
+router.delete('/tasks/:task_id/subtasks/:subtask_id/progress/:progress_id', function(req, res, next){
+    var Task = require('../models/task');
+    var Subtask = require('../models/subtask');
+    var Progress = require('../models/progress');
+    var taskId = req.params['task_id'];
+    var subtaskId = req.params['subtask_id'];
+    var progressId = req.params['progress_id'];
 
+    Progress.findOne({'_id': progressId}, function(err, progressResult){
+        if ((err || !progressResult) || !progressResult._madeBy.equals(req.user._id)) {
+            res.sendStatus(404);
+            return;
+        }
+
+        progressResult.remove(function(err){
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            Subtask.findOne({'_progress': progressId}, function(err, subtaskResult){
+                if (err || !subtaskResult) {
+                    res.sendStatus(404);
+                    return;
+                }
+
+                subtaskResult._progress.pull(progressId);
+
+                if (subtaskResult.isQuantifiable) {
+                    subtaskResult.current -= progressResult.current;
+                } else {
+                    subtaskResult.percentageDone -= progressResult.percentageDone;
+                }
+
+                var log = {
+                    date: moment(),
+                    info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                    '</a> canceled progress of ' + ((subtaskResult.isQuantifiable) ? progressResult.current + ' ' +
+                    subtaskResult.units : progressResult.percentageDone + '%')
+                };
+
+                subtaskResult.logs.push(log);
+
+                subtaskResult.save(function(err){
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                    Task.findOne({'_subtasks' : subtaskResult._id}, function(err, taskResult){
+                        if (err || !taskResult){
+                            res.sendStatus(500);
+                            return;
+                        }
+                        var log = {
+                            date: moment(),
+                            info: '<a href="users/' + req.user.numberId + '">' + req.user.firstname + ' ' + req.user.lastname +
+                            '</a> canceled progress of ' + ((subtaskResult.isQuantifiable) ? progressResult.current + ' ' +
+                            subtaskResult.units : progressResult.percentageDone + '%') + ' on subtask  <a href="tasks/' + 
+                            taskId + '/subtasks/' + subtaskId + '">' + subtaskResult.title +'</a>'
+                        };
+                        taskResult.logs.push(log);
+                        taskResult.save(function(err){
+                            if (err) {
+                                res.sendStatus(500);
+                                return;
+                            }
+                            res.sendStatus(200);
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
 
 // GROUPS
 
