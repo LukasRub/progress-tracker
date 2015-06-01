@@ -291,6 +291,7 @@ function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
 }
 
 function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
+    $scope.Math = window.Math;
     $scope.subtask = {};
     $scope.isCollapsed = false;
     $scope.isProgressCollaped = [];

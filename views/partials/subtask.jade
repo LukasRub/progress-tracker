@@ -93,11 +93,10 @@ div
 
     section.alerts
 
-
         div.alert.alert-info(
             role='alert'
             ng-if='modifySubtaskSuccessful'
-        ) Your progress was successfully submitted!
+        ) Subtask successfully modified!
             button.close(
                 type='button'
                 data-dismiss='alert'
@@ -108,7 +107,7 @@ div
         div.alert.alert-success(
             role='alert'
             ng-if='modifySubtaskFailed'
-        ) Your progress was successfully submitted!
+        ) Modifying task failed, please try again
             button.close(
                 type='button'
                 data-dismiss='alert'
@@ -196,26 +195,48 @@ div
                     div.panel-body
 
                         span(ng-if='subtask._progress.length == 0') You made no progress
-                        div.progress(
+                        
+                        div.task-progress(
                             ng-init='isProgressCollapsed[$index] = false'
                             ng-repeat='progress in subtask._progress'
                             ng-click='isProgressCollapsed[$index] = !isProgressCollapsed[$index]'
                             ng-style='{"background-color": progress.color, "color": progress.textColor, "border": "1px solid" + (progress.color.toLowerCase() == "#ffffff") ? "#000000" : task.color}'
                         )
-                            div.date-commited
-                                h3 {{progress.date | date: 'yyyy-MM-dd'}}
+                            
+                            div.progress(
+                                ng-init='progressPercentage = (subtask.isQuantifiable) ?  Math.floor(progress.current / subtask.goal * 100) : progress.percentageDone'
+                            )
+                                div.progress-bar(
+                                    role='progressbar'
+                                    aria-valuemin='0'
+                                    aria-valuemax='100'
+                                    style='{{"width:" + ((progressPercentage > 100) ? 100 : progressPercentage) + "%; min-width: 3%; background-color:" + progress.color + "; color:" + progress.textColor }}'
+                                ) {{ ((progressPercentage > 100) ? 100 : progressPercentage) + "%" }}
 
-                            div.progress-value {{(subtask.isQuantifiable) ? progress.current + ' ' + subtask.units : progress.percentageDone + '%'}}
+                            a.progress-remove-button(
+                                role='button'
+                                ng-click='cancelProgress($index); $event.stopPropagation()'
+                            )
+                                span.glyphicon.glyphicon-remove(aria-hidden='true')
 
                             div.progress-info
+
+                                div.date-commited
+                                    div.progress-info-label Date commited: 
+                                    div.text-left {{progress.date | date: 'yyyy-MM-dd'}}
+
                                 div.made-by
                                     div.progress-info-label Made by: 
                                     div.text-left
                                         a(
                                             href='users/{{progress._madeBy.numberId}}'
-                                            ng-style='{"color": progress.textColor}'
+                                            ng-style='{"color": subtask.textColor}'
                                         ) {{ progress._madeBy.firstname + ' ' + progress._madeBy.lastname }}
 
+                                div.progress-value
+                                    div.progress-info-label Progress made: 
+                                    div.text-left {{(subtask.isQuantifiable) ? (progress.current + ' ' + subtask.units) : (progress.percentageDone + '%') }}
+                                        
                             div.progress-description(
                                 ng-if='progress.description'
                                 ng-bind-html='progress.description | sanitize'
