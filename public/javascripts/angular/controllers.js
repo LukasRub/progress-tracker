@@ -3,6 +3,8 @@
  */
 
 function SignInCtrl($scope, $http, $location) {
+    angular.element('li.main').removeClass('active');
+    angular.element('li.sign-in').addClass('active');
     $scope.signInUser = function(user) {
         $http.post('/signin', {
             email: user.email,
@@ -18,6 +20,8 @@ function SignInCtrl($scope, $http, $location) {
 }
 
 function SignUpCtrl($scope, $http) {
+    angular.element('li.main').removeClass('active');
+    angular.element('li.sign-up').addClass('active');
     $scope.signUpUser = function(user) {
         $http.post('api/public/user', {
             'data': user
@@ -33,6 +37,8 @@ function SignUpCtrl($scope, $http) {
 }
 
 function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
+    angular.element('li.main').removeClass('active');
+    angular.element('li.my-tasks').addClass('active');
     $scope.tasks = [];
     $scope.completedTasks = [];
     $scope.assignedToOthers = [];
@@ -540,6 +546,8 @@ function GroupCtrl($scope, $http, $routeParams) {
 }
 
 function GroupsCtrl($scope, $http, $modal, $location) {
+    angular.element('li.main').removeClass('active');
+    angular.element('li.my-groups').addClass('active');
     $scope.administratorOf = {};
     $scope.memberOf = {};
     $scope.invitationsReceived = {};

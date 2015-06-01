@@ -21,40 +21,29 @@ block content
                     
                 div#navbar.navbar-collapse.collapse
                     
-                    ul.nav.navbar-nav(ng-init='selectedTab = "tasks"')
+                    ul.nav.navbar-nav
                         
-                        li(
+                        li.main.sign-in(
                             ng-if='!session'
-                            ng-class="{'active' : selectedTab === 'signIn'}"
-                            ng-click="selectedTab = 'signIn'"
                         )
                             a.page-link(href='/signin') Sign in
                             
-                        li(
+                        li.main.sign-up(
                             ng-if='!session'
-                            ng-class="{'active' : selectedTab === 'signUp'}"
-                            ng-click="selectedTab = 'signUp'"
                         )
                             a.page-link(href='/signup') Sign up
                             
-                        li.active(
+                        li.main.my-tasks(
                             ng-if='session'
-                            ng-class="(selectedTab === 'tasks') ? {'active' : '1'} : {'active' : '0'}"
-                            ng-click="selectedTab = 'tasks'"
                         )
                             a.page-link(href='/tasks') My tasks
                             
-                        li(
+                        li.main.my-groups(
                             ng-if='session'
-                            ng-class="{'active' : selectedTab === 'groups'}"
-                            ng-click="selectedTab = 'groups'"
                         )
                             a.page-link(href='/groups') My groups
                             
-                        li(
-                            ng-class="{'active' : selectedTab === 'about'}"
-                            ng-click="selectedTab = 'about'"
-                        )
+                        li.main.about
                             a.page-link(href='/about') About project
                             
                     ul.nav.navbar-nav.navbar-right(ng-if='session')
