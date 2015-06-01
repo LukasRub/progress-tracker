@@ -180,7 +180,7 @@ div
             ) Create new subtask
             button.btn.btn-primary.left(
                 ng-click='openNewProgressModal(task)'
-                ng-disabled='(!task.availableWeight && !task.isQuantifiable) || (task.status.toLowerCase() === "completed")'
+                ng-disabled='(!task.availableWeight && !task.isQuantifiable) || (task.status.toLowerCase() === "completed") || (task._assignedTo != session.user._id)'
             ) Submit progress
             
             button.btn.btn-danger.right(ng-click='openDeleteConfirmationModal(task)') Delete task
