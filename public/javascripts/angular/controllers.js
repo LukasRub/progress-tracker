@@ -68,7 +68,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
     };
     
     $scope.getTasks = function() {
-        $http.get('api/private/tasks')
+        $http.get('api/private/tasks?query=assigned')
         .success(function(data) {
             $scope.tasks = data;
             if ($scope.tasks.length > 0) {
@@ -86,6 +86,16 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
                 }
             });
     };
+
+    $scope.getCompleted = function(){
+        $http.get('api/private/tasks?query=completed')
+            .success(function(data) {
+                $scope.completedTasks = data;
+                if ($scope.completedTasks.length > 0) {
+                    angular.element('#collapseCompleted').collapse('show');
+                }
+            });
+    };
     
     $scope.openTask = function(id) {
         $location.path('/tasks/' + id);
@@ -93,6 +103,7 @@ function TasksCtrl($scope, $rootScope, $http, $modal, $location) {
 
     $scope.getTasks();
     $scope.getAssignedToOthers();
+    $scope.getCompleted();
 }
 
 function TaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope) {
@@ -548,9 +559,9 @@ function GroupCtrl($scope, $http, $routeParams) {
 function GroupsCtrl($scope, $http, $modal, $location) {
     angular.element('li.main').removeClass('active');
     angular.element('li.my-groups').addClass('active');
-    $scope.administratorOf = {};
-    $scope.memberOf = {};
-    $scope.invitationsReceived = {};
+    $scope.administratorOf = [];
+    $scope.memberOf = [];
+    $scope.invitationsReceived = [];
     
     $scope.getGroups = function(asAdmin){
         $http.get('api/private/groups?administrator=' + asAdmin)
@@ -574,7 +585,11 @@ function GroupsCtrl($scope, $http, $modal, $location) {
         $http.get('api/private/invitations?invitee=true')
             .success(function(data) {
                 $scope.invitationsReceived = data;
-            }).error(function(){console.log('error')});
+                if ($scope.invitationsReceived.length > 0) {
+                    angular.element('#collapseInvitations').collapse('show');
+                }
+                angular.element('#collapseInvitations').collapse('show');
+            });
     };
 
     $scope.removeInvitation = function(index){

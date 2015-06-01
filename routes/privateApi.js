@@ -51,21 +51,25 @@ router.get('/tasks?', function(req, res, next) {
     if (checkTasks == 'createdByMe') {
         Task.find({
             '_createdBy': req.user._id,
-            '_assignedTo': { '$ne': req.user._id},
-            'status': { '$ne': 'Completed'}
+            '_assignedTo': { '$ne': req.user._id}
         })
             .populate('_assignedTo', 'firstname lastname numberId')
             .populate('_group', 'title numberId')
             .exec(function(err, result) {
-
                 var statusCode = 200;
                 if (err) statusCode = 500;
 
                 res.status(statusCode).send(result);
+                return;
 
             });
-    } else {
-        Task.find({'_assignedTo': req.user._id})
+        
+    } else if (checkTasks == 'completed') {
+        Task.find({
+            '_assignedTo':  req.user._id,
+            'status': 'Completed'
+        })
+            .populate('_assignedTo', 'firstname lastname numberId')
             .populate('_createdBy', 'firstname lastname numberId')
             .populate('_group', 'title numberId')
             .exec(function(err, result) {
@@ -74,7 +78,21 @@ router.get('/tasks?', function(req, res, next) {
                 if (err) statusCode = 500;
 
                 res.status(statusCode).send(result);
+                return;
+            });
+    } else {
+        Task.find({
+                '_assignedTo': req.user._id,
+                'status': { '$ne': 'Completed'}
+        })
+            .populate('_createdBy', 'firstname lastname numberId')
+            .populate('_group', 'title numberId')
+            .exec(function(err, result) {
+                var statusCode = 200;
+                if (err) statusCode = 500;
 
+                res.status(statusCode).send(result);
+                return;
             });
     }
 });
