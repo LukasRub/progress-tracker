@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6ea82c58-dcc4-4186-9091-a842791909de" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" afterPath="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/partials/subtask.jade" afterPath="$PROJECT_DIR$/views/partials/subtask.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -54,21 +55,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="subtask.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="subtask.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3404" max-vertical-offset="5040">
-              <caret line="214" column="0" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.6642229" vertical-offset="51" max-vertical-offset="2682">
+              <caret line="167" column="66" selection-start-line="167" selection-start-column="66" selection-end-line="167" selection-end-column="66" />
+              <folding>
+                <element signature="n#div#0;n#section#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#section#1;n#div#0;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controllers.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="controllers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19136691" vertical-offset="101" max-vertical-offset="8064">
-              <caret line="293" column="30" selection-start-line="293" selection-start-column="30" selection-end-line="293" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8082">
+              <caret line="297" column="23" selection-start-line="297" selection-start-column="11" selection-end-line="297" selection-end-column="23" />
               <folding>
                 <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
                 <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
@@ -91,7 +95,7 @@
       <file leaf-file-name="task.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.965517" vertical-offset="1651" max-vertical-offset="7146">
+            <state vertical-scroll-proportion="-0.79310346" vertical-offset="1975" max-vertical-offset="7146">
               <caret line="111" column="10" selection-start-line="111" selection-start-column="10" selection-end-line="111" selection-end-column="49" />
               <folding />
             </state>
@@ -134,8 +138,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.6551723" vertical-offset="1236" max-vertical-offset="6426">
-              <caret line="81" column="14" selection-start-line="81" selection-start-column="14" selection-end-line="81" selection-end-column="14" />
+            <state vertical-scroll-proportion="-7.6551723" vertical-offset="4836" max-vertical-offset="6444">
+              <caret line="281" column="15" selection-start-line="281" selection-start-column="15" selection-end-line="281" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -158,13 +162,13 @@
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/public/stylesheets/navbar_overrides.css" />
         <option value="$PROJECT_DIR$/views/index.jade" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/views/partials/task.jade" />
         <option value="$PROJECT_DIR$/models/subtask.js" />
         <option value="$PROJECT_DIR$/routes/privateApi.js" />
         <option value="$PROJECT_DIR$/models/task.js" />
-        <option value="$PROJECT_DIR$/views/partials/subtask.jade" />
         <option value="$PROJECT_DIR$/public/javascripts/angular/controllers.js" />
+        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/views/partials/subtask.jade" />
       </list>
     </option>
   </component>
@@ -572,7 +576,13 @@
       <option name="project" value="LOCAL" />
       <updated>1433079540569</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Fixed subtask alerts and subtask progress template">
+      <created>1433122815944</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1433122815944</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -628,7 +638,8 @@
     <MESSAGE value="Fixed responsive widths" />
     <MESSAGE value="Started implementing navigation panel" />
     <MESSAGE value="Created task progress template, fixed marked as completed logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created task progress template, fixed marked as completed logic" />
+    <MESSAGE value="Fixed subtask alerts and subtask progress template" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed subtask alerts and subtask progress template" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -948,14 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.6551723" vertical-offset="1236" max-vertical-offset="6426">
-          <caret line="81" column="14" selection-start-line="81" selection-start-column="14" selection-end-line="81" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partials/my_tasks.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="274" max-vertical-offset="5328">
@@ -971,6 +974,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1188" max-vertical-offset="2772">
           <caret line="92" column="6" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/task.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.586206" vertical-offset="2712" max-vertical-offset="4158">
+          <caret line="179" column="12" selection-start-line="179" selection-start-column="12" selection-end-line="179" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -998,34 +1009,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/task.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.586206" vertical-offset="2712" max-vertical-offset="4158">
-          <caret line="179" column="12" selection-start-line="179" selection-start-column="12" selection-end-line="179" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.965517" vertical-offset="1651" max-vertical-offset="7146">
-          <caret line="111" column="10" selection-start-line="111" selection-start-column="10" selection-end-line="111" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3404" max-vertical-offset="5040">
-          <caret line="214" column="0" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/angular/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19136691" vertical-offset="101" max-vertical-offset="8064">
-          <caret line="293" column="30" selection-start-line="293" selection-start-column="30" selection-end-line="293" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8082">
+          <caret line="297" column="23" selection-start-line="297" selection-start-column="11" selection-end-line="297" selection-end-column="23" />
           <folding>
             <element signature="n#!!block;n#SignInCtrl#0" expanded="false" />
             <element signature="n#!!block;n#SignUpCtrl#0" expanded="false" />
@@ -1040,6 +1027,33 @@
             <element signature="e#6007#6805#0" expanded="false" />
             <element signature="e#6853#8745#0" expanded="false" />
             <element signature="n#!!block;n#GroupCtrl#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/task.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.79310346" vertical-offset="1975" max-vertical-offset="7146">
+          <caret line="111" column="10" selection-start-line="111" selection-start-column="10" selection-end-line="111" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.6551723" vertical-offset="4836" max-vertical-offset="6444">
+          <caret line="281" column="15" selection-start-line="281" selection-start-column="15" selection-end-line="281" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/partials/subtask.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6642229" vertical-offset="51" max-vertical-offset="2682">
+          <caret line="167" column="66" selection-start-line="167" selection-start-column="66" selection-end-line="167" selection-end-column="66" />
+          <folding>
+            <element signature="n#div#0;n#section#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#section#1;n#div#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>

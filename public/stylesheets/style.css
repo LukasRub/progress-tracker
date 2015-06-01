@@ -99,6 +99,7 @@ form .modal-form-buttons > button {
     font-size: 0.85em;
     flex-wrap: wrap;
     align-items: flex-end;
+    max-width: 715px;
 }
 
 .task.single .task-info, .group.single .group-info {
@@ -278,7 +279,7 @@ a {
 
 /* margins */
 
-#task-commands button.left {
+#task-commands .left {
     margin-right: 10px;
 }
 

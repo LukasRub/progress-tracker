@@ -295,6 +295,7 @@ function SubtaskCtrl($scope, $http, $routeParams, $modal, $location, $rootScope)
     $scope.subtask = {};
     $scope.isCollapsed = false;
     $scope.isProgressCollaped = [];
+    $scope.parentTaskId = $routeParams['task_id'];
     
     $scope.getSubtask = function() {
         $http.get('api/private/tasks/' + $routeParams['task_id'] + '/subtasks/' + $routeParams['subtask_id'])

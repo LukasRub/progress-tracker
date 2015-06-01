@@ -152,11 +152,19 @@ div
     
         div#task-commands
 
+            a.btn.btn-primary.left(
+                role='button'
+                href='{{ "tasks/" + parentTaskId }}'
+            ) 
+                span.glyphicon.glyphicon-menu-left
+                |  Parent task
+                    
+            
             button.btn.btn-primary.left(
                 ng-click='openNewProgressModal(subtask)'
                 ng-disabled='(subtask.status.toLowerCase() === "completed")'
             ) Submit progress
-
+            
             button.btn.btn-danger.right(ng-click='openDeleteConfirmationModal(subtask)' ) Delete subtask
 
             button.btn.btn-warning.right(
